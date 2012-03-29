@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="USD_discription">U.S. Dollars</string>
+    <string name="EUR_discription">Euro</string>
+    <string name="CHF_discription">Swiss Franc</string>
+    <string name="GBP_discription">Pounds</string>
+    <string name="JPY_discription">Japanese yen</string>
+    <string name="UA_discription">Ukrainian hryvnia</string>
+    <string name="RUB_discription">Russian Ruble</string>
+    <string name="MDL_discription">Moldavian lei</string>
+    <string name="BYR_discription">Belarusian Ruble</string>
+    <string name="PLN_discription">Poland Zloty</string>
+    <string name="LTL_discription">Lithuanian Litas</string>
+    <string name="LVL_discription">Latvian lats</string>
+
+    <string name="USDfrom">USD</string>
+    <string name="EURfrom">EUR</string>
+    <string name="CHFfrom">CHF</string>
+    <string name="GBPfrom">GBP</string>
+    <string name="JPYfrom">JPY</string>
+    <string name="UAfrom">UAH</string>
+    <string name="RUBfrom">RUB</string>
+    <string name="MDLfrom">MDL</string>
+    <string name="BYRfrom">BYR</string>
+    <string name="PLNfrom">PLN</string>
+    <string name="LTLfrom">LTL</string>
+    <string name="LVLfrom">LVL</string>
+
+</resources>

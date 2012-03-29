@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+     <string name="hello">Введите величину:</string>
+    <string name="app_name">nanoConverter</string>
+    <color name="color">#770000</color>
+    <string name="FROM">Из валюты:</string>
+    <string name="TO">В валюту:</string>
+    <string name="OfflineCourses">Курсы:</string>
+    <string name="curentamount"></string>
+    <string name="eq">=</string>
+    <string name="UpdateButtonText">Обновить вручную!</string>
+    <string name="forceUpdate">Предварительно</string>
+    <string name="result">Результат:</string>
+    <string name="exit">Выход</string>
+    <string name="conversetab">Конверсия</string>
+    <string name="settingstab">Настройки</string>
+    <string name="Coursestab">Курсы</string>
+    <string name="checkinternet">Проверьте доступ в интернет.</string>
+    <string name="updatecomplete">Курсы обновлены!</string>
+    <string name="updateinprogress">Обновление курсов валют . . .</string>
+    <string name="wait">Подождите . . .</string>
+    <string name="ratessource">Источник курсов</string>
+    <string name="ratessourcedis">Откуда брать курсы валют?</string>
+    <string name="settings">Настройки</string>
+    <string name="about">О программе</string>
+    <string name="course">Курсы валют</string>
+    <string name="Update">Обновления</string>
+    <string name="Updatedis">Выбрать способ обновления курсов</string>
+    <string name="setcur">Валюты</string>
+    <string name="defaultcurrency">Валюта по-умолчанию</string>
+    <string name="defaultcurrencydis">Валюта значение которой будет = 1.00</string>
+    <string name="curlist">Список валют</string>
+    <string name="curlistdis">Валюты доступные для конвертации</string>
+    <string name="sources">Источники</string>
+    <string name="abouttext">nanoConverter 0.7.0 - Простой и удобный конвертер валют для Android. Z-lab - 2012</string>
+</resources>

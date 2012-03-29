@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+     <string name="hello">Enter amount:</string>
+    <string name="app_name">nanoConverter</string>
+    <color name="color">#770000</color>
+    <string name="FROM">From currency:</string>
+    <string name="TO">In currency:</string>
+    <string name="OfflineCourses">Courses:</string>
+    <string name="curentamount"></string>
+    <string name="eq">=</string>
+    <string name="UpdateButtonText">Update now!</string>
+    <string name="forceUpdate">Pre-udate</string>
+    <string name="result">Results:</string>
+    <string name="exit">Exit</string>
+    <string name="conversetab">Convert</string>
+    <string name="settingstab">Settings</string>
+    <string name="Coursestab">Rates</string>
+    <string name="checkinternet">Check Your Internet connection.</string>
+    <string name="updatecomplete">Update done!</string>
+    <string name="updateinprogress">Updating . . .</string>
+    <string name="wait">Please wait . . .</string>
+    <string name="ratessource">Rates sources</string>
+    <string name="ratessourcedis">When will get rates?</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="course">Rates</string>
+    <string name="Update">Updates</string>
+    <string name="Updatedis">Update method</string>
+    <string name="setcur">Currency</string>
+    <string name="defaultcurrency">Default currency</string>
+    <string name="defaultcurrencydis">Currency that will be equal 1.00</string>
+    <string name="curlist">Currency list</string>
+    <string name="curlistdis">Available for conversation currency</string>
+    <string name="sources">Sources</string>
+    <string name="abouttext">nanoConverter 0.7.0 - Simple and cool currency converter for Android. Z-lab - 2012</string>
+</resources>
