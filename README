@@ -1,0 +1,31 @@
+nanoConverter - a simple, small, fast and convenient currency converter for Android. You will always know the current exchange rates for exchange and can easily transfer them between themselves.
+
+Features:
+Convert currencies between themselves
+* View and use the actual exchange rates
+* Ability to work offline
+* Courses can be viewed with respect to different currencies for your choice
+* Currency exchange rates the central banks of various countries
+* Your own currencies
+* Automatic updating of courses at your desire
+* It is possible to choose from the central bank which country to receive training (Do you want more of? Write about it in the comments)
+
+Pre-currency (currencies need more? Leave suggestions in the comments):
+---
+USD / EUR / GBP / CHF / JPY / UAH / RUB / MDL / BYR / PLN / LTL / LVL
+---
+U.S. Dollar / Euro / Pound / Swiss Franc / Japanese Yen / Ukrainian Hryvnia / Russian Ruble / Moldovan Leu / Dollar Belarusian / Polish Zloty / Lithuanian Litas / Latvian Lats
+---
+
+By default, automatic updates off course, not to spend your internet traffic.
+
+Update spends a couple of KB of traffic, as Data obtained in XML.
+
+In the settings you can enable two types of automatic updates, or update the rates manually (by default).
+
+1) Update in the background - the application runs in the background and immediately tries to update the currency exchange rates, while rates have not been updated to work with you previously saved the exchange rates.
+
+2) Pre-update - at startup, the application immediately tries to update the rates. Then you can get to work.
+
+Pros first way: You can instantly get to work.
+Pluses of the second method: You will only work with the current exchange rates.
