@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="arr1">
+        <item >courseUSD</item>
+        <item >courseEUR</item>
+        <item >courseCHF</item>
+        <item >courseGBP</item>
+        <item >courseJPY</item>
+        <item >courseUA</item>
+        <item >courseRUB</item>
+        <item >courseMDL</item>
+        <item >courseBYR</item>
+        <item >coursePLN</item>
+        <item >courseLTL</item>
+        <item >courseLVL</item>
+    </string-array>
+    
+</resources>

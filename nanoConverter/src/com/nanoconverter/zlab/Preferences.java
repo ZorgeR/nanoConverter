@@ -9,6 +9,19 @@ public class Preferences extends PreferenceActivity {
         protected void onCreate(Bundle savedInstanceState) {
         	
                 super.onCreate(savedInstanceState);
-                addPreferencesFromResource(R.xml.preferences);                
+                addPreferencesFromResource(R.xml.preferences);
+                // Get the custom preference
+                /*
+                final ListPreference prBankLst = (ListPreference) getPreferenceManager().findPreference("listSourcesDefault");
+                prBankLst.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+					public boolean onPreferenceChange(Preference preference, Object newValue) {
+							// TODO Auto-generated method stub
+						
+						return false;
+					}
+				});
+                */
+                
         }
 }
