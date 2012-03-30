@@ -49,13 +49,14 @@ public class NanoConverter extends TabActivity {
 	public EditText[] courserate = new EditText[count];
 	public RadioButton[] from = new RadioButton[count];
 	public RadioButton[] to = new RadioButton[count];
-	public String[] moneyupdate = new String[count];
+	public String moneyupdatestr;
 	public String[] moneycourse = new String[count];
 	public LinearLayout[] moneycl = new LinearLayout[count];
 	public View[] moneycls = new View[count];
+	public String coursebydefaultis = "1";
 	
-	public SharedPreferences[] settings_money = new SharedPreferences[count];
-	public SharedPreferences.Editor[] moneyeditor = new SharedPreferences.Editor[count];
+	public SharedPreferences settings_money;
+	public SharedPreferences.Editor moneyeditor;
 	
 	public String[] sa = { "USD", "EUR", "CHF", "GBP", "JPY", "UA", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL" };
 	
@@ -249,12 +250,14 @@ public class NanoConverter extends TabActivity {
      /* Строим ТАБЫ */
      
      getPrefs();
-     
+
+     settings_money = getSharedPreferences(moneyupdatestr, 0);
+     SharedPreferences settingsm = getSharedPreferences(moneyupdatestr, 0);
+     String[] separated = settingsm.getString(moneyupdatestr, "7777").split(",");
+     if (separated[0].equals("7777") ){} else {
      for (int i=0;i<count;i++ ){
-    	 settings_money[i] = getSharedPreferences(moneyupdate[i], 0);
-    	 moneycourse[i] = settings_money[i].getString(moneyupdate[i], "7777");
-    	 if (moneycourse[i] != "7777"){course[i].setText(moneycourse[i]);}
-     	}
+    	 course[i].setText(separated[i]);
+     }}
      
      UpdateRates();
      
@@ -294,7 +297,6 @@ public class NanoConverter extends TabActivity {
 	    	
 	    	resID = getResources().getIdentifier(sa[i]+"cls","id", getPackageName());
 	    	moneycls[i] = (View)findViewById(resID);
-	    	
 	    	}
 
 	 getPrefs();
@@ -356,7 +358,7 @@ public class NanoConverter extends TabActivity {
      case R.id.about:{
     	 new AlertDialog.Builder(this)
     		.setTitle(R.string.about)
-    		.setMessage(/*R.string.abouttext*/ "nanoConverter 0.7.0"+"\n"+""+"\n"+"Простой и удобный конвертер валют для Android."+"\n"
+    		.setMessage(/*R.string.abouttext*/ "nanoConverter 0.7.5"+"\n"+""+"\n"+"Простой и удобный конвертер валют для Android."+"\n"
     		+""+"\n"+"Z-lab - 2012")
     			.show();
     	 return true;}
@@ -375,11 +377,9 @@ public class NanoConverter extends TabActivity {
  protected void onStop(){
     super.onStop();
     
-    for (int i=0;i<count;i++ ){
-   	 settings_money[i] = getSharedPreferences(moneyupdate[i], 0);
-   	 moneyeditor[i] = settings_money[i].edit();
-    	}
-        
+    settings_money = getSharedPreferences(moneyupdatestr, 0);
+    moneyeditor = settings_money.edit();
+    
     int checkBank = Integer.parseInt(ListBankPreference);
 	
     if (checkBank == 1) {
@@ -387,12 +387,14 @@ public class NanoConverter extends TabActivity {
     		course[i].setText(courserate[i].getText().toString());
         	}
     }
-
-    for (int i=0;i<count;i++ ){
-    	moneyeditor[i].putString(moneyupdate[i], course[i].getText().toString());
-    	moneyeditor[i].commit();
-    	}
     
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < count; i++) {
+        sb.append(course[i].getText().toString()).append(",");
+        }
+    
+		moneyeditor.putString(moneyupdatestr, sb.toString());
+		moneyeditor.commit();
  }
 
 private void processThread() {
@@ -1179,7 +1181,7 @@ private void getPrefs() {
         	 checkboxLTLPreference = prefs.getBoolean("checkboxLTL", true);;
         	 checkboxLVLPreference = prefs.getBoolean("checkboxLVL", true);;
 
-             ListCurPreference = prefs.getString("listCurByDefault", "0"); //nr1 
+            ListCurPreference = prefs.getString("listCurByDefault", "0"); //nr1 
             ListBankPreference = prefs.getString("listSourcesDefault", "0");
             listUpdate = prefs.getString("listUpdate", "0");
 }
@@ -1188,8 +1190,6 @@ private void getPrefs() {
 	  int checkBank = Integer.parseInt(ListBankPreference);
 	  int checkCurd = Integer.parseInt(ListCurPreference);
 	  if (checkBank == 1) {} else {
-
-		  String coursebydefaultis = course[0].getText().toString();
 
 		  for (int i=0;i<count;i++ ){
 			  if (checkCurd == i){coursebydefaultis = course[i].getText().toString();}
