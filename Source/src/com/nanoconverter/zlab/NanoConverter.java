@@ -45,6 +45,7 @@ public class NanoConverter extends TabActivity {
 	private EditText text,amountmoney;
 	
 	int count = 12;
+	public String[] sa = { "USD", "EUR", "CHF", "GBP", "JPY", "UA", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL" };
 	public EditText[] course = new EditText[count];
 	public EditText[] courserate = new EditText[count];
 	public RadioButton[] from = new RadioButton[count];
@@ -54,26 +55,10 @@ public class NanoConverter extends TabActivity {
 	public LinearLayout[] moneycl = new LinearLayout[count];
 	public View[] moneycls = new View[count];
 	public String coursebydefaultis = "1";
+	public boolean[] mactive = new boolean[count];
 	
 	public SharedPreferences settings_money;
 	public SharedPreferences.Editor moneyeditor;
-	
-	public String[] sa = { "USD", "EUR", "CHF", "GBP", "JPY", "UA", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL" };
-	
-	public boolean[] CheckBoxPref = new boolean[count];
-	
-	 boolean checkboxUSDPreference;
-	 boolean checkboxEURPreference;
-	 boolean checkboxCHFPreference;
-	 boolean checkboxGBPPreference;
-	 boolean checkboxJPYPreference;
-	 boolean checkboxUAPreference;
-	 boolean checkboxRUBPreference;
-	 boolean checkboxMDLPreference;
-	 boolean checkboxBYRPreference;
-	 boolean checkboxPLNPreference;
-	 boolean checkboxLTLPreference;
-	 boolean checkboxLVLPreference;
 	
 	private Button buttonrefresh;
 	
@@ -89,15 +74,10 @@ public class NanoConverter extends TabActivity {
             super.handleMessage(msg);
             progressDialog.dismiss();}
     };
-    Handler handlerCloseforce = new Handler() {@Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            handlerCloseThreadforce.sendEmptyMessage(0);}
-    };
     Handler handlerCloseThread = new Handler() {@Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            /* progressDialog.dismiss(); */ }
+            if (Integer.parseInt(listUpdate) == 2){handlerCloseThreadforce.sendEmptyMessage(0);}}
     };
     Handler handlerERRThread = new Handler() {@Override
         public void handleMessage(Message msg) {
@@ -123,73 +103,95 @@ public class NanoConverter extends TabActivity {
             toast3.show();
         }
     };
-    
-    Handler handlerUSD = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-			String USD = (String)msg.obj;
-			course[0].setText(USD);
-			/* call setText here */ }
-        };
 
-        Handler handlerEUR = new Handler() {@Override
-            public void handleMessage(Message msg) {
-    			String EUR = (String)msg.obj;
-    			course[1].setText(EUR);}
-            };
-            
-            Handler handlerCHF = new Handler() {@Override
-                public void handleMessage(Message msg) {
-        			String CHF = (String)msg.obj;
-        			course[2].setText(CHF);}
-                };
-                Handler handlerGBP = new Handler() {@Override
-                    public void handleMessage(Message msg) {
-            			String GBP = (String)msg.obj;
-            			course[3].setText(GBP);}
-                    };
-                    Handler handlerJPY = new Handler() {@Override
-                        public void handleMessage(Message msg) {
-                			String JPY = (String)msg.obj;
-                			course[4].setText(JPY);}
-                        };
-                        Handler handlerUA = new Handler() {@Override
-                            public void handleMessage(Message msg) {
-                    			String UA = (String)msg.obj;
-                    			course[5].setText(UA);}
-                            };
-                            Handler handlerMDL = new Handler() {@Override
-                                public void handleMessage(Message msg) {
-                        			String MDL = (String)msg.obj;
-                        			course[7].setText(MDL);}
-                                };
-                                Handler handlerBYR = new Handler() {@Override
-                                    public void handleMessage(Message msg) {
-                            			String BYR = (String)msg.obj;
-                            			course[8].setText(BYR);}
-                                    };
-                                    Handler handlerPLN = new Handler() {@Override
-                                        public void handleMessage(Message msg) {
-                                			String PLN = (String)msg.obj;
-                                			course[9].setText(PLN);}
-                                        };
-                                        Handler handlerLTL = new Handler() {@Override
-                                            public void handleMessage(Message msg) {
-                                    			String LTL = (String)msg.obj;
-                                    			course[10].setText(LTL);}
-                                            };
-                                            Handler handlerLVL = new Handler() {@Override
-                                                public void handleMessage(Message msg) {
-                                        			String LVL = (String)msg.obj;
-                                        			course[11].setText(LVL);}
-                                                };
-                            Handler handlerRUB = new Handler() {@Override
-                                public void handleMessage(Message msg) {
-                        			String RUB = (String)msg.obj;
-                        			course[6].setText(RUB);
-                        			
-                        			UpdateRates();}
-                                };
+	Handler handlerUSD = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			String USD = (String) msg.obj;
+			course[0].setText(USD);
+			/* call setText here */}
+	};
+
+	Handler handlerEUR = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			String EUR = (String) msg.obj;
+			course[1].setText(EUR);
+		}
+	};
+
+	Handler handlerCHF = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			String CHF = (String) msg.obj;
+			course[2].setText(CHF);
+		}
+	};
+	Handler handlerGBP = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			String GBP = (String) msg.obj;
+			course[3].setText(GBP);
+		}
+	};
+	Handler handlerJPY = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			String JPY = (String) msg.obj;
+			course[4].setText(JPY);
+		}
+	};
+	Handler handlerUA = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			String UA = (String) msg.obj;
+			course[5].setText(UA);
+		}
+	};
+	Handler handlerMDL = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			String MDL = (String) msg.obj;
+			course[7].setText(MDL);
+		}
+	};
+	Handler handlerBYR = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			String BYR = (String) msg.obj;
+			course[8].setText(BYR);
+		}
+	};
+	Handler handlerPLN = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			String PLN = (String) msg.obj;
+			course[9].setText(PLN);
+		}
+	};
+	Handler handlerLTL = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			String LTL = (String) msg.obj;
+			course[10].setText(LTL);
+		}
+	};
+	Handler handlerLVL = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			String LVL = (String) msg.obj;
+			course[11].setText(LVL);
+		}
+	};
+	Handler handlerRUB = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			String RUB = (String) msg.obj;
+			course[6].setText(RUB);
+
+			UpdateRates();
+		}
+	};
                             
  @Override
  
@@ -198,26 +200,11 @@ public class NanoConverter extends TabActivity {
 	 mContext = this;
      super.onCreate(savedInstanceState);
      setContentView(R.layout.main);
-     
      buttonrefresh = (Button) findViewById(R.id.button2);
      text = (EditText) findViewById(R.id.editText1);
-
-    for (int i=0;i<count;i++ ){
-    	int resID = getResources().getIdentifier("Course" + sa[i],"id", getPackageName());
-    	course[i] = (EditText)findViewById(resID);
-    	
-    	resID = getResources().getIdentifier("Course" + sa[i] + "rate","id", getPackageName());
-    	courserate[i] = (EditText)findViewById(resID);
-    	
-    	resID = getResources().getIdentifier("from" + sa[i],"id", getPackageName());
-    	from[i] = (RadioButton)findViewById(resID);
-    	from[i].setOnClickListener(new OnClickListener() {public void onClick(View v) {myClickHandler();}});
-    	
-    	resID = getResources().getIdentifier("to" + sa[i],"id", getPackageName());
-    	to[i] = (RadioButton)findViewById(resID);
-    	to[i].setOnClickListener(new OnClickListener() {public void onClick(View v) {myClickHandler();}});
-    	}
-    
+     getID();
+     getRadio();
+     setkey();
      amountmoney = (EditText) findViewById(R.id.editText246);
      amountmoney.setKeyListener(null);
 
@@ -260,75 +247,64 @@ public class NanoConverter extends TabActivity {
      }}
      
      UpdateRates();
-     
-	 /* GET XML FORCE */
+     myClickHandler();
      
      int checkBank = Integer.parseInt(ListBankPreference);
      int checkUPDT = Integer.parseInt(listUpdate);
-     
-	      if (checkBank != 1){
-	      if (checkUPDT == 2){NanoConverter.mContext.processThreadforce();
-	      } else { /* do nothing */ }
-	 /* GET XML FORCE */
 
-	 /* GET XML AUTO */
-	      if (checkUPDT == 1){NanoConverter.mContext.processThread();    	 
-	      } else { /* do nothing */ }
-	 /* GET XML AUTO */
+	/* autoupdate */
+	      if (checkBank != 1){
+	    	  if (checkUPDT != 0){
+			      if (checkUPDT == 2){
+			    	  NanoConverter.mContext.processThreadforce();
+			      } else {
+			    	  NanoConverter.mContext.processThread();}
+			    	  }
 	      } else {
 	    	  for (int i=0;i<count;i++ ){
 	    		  courserate[i].setText(course[i].getText().toString());
 	  	    	}
-	    
 	      }
+	/* autoupdate */
  }
 
+ public void getID() {for (int i=0;i<count;i++ ){
+	int resID = getResources().getIdentifier("Course" + sa[i],"id", getPackageName());
+	course[i] = (EditText)findViewById(resID);
+		resID = getResources().getIdentifier("Course" + sa[i] + "rate","id", getPackageName());
+	courserate[i] = (EditText)findViewById(resID);}
+ }
+ 
+ public void getRadio() {for (int i=0;i<count;i++ ){
+	int resID = getResources().getIdentifier("from" + sa[i],"id", getPackageName());
+ 	from[i] = (RadioButton)findViewById(resID);
+ 		resID = getResources().getIdentifier("to" + sa[i],"id", getPackageName());
+ 	to[i] = (RadioButton)findViewById(resID);}
+ }
+ 
+ public void setkey() {for (int i=0;i<count;i++ ){
+	 from[i].setOnClickListener(new OnClickListener() {public void onClick(View v) {myClickHandler();}});
+	 to[i].setOnClickListener(new OnClickListener() {public void onClick(View v) {myClickHandler();}});}	 
+ }
+ 
+ public void getresID2() {for (int i=0;i<count;i++ ){
+	int resID = getResources().getIdentifier(sa[i]+"cl","id", getPackageName());
+	moneycl[i] = (LinearLayout)findViewById(resID);
+		resID = getResources().getIdentifier(sa[i]+"cls","id", getPackageName());
+	moneycls[i] = (View)findViewById(resID);}
+ }
+ 
  protected void onResume() {
-
-	    for (int i=0;i<count;i++ ){
-	    	int resID = getResources().getIdentifier("from" + sa[i],"id", getPackageName());
-	    	from[i] = (RadioButton)findViewById(resID);
-	    	
-	    	resID = getResources().getIdentifier("to" + sa[i],"id", getPackageName());
-	    	to[i] = (RadioButton)findViewById(resID);
-	    	
-	    	resID = getResources().getIdentifier(sa[i]+"cl","id", getPackageName());
-	    	moneycl[i] = (LinearLayout)findViewById(resID);
-	    	
-	    	resID = getResources().getIdentifier(sa[i]+"cls","id", getPackageName());
-	    	moneycls[i] = (View)findViewById(resID);
-	    	}
-
+	 getRadio();
+	 getresID2();
 	 getPrefs();
 	 
 	 int checkBank = Integer.parseInt(ListBankPreference);
 	 
-	 if (checkboxUSDPreference == false){from[0].setVisibility(View.GONE);to[0].setVisibility(View.GONE);moneycls[0].setVisibility(View.GONE);moneycl[0].setVisibility(View.GONE);}
-	 if (checkboxEURPreference == false){from[1].setVisibility(View.GONE);to[1].setVisibility(View.GONE);moneycls[1].setVisibility(View.GONE);moneycl[1].setVisibility(View.GONE);}
-	 if (checkboxCHFPreference == false){from[2].setVisibility(View.GONE);to[2].setVisibility(View.GONE);moneycls[2].setVisibility(View.GONE);moneycl[2].setVisibility(View.GONE);}
-	 if (checkboxGBPPreference == false){from[3].setVisibility(View.GONE);to[3].setVisibility(View.GONE);moneycls[3].setVisibility(View.GONE);moneycl[3].setVisibility(View.GONE);}
-	 if (checkboxJPYPreference == false){from[4].setVisibility(View.GONE);to[4].setVisibility(View.GONE);moneycls[4].setVisibility(View.GONE);moneycl[4].setVisibility(View.GONE);}
-	 if (checkboxUAPreference == false){from[5].setVisibility(View.GONE);to[5].setVisibility(View.GONE);moneycls[5].setVisibility(View.GONE);moneycl[5].setVisibility(View.GONE);}
-	 if (checkboxRUBPreference == false){from[6].setVisibility(View.GONE);to[6].setVisibility(View.GONE);moneycls[6].setVisibility(View.GONE);moneycl[6].setVisibility(View.GONE);}
-	 if (checkboxMDLPreference == false){from[7].setVisibility(View.GONE);to[7].setVisibility(View.GONE);moneycls[7].setVisibility(View.GONE);moneycl[7].setVisibility(View.GONE);}
-	 if (checkboxBYRPreference == false){from[8].setVisibility(View.GONE);to[8].setVisibility(View.GONE);moneycls[8].setVisibility(View.GONE);moneycl[8].setVisibility(View.GONE);}
-	 if (checkboxPLNPreference == false){from[9].setVisibility(View.GONE);to[9].setVisibility(View.GONE);moneycls[9].setVisibility(View.GONE);moneycl[9].setVisibility(View.GONE);}
-	 if (checkboxLTLPreference == false){from[10].setVisibility(View.GONE);to[10].setVisibility(View.GONE);moneycls[10].setVisibility(View.GONE);moneycl[10].setVisibility(View.GONE);}
-	 if (checkboxLVLPreference == false){from[11].setVisibility(View.GONE);to[11].setVisibility(View.GONE);moneycls[11].setVisibility(View.GONE);moneycl[11].setVisibility(View.GONE);}
-	 
-	 if (checkboxUSDPreference == true){from[0].setVisibility(View.VISIBLE);to[0].setVisibility(View.VISIBLE);moneycl[0].setVisibility(View.VISIBLE);moneycls[0].setVisibility(View.VISIBLE);}
-	 if (checkboxEURPreference == true){from[1].setVisibility(View.VISIBLE);to[1].setVisibility(View.VISIBLE);moneycl[1].setVisibility(View.VISIBLE);moneycls[1].setVisibility(View.VISIBLE);}
-	 if (checkboxCHFPreference == true){from[2].setVisibility(View.VISIBLE);to[2].setVisibility(View.VISIBLE);moneycl[2].setVisibility(View.VISIBLE);moneycls[2].setVisibility(View.VISIBLE);}
-	 if (checkboxGBPPreference == true){from[3].setVisibility(View.VISIBLE);to[3].setVisibility(View.VISIBLE);moneycl[3].setVisibility(View.VISIBLE);moneycls[3].setVisibility(View.VISIBLE);}
-	 if (checkboxJPYPreference == true){from[4].setVisibility(View.VISIBLE);to[4].setVisibility(View.VISIBLE);moneycl[4].setVisibility(View.VISIBLE);moneycls[4].setVisibility(View.VISIBLE);}
-	 if (checkboxUAPreference == true){from[5].setVisibility(View.VISIBLE);to[5].setVisibility(View.VISIBLE);moneycl[5].setVisibility(View.VISIBLE);moneycls[5].setVisibility(View.VISIBLE);}
-	 if (checkboxRUBPreference == true){from[6].setVisibility(View.VISIBLE);to[6].setVisibility(View.VISIBLE);moneycl[6].setVisibility(View.VISIBLE);moneycls[6].setVisibility(View.VISIBLE);}
-	 if (checkboxMDLPreference == true){from[7].setVisibility(View.VISIBLE);to[7].setVisibility(View.VISIBLE);moneycl[7].setVisibility(View.VISIBLE);moneycls[7].setVisibility(View.VISIBLE);}
-	 if (checkboxBYRPreference == true){from[8].setVisibility(View.VISIBLE);to[8].setVisibility(View.VISIBLE);moneycl[8].setVisibility(View.VISIBLE);moneycls[8].setVisibility(View.VISIBLE);}
-	 if (checkboxPLNPreference == true){from[9].setVisibility(View.VISIBLE);to[9].setVisibility(View.VISIBLE);moneycl[9].setVisibility(View.VISIBLE);moneycls[9].setVisibility(View.VISIBLE);}
-	 if (checkboxLTLPreference == true){from[10].setVisibility(View.VISIBLE);to[10].setVisibility(View.VISIBLE);moneycl[10].setVisibility(View.VISIBLE);moneycls[10].setVisibility(View.VISIBLE);}
-	 if (checkboxLVLPreference == true){from[11].setVisibility(View.VISIBLE);to[11].setVisibility(View.VISIBLE);moneycl[11].setVisibility(View.VISIBLE);moneycls[11].setVisibility(View.VISIBLE);}
-
+	 for (int i=0;i<count;i++ ){
+		 if (mactive[i] == false){from[i].setVisibility(View.GONE);to[i].setVisibility(View.GONE);moneycls[i].setVisibility(View.GONE);moneycl[i].setVisibility(View.GONE);}
+		 if (mactive[i] == true){from[i].setVisibility(View.VISIBLE);to[i].setVisibility(View.VISIBLE);moneycl[i].setVisibility(View.VISIBLE);moneycls[i].setVisibility(View.VISIBLE);}
+	 }
 	      if (checkBank == 0){ BANK_ID = "CBR"; TurnONrates();}
 	      if (checkBank == 1){TurnOFFrates(); }
 	      if (checkBank == 2){ BANK_ID = "NBU";  TurnONrates();}
@@ -342,7 +318,7 @@ public class NanoConverter extends TabActivity {
 	      
 	      super.onResume();
  }
- //// MENU MENU
+ /* MENU */
  @Override
  public boolean onCreateOptionsMenu(Menu menu) {
      MenuInflater inflater = getMenuInflater();
@@ -354,13 +330,6 @@ public class NanoConverter extends TabActivity {
      switch (item.getItemId()) {
      case R.id.quit:{
     	 finish();
-    	 return true;}
-     case R.id.about:{
-    	 new AlertDialog.Builder(this)
-    		.setTitle(R.string.about)
-    		.setMessage(/*R.string.abouttext*/ "nanoConverter 0.7.5"+"\n"+""+"\n"+"Простой и удобный конвертер валют для Android."+"\n"
-    		+""+"\n"+"Z-lab - 2012")
-    			.show();
     	 return true;}
      case R.id.settings:{
     	 Intent settingsActivity = new Intent(getBaseContext(),
@@ -406,8 +375,22 @@ private void processThread() {
     ToastView.addView(imageWorld, 0);
     toast2.show();
     
-    
-    if (BANK_ID == "CBR"){
+    bankIDcheck();
+ }
+
+private void processThreadforce() {
+	progressDialog = ProgressDialog.show(NanoConverter.mContext, getString(R.string.wait), getString(R.string.updateinprogress));
+
+	new Thread() {
+		public void run() {
+		killLongForce();
+		}
+	}.start();
+	bankIDcheck();
+ }
+
+public void bankIDcheck() {
+	if (BANK_ID == "CBR"){
         new Thread() {
             public void run() {
            	 runLongProcessCBR();
@@ -438,57 +421,13 @@ private void processThread() {
   	         }
   	     }.start();
   	}
- }
-
-private void processThreadforce() {
-	progressDialog = ProgressDialog.show(NanoConverter.mContext, getString(R.string.wait), getString(R.string.updateinprogress));
-
-	new Thread() {
-		public void run() {
-		killLongForce();
-		}
-	}.start();
-	
-    if (BANK_ID == "CBR"){
-        new Thread() {
-            public void run() {
-           	 runLongProcessCBR();
-           	handlerCloseThreadforce.sendEmptyMessage(0);
-            }
-        }.start();}
-   	if (BANK_ID == "NBU"){
-   		new Thread() {
-   	         public void run() {
-   	        	runLongProcessNBU();
-   	        	handlerCloseThreadforce.sendEmptyMessage(0);
-   	         }
-   	     }.start();
-   	}
-   	if (BANK_ID == "NBRB"){
-   		new Thread() {
-  	         public void run() {
-  	        	 runLongProcessNBRB();
-  	        	 handlerCloseThread.sendEmptyMessage(0);
-  	         }
-  	     }.start();
-  	}
-   	if (BANK_ID == "BNM"){
-   		new Thread() {
-  	         public void run() {
-  	        	 runLongProcessBNM();
-  	        	 handlerCloseThread.sendEmptyMessage(0);
-  	         }
-  	     }.start();
-  	}
-     
- }
+}
 
 private void killLongForce() {
 	try {
 	Thread.sleep(10*1000);
-    handlerCloseforce.sendEmptyMessage(0);
+	handlerCloseThreadforce.sendEmptyMessage(0);
 	} catch (Exception ioe) {
-	    	 //donothing
 	    	}
 }
  private void runLongProcessCBR() {
@@ -1104,10 +1043,8 @@ private void killLongForce() {
 	    	to[i] = (RadioButton)findViewById(resID);
 	    	}
 	    
-         if (text.getText().length() == 0) {
-        	 amountmoney.setText("0.00");
-             return;
-         }
+         if (text.getText().length() == 0) {amountmoney.setText("0.00");return;} else
+         if (text.getText().toString().equals("-")) {amountmoney.setText("0.00");return;} else
          if (checkBank != 1) {
         	 
         	 for (int i=0;i<count;i++ ){
@@ -1133,7 +1070,6 @@ private void killLongForce() {
           	   	
         	 amountmoney.setText(String.valueOf( Float.parseFloat(text.getText().toString()) * Float.parseFloat(curentfromcourserate) / Float.parseFloat(curenttocourserate) ));
          }
-         
      }
  
  /* Обработчик обновления */
@@ -1167,19 +1103,11 @@ private void getPrefs() {
 
              SharedPreferences prefs = PreferenceManager
                              .getDefaultSharedPreferences(getBaseContext());
- 
-        	 checkboxUSDPreference = prefs.getBoolean("checkboxUSD", true);;
-        	 checkboxEURPreference = prefs.getBoolean("checkboxEUR", true);;
-        	 checkboxCHFPreference = prefs.getBoolean("checkboxCHF", true);;
-        	 checkboxGBPPreference = prefs.getBoolean("checkboxGBP", true);;
-        	 checkboxJPYPreference = prefs.getBoolean("checkboxJPY", true);;
-        	 checkboxUAPreference = prefs.getBoolean("checkboxUA", true);;
-        	 checkboxRUBPreference = prefs.getBoolean("checkboxRUB", true);;
-        	 checkboxMDLPreference = prefs.getBoolean("checkboxMDL", true);;
-        	 checkboxBYRPreference = prefs.getBoolean("checkboxBYR", true);;
-        	 checkboxPLNPreference = prefs.getBoolean("checkboxPLN", true);;
-        	 checkboxLTLPreference = prefs.getBoolean("checkboxLTL", true);;
-        	 checkboxLVLPreference = prefs.getBoolean("checkboxLVL", true);;
+             
+        	 for (int i=0;i<count;i++ ){
+        	    	boolean resID = prefs.getBoolean("checkbox"+sa[i], true);
+        	    	mactive[i] = resID;
+        	 }
 
             ListCurPreference = prefs.getString("listCurByDefault", "0"); //nr1 
             ListBankPreference = prefs.getString("listSourcesDefault", "0");

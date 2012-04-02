@@ -33,5 +33,4 @@
     <string name="curlist">Список валют</string>
     <string name="curlistdis">Валюты доступные для конвертации</string>
     <string name="sources">Источники</string>
-    <string name="abouttext">nanoConverter 0.7.0 - Простой и удобный конвертер валют для Android. Z-lab - 2012</string>
 </resources>

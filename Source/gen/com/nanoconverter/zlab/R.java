@@ -103,7 +103,6 @@ public final class R {
         public static final int UAcls=0x7f0a004e;
         public static final int USDcl=0x7f0a002b;
         public static final int USDcls=0x7f0a0030;
-        public static final int about=0x7f0a0073;
         public static final int button2=0x7f0a0028;
         public static final int container=0x7f0a002a;
         public static final int courseslayout1=0x7f0a000b;
@@ -123,12 +122,12 @@ public final class R {
         public static final int fromRUB=0x7f0a0013;
         public static final int fromUA=0x7f0a0012;
         public static final int fromUSD=0x7f0a000d;
-        public static final int quit=0x7f0a0075;
+        public static final int quit=0x7f0a0074;
         public static final int radioGroup1=0x7f0a000c;
         public static final int radioGroup2=0x7f0a0019;
         public static final int scroll1=0x7f0a000a;
         public static final int scroll2=0x7f0a0029;
-        public static final int settings=0x7f0a0074;
+        public static final int settings=0x7f0a0073;
         public static final int tab1=0x7f0a0000;
         public static final int tab2=0x7f0a0026;
         public static final int tab4=0x7f0a0001;
@@ -225,7 +224,8 @@ public final class R {
         public static final int UpdateButtonText=0x7f06002b;
         public static final int Updatedis=0x7f06003c;
         public static final int about=0x7f060039;
-        public static final int abouttext=0x7f060043;
+        public static final int abouttext=0x7f060044;
+        public static final int aboutvers=0x7f060043;
         public static final int app_name=0x7f060025;
         public static final int checkinternet=0x7f060032;
         public static final int conversetab=0x7f06002f;

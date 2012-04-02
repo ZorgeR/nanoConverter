@@ -27,14 +27,13 @@
                         android:entries="@array/listArray"
                         android:entryValues="@array/listValues" />
             <PreferenceScreen
-                android:key="activeCur"
                 android:title="@string/curlist"
                 android:summary="@string/curlistdis">
                 <CheckBoxPreference
                         android:title="@string/USDfrom"
                         android:defaultValue="true"
                         android:summary="@string/USD_discription"
-                        android:key="checkboxUSD" />
+                        android:key="checkboxUSD" android:enabled="false" android:selectable="false"/>
                 <CheckBoxPreference
                         android:title="@string/EURfrom"
                         android:defaultValue="true"
@@ -92,4 +91,7 @@
                         android:key="checkboxLVL" />
         </PreferenceScreen>
             </PreferenceCategory>
+        <PreferenceCategory android:title="@string/about">
+            <PreferenceScreen android:summary="@string/abouttext" android:title="@string/aboutvers"></PreferenceScreen>
+        </PreferenceCategory>
 </PreferenceScreen>
