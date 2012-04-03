@@ -45,6 +45,7 @@ public class NanoConverter extends TabActivity {
 	private EditText text,amountmoney;
 	
 	int count = 12;
+	public final int countglobal = count;
 	public String[] sa = { "USD", "EUR", "CHF", "GBP", "JPY", "UA", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL" };
 	public EditText[] course = new EditText[count];
 	public EditText[] courserate = new EditText[count];
@@ -103,95 +104,6 @@ public class NanoConverter extends TabActivity {
             toast3.show();
         }
     };
-
-	Handler handlerUSD = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			String USD = (String) msg.obj;
-			course[0].setText(USD);
-			/* call setText here */}
-	};
-
-	Handler handlerEUR = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			String EUR = (String) msg.obj;
-			course[1].setText(EUR);
-		}
-	};
-
-	Handler handlerCHF = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			String CHF = (String) msg.obj;
-			course[2].setText(CHF);
-		}
-	};
-	Handler handlerGBP = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			String GBP = (String) msg.obj;
-			course[3].setText(GBP);
-		}
-	};
-	Handler handlerJPY = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			String JPY = (String) msg.obj;
-			course[4].setText(JPY);
-		}
-	};
-	Handler handlerUA = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			String UA = (String) msg.obj;
-			course[5].setText(UA);
-		}
-	};
-	Handler handlerMDL = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			String MDL = (String) msg.obj;
-			course[7].setText(MDL);
-		}
-	};
-	Handler handlerBYR = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			String BYR = (String) msg.obj;
-			course[8].setText(BYR);
-		}
-	};
-	Handler handlerPLN = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			String PLN = (String) msg.obj;
-			course[9].setText(PLN);
-		}
-	};
-	Handler handlerLTL = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			String LTL = (String) msg.obj;
-			course[10].setText(LTL);
-		}
-	};
-	Handler handlerLVL = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			String LVL = (String) msg.obj;
-			course[11].setText(LVL);
-		}
-	};
-	Handler handlerRUB = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			String RUB = (String) msg.obj;
-			course[6].setText(RUB);
-
-			UpdateRates();
-		}
-	};
                             
  @Override
  
@@ -305,10 +217,10 @@ public class NanoConverter extends TabActivity {
 		 if (mactive[i] == false){from[i].setVisibility(View.GONE);to[i].setVisibility(View.GONE);moneycls[i].setVisibility(View.GONE);moneycl[i].setVisibility(View.GONE);}
 		 if (mactive[i] == true){from[i].setVisibility(View.VISIBLE);to[i].setVisibility(View.VISIBLE);moneycl[i].setVisibility(View.VISIBLE);moneycls[i].setVisibility(View.VISIBLE);}
 	 }
-	      if (checkBank == 0){ BANK_ID = "CBR"; TurnONrates();}
-	      if (checkBank == 1){TurnOFFrates(); }
-	      if (checkBank == 2){ BANK_ID = "NBU";  TurnONrates();}
-	      if (checkBank == 3){ BANK_ID = "NBRB"; TurnONrates();}
+	      if (checkBank == 0){ BANK_ID = "CBR"; TurnONrates();} else
+	      if (checkBank == 1){TurnOFFrates(); } else
+	      if (checkBank == 2){ BANK_ID = "NBU";  TurnONrates();} else
+	      if (checkBank == 3){ BANK_ID = "NBRB"; TurnONrates();} else
 	      if (checkBank == 4){ BANK_ID = "BNM";  TurnONrates();}
 
 	      if (checkBank == 1){
@@ -447,117 +359,65 @@ private void killLongForce() {
 	  		    	 }
 	  	if (sec == true){
 	  		try {
-	  		 NodeList list = doc.getElementsByTagName("Value");
-	  		   int count = list.getLength();
-	  		   for(int i = 0; i<count; i++)
+	  		NodeList charlist = doc.getElementsByTagName("CharCode");
+	  		NodeList nomlist = doc.getElementsByTagName("Nominal");
+	  		NodeList list = doc.getElementsByTagName("Value");
+	  		   int len = list.getLength();
+	  		
+	  		   String[] sas = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL" };
+	  		   String[] coursenew = new String[12];
+	  		   for(int i = 0; i<12; i++){coursenew[i] = "0";}
+	  		   
+	  		   for(int i = 0; i<len; i++)
 	  		   {
-	  		   		Node n= list.item(i);
+	  			   /* ID */
+	  			   	Node ch= charlist.item(i);
+	  			    ch.getNodeValue();
+	  		   		ch.getFirstChild().getNodeValue();
+	  		   		String chStr  = ch.getFirstChild().getNodeValue();
+	  		   		int[] chpos = new int[12];
+	  		   		for(int j = 0; j<12; j++){
+	  		   			if (chStr.equals(sas[j])) {
+	  		   			chpos[j] = i;
+	  		   			}
+	  		   		}
+	  		   		
+	  		   		/* rate */
+		  		   	Node r= nomlist.item(i);
+	  			    r.getNodeValue();
+	  		   		r.getFirstChild().getNodeValue();
+	  		   		String nStr  = r.getFirstChild().getNodeValue();
+	  		   		int[] nd = new int[12];
+	  		   		for(int j = 0; j<12; j++){
+	  		   			if (chStr.equals(sas[j])) {
+	  		   			nd[j] = Integer.parseInt(nStr);
+	  		   			}
+	  		   		}
+	  			   
+	  			   /* data */
+	  			    Node n= list.item(i);
 	  		   		n.getNodeValue();
-	  		   		n.getFirstChild();
 	  		   		n.getFirstChild().getNodeValue();
 	  		   		String dateCurrencyStr  = n.getFirstChild().getNodeValue();
-	  		   		String courseUSDnew = "0";
-	  		   		String courseEURnew = "0";
-	  		   		String courseCHFnew = "0";
-	  		   		String courseGBPnew = "0";
-	  		   		String courseJPYnew = "0";
-	  		   		String courseUAnew = "0";
-	  		   		String courseRUBnew = "1.00";
-	  		   		String courseMDLnew = "0";
-	  		   		String courseBYRnew = "0";
-	  		   		String coursePLNnew = "0";
-	  		   		String courseLTLnew = "0";
-	  		   		String courseLVLnew = "0";
+  		   		
+	  		   		coursenew[6] = "1.00";
 	  		   		
-	  		   		if(i == 9)	{courseUSDnew = dateCurrencyStr.replace(",", ".");}
-		  		   	if(i == 10)	{courseEURnew = dateCurrencyStr.replace(",", ".");}
-	 		   		if(i == 2)	{courseGBPnew = dateCurrencyStr.replace(",", ".");}
-	 		   		if(i == 31)	{courseCHFnew = dateCurrencyStr.replace(",", ".");}
-	 		   		if(i == 34)	{courseJPYnew = dateCurrencyStr.replace(",", ".");
-	 					   			float courseJPYtrue = ( Float.parseFloat(courseJPYnew) / 100 );
-	 					   			courseJPYnew = (Float.toString(courseJPYtrue));
-	 					   			}
-	 		   		if(i == 28)	{courseUAnew = dateCurrencyStr.replace(",", ".");
-	 					   			float courseUAtrue  = ( Float.parseFloat(courseUAnew) / 10 );
-	 					   			courseUAnew = (Float.toString(courseUAtrue));
-	 		   						}
-		 		   	if(i == 18)	{courseMDLnew = dateCurrencyStr.replace(",", ".");
-						   			float courseMDLtrue = ( Float.parseFloat(courseMDLnew) / 10 );
-						   			courseMDLnew = (Float.toString(courseMDLtrue));
-						   			}
-			 		if(i == 4)	{courseBYRnew = dateCurrencyStr.replace(",", ".");
-						   			float courseBYRtrue = ( Float.parseFloat(courseBYRnew) / 10000 );
-						   			courseBYRnew = (Float.toString(courseBYRtrue));
-						   			}
-			 		if(i == 16)	{courseLVLnew = dateCurrencyStr.replace(",", ".");}
-			 		if(i == 17)	{courseLTLnew = dateCurrencyStr.replace(",", ".");}
-			 		if(i == 20)	{coursePLNnew = dateCurrencyStr.replace(",", ".");
-		   			float coursePLNtrue = ( Float.parseFloat(coursePLNnew) / 10 );
-		   			coursePLNnew = (Float.toString(coursePLNtrue));
-		   			}
- 		   		
-			 		if (coursePLNnew != "0"){
-			  		   	 Message msg = new Message();
-			             msg.obj = coursePLNnew;
-			             handlerPLN.sendMessage(msg);
-				   		}
-			 		if (courseLTLnew != "0"){
-			  		   	 Message msg = new Message();
-			             msg.obj = courseLTLnew;
-			             handlerLTL.sendMessage(msg);
-				   		}
-			 		if (courseLVLnew != "0"){
-			  		   	 Message msg = new Message();
-			             msg.obj = courseLVLnew;
-			             handlerLVL.sendMessage(msg);
-				   		}
-			 		
-	  		   		if (courseUSDnew != "0"){
-			  		   	 Message msg = new Message();
-			             msg.obj = courseUSDnew;
-			             handlerUSD.sendMessage(msg);
-	  		   			}
-		  		   	if (courseEURnew != "0"){
-			  		   	 Message msg = new Message();
-			             msg.obj = courseEURnew;
-			             handlerEUR.sendMessage(msg);
-		  		   		}
-	  		   		if (courseCHFnew != "0"){
-			  		   	 Message msg = new Message();
-			             msg.obj = courseCHFnew;
-			             handlerCHF.sendMessage(msg);
-				   		}
-			  		if (courseGBPnew != "0"){
-			  		   	 Message msg = new Message();
-			             msg.obj = courseGBPnew;
-			             handlerGBP.sendMessage(msg);
-				   		}
-			  		if (courseJPYnew != "0"){
-			  		   	 Message msg = new Message();
-			             msg.obj = courseJPYnew;
-			             handlerJPY.sendMessage(msg);
-				   		}
-			  		if (courseUAnew != "0"){
-			  		   	 Message msg = new Message();
-			             msg.obj = courseUAnew;
-			             handlerUA.sendMessage(msg);
-				   		}
-			  		if (courseMDLnew != "0"){
-			  		   	 Message msg = new Message();
-			             msg.obj = courseMDLnew;
-			             handlerMDL.sendMessage(msg);
-				   		}
-			  		if (courseBYRnew != "0"){
-			  		   	 Message msg = new Message();
-			             msg.obj = courseBYRnew;
-			             handlerBYR.sendMessage(msg);
-				   		}
-			  		if (courseRUBnew != "0"){
-			  		   	 Message msg = new Message();
-			             msg.obj = courseRUBnew;
-			             handlerRUB.sendMessage(msg);
-				   		}
+	  		   		float coursetrue;
+	  		   		
+		  		   	for(int j = 0; j<12; j++){
+		  		   	if(i == chpos[j])	{coursenew[j] = dateCurrencyStr.replace(",", ".");
+			   			coursetrue = ( Float.parseFloat(coursenew[j]) / nd[j] );
+			   			coursenew[j] = (Float.toString(coursetrue));
+			   			}
+	  		   		}
+		  		   	
+		  		  if (i == len-1){
+		  			  for(int j = 0; j<12; j++){
+			  		   	 course[j].setText(coursenew[j]);
+				   			}
+		  		  }
 	  		   }
+	  		 
 	  		 handlerGOODThread.sendEmptyMessage(0);
 	  		 
 	  			} catch (Exception ioe) {
@@ -586,132 +446,68 @@ private void killLongForce() {
 		  		    	 }
 		  	if (sec == true){
 		  		try {
-		  		 NodeList list = doc.getElementsByTagName("Value");
-		  		   int count = list.getLength();
-		  		   for(int i = 0; i<count; i++)
-		  		   {
-		  		   		Node n= list.item(i);
-		  		   		n.getNodeValue();
-		  		   		n.getFirstChild();
-		  		   		n.getFirstChild().getNodeValue();
-		  		   		String dateCurrencyStr  = n.getFirstChild().getNodeValue();
-		  		   		String courseUSDnew = "0";
-		  		   		String courseEURnew = "0";
-		  		   		String courseCHFnew = "0";
-		  		   		String courseGBPnew = "0";
-		  		   		String courseJPYnew = "0";
-		  		   		String courseRUBnew = "0";
-		  		   		String courseUAnew = "1.00";
-		  		   		String courseMDLnew = "0";
-		  		   		String courseBYRnew = "0";
-		  		   		String coursePLNnew = "0";
-		  		   		String courseLTLnew = "0";
-		  		   		String courseLVLnew = "0";
-		  		   		
-		  		   		if(i == 5)	{courseUSDnew = dateCurrencyStr;
-							   			float courseUSDtrue = ( Float.parseFloat(courseUSDnew) / 100 );
-							   			courseUSDnew = (Float.toString(courseUSDtrue));}
-			  		   	if(i == 6)	{courseEURnew = dateCurrencyStr;
-							   			float courseEURtrue = ( Float.parseFloat(courseEURnew) / 100 );
-							   			courseEURnew = (Float.toString(courseEURtrue));}
-		 		   		if(i == 2)	{courseGBPnew = dateCurrencyStr;
-							   			float courseGBPtrue = ( Float.parseFloat(courseGBPnew) / 100 );
-							   			courseGBPnew = (Float.toString(courseGBPtrue));}
-		 		   		if(i == 24)	{courseCHFnew = dateCurrencyStr;
-							   			float courseCHFtrue = ( Float.parseFloat(courseCHFnew) / 100 );
-							   			courseCHFnew = (Float.toString(courseCHFtrue));}
-		 		   		if(i == 26)	{courseJPYnew = dateCurrencyStr;
-		 					   			float courseJPYtrue = ( Float.parseFloat(courseJPYnew) / 1000 );
-		 					   			courseJPYnew = (Float.toString(courseJPYtrue));
-		 					   			}
-		 		   		if(i == 15)	{courseRUBnew = dateCurrencyStr;
-							   			float courseRUBtrue  = ( Float.parseFloat(courseRUBnew) / 10 );
-							   			courseRUBnew = (Float.toString(courseRUBtrue));
-		 		   						}
-			 		   	if(i == 12)	{courseMDLnew = dateCurrencyStr;
-							   			float courseMDLtrue = ( Float.parseFloat(courseMDLnew) / 100 );
-							   			courseMDLnew = (Float.toString(courseMDLtrue));
-							   			}
-				 		if(i == 3)	{courseBYRnew = dateCurrencyStr;
-							   			float courseBYRtrue = ( Float.parseFloat(courseBYRnew) / 10 );
-							   			courseBYRnew = (Float.toString(courseBYRtrue));
-							   			}
-				 		if(i == 10)	{courseLVLnew = dateCurrencyStr;
-							   			float courseLVLtrue = ( Float.parseFloat(courseLVLnew) / 100 );
-							   			courseLVLnew = (Float.toString(courseLVLtrue));
-							   			}
-						if(i == 11)	{courseLTLnew = dateCurrencyStr;
-							   			float courseLTLtrue = ( Float.parseFloat(courseLTLnew) / 100 );
-							   			courseLTLnew = (Float.toString(courseLTLtrue));
-							   			}
-				 		if(i == 14)	{coursePLNnew = dateCurrencyStr;
-							   			float coursePLNtrue = ( Float.parseFloat(coursePLNnew) / 100 );
-							   			coursePLNnew = (Float.toString(coursePLNtrue));
-			   							}
-	 		   		
-				 		if (coursePLNnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = coursePLNnew;
-				             handlerPLN.sendMessage(msg);
-					   		}
-				 		if (courseLTLnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseLTLnew;
-				             handlerLTL.sendMessage(msg);
-					   		}
-				 		if (courseLVLnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseLVLnew;
-				             handlerLVL.sendMessage(msg);
-					   		}
-		  		   		if (courseUSDnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseUSDnew;
-				             handlerUSD.sendMessage(msg);
-		  		   			}
-			  		   	if (courseEURnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseEURnew;
-				             handlerEUR.sendMessage(msg);
+			  		NodeList charlist = doc.getElementsByTagName("CharCode");
+			  		NodeList nomlist = doc.getElementsByTagName("Nominal");
+			  		NodeList list = doc.getElementsByTagName("Value");
+			  		   int len = list.getLength();
+			  		
+			  		   String[] sas = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL" };
+			  		   String[] coursenew = new String[12];
+			  		   for(int i = 0; i<12; i++){coursenew[i] = "0";}
+			  		   
+			  		   for(int i = 0; i<len; i++)
+			  		   {
+			  			   /* ID */
+			  			   	Node ch= charlist.item(i);
+			  			    ch.getNodeValue();
+			  		   		ch.getFirstChild().getNodeValue();
+			  		   		String chStr  = ch.getFirstChild().getNodeValue();
+			  		   		int[] chpos = new int[12];
+			  		   		for(int j = 0; j<12; j++){
+			  		   			if (chStr.equals(sas[j])) {
+			  		   			chpos[j] = i;
+			  		   			}
 			  		   		}
-		  		   		if (courseCHFnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseCHFnew;
-				             handlerCHF.sendMessage(msg);
-					   		}
-				  		if (courseGBPnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseGBPnew;
-				             handlerGBP.sendMessage(msg);
-					   		}
-				  		if (courseJPYnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseJPYnew;
-				             handlerJPY.sendMessage(msg);
-					   		}
-				  		if (courseUAnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseUAnew;
-				             handlerUA.sendMessage(msg);
-					   		}
-				  		if (courseMDLnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseMDLnew;
-				             handlerMDL.sendMessage(msg);
-					   		}
-				  		if (courseBYRnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseBYRnew;
-				             handlerBYR.sendMessage(msg);
-					   		}
-				  		if (courseRUBnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseRUBnew;
-				             handlerRUB.sendMessage(msg);
-					   		}
-		  		   }
-		  		 handlerGOODThread.sendEmptyMessage(0);
-		  			} catch (Exception ioe) {
+			  		   		
+			  		   		/* rate */
+				  		   	Node r= nomlist.item(i);
+			  			    r.getNodeValue();
+			  		   		r.getFirstChild().getNodeValue();
+			  		   		String nStr  = r.getFirstChild().getNodeValue();
+			  		   		int[] nd = new int[12];
+			  		   		for(int j = 0; j<12; j++){
+			  		   			if (chStr.equals(sas[j])) {
+			  		   			nd[j] = Integer.parseInt(nStr);
+			  		   			}
+			  		   		}
+			  			   
+			  			   /* data */
+			  			    Node n= list.item(i);
+			  		   		n.getNodeValue();
+			  		   		n.getFirstChild().getNodeValue();
+			  		   		String dateCurrencyStr  = n.getFirstChild().getNodeValue();
+		  		   		
+			  		   		coursenew[5] = "1.00";
+			  		   		
+			  		   		float coursetrue;
+			  		   		
+				  		   	for(int j = 0; j<12; j++){
+				  		   	if(i == chpos[j])	{coursenew[j] = dateCurrencyStr.replace(",", ".");
+					   			coursetrue = ( Float.parseFloat(coursenew[j]) / nd[j] );
+					   			coursenew[j] = (Float.toString(coursetrue));
+					   			}
+			  		   		}
+				  		   	
+				  		  if (i == len-1){
+				  			  for(int j = 0; j<12; j++){
+					  		   	 course[j].setText(coursenew[j]);
+						   			}
+				  		  }
+			  		   }
+			  		 
+			  		 handlerGOODThread.sendEmptyMessage(0);
+			  		 
+			  			} catch (Exception ioe) {
 		  		    	 //donothing
 		  		    	}
 		  	} else { }
@@ -743,132 +539,68 @@ private void killLongForce() {
 		  		    	 }
 		  	if (sec == true){
 		  		try {
-		  		 NodeList list = doc.getElementsByTagName("Value");
-		  		   int count = list.getLength();
-		  		   for(int i = 0; i<count; i++)
-		  		   {
-		  		   		Node n= list.item(i);
-		  		   		n.getNodeValue();
-		  		   		n.getFirstChild();
-		  		   		n.getFirstChild().getNodeValue();
-		  		   		String dateCurrencyStr  = n.getFirstChild().getNodeValue();
-		  		   		String courseUSDnew = "0";
-		  		   		String courseEURnew = "0";
-		  		   		String courseCHFnew = "0";
-		  		   		String courseGBPnew = "0";
-		  		   		String courseJPYnew = "0";
-		  		   		String courseRUBnew = "0";
-		  		   		String courseUAnew = "0";
-		  		   		String courseMDLnew = "1.00";
-		  		   		String courseBYRnew = "0";
-		  		   		String coursePLNnew = "0";
-		  		   		String courseLTLnew = "0";
-		  		   		String courseLVLnew = "0";
-		  		   		
-		  		   		if(i == 1)	{courseUSDnew = dateCurrencyStr;
-							   			float courseUSDtrue = ( Float.parseFloat(courseUSDnew) / 1 );
-							   			courseUSDnew = (Float.toString(courseUSDtrue));}
-			  		   	if(i == 0)	{courseEURnew = dateCurrencyStr;
-							   			float courseEURtrue = ( Float.parseFloat(courseEURnew) / 1 );
-							   			courseEURnew = (Float.toString(courseEURtrue));}
-		 		   		if(i == 17)	{courseGBPnew = dateCurrencyStr;
-							   			float courseGBPtrue = ( Float.parseFloat(courseGBPnew) / 1 );
-							   			courseGBPnew = (Float.toString(courseGBPtrue));}
-		 		   		if(i == 13)	{courseCHFnew = dateCurrencyStr;
-							   			float courseCHFtrue = ( Float.parseFloat(courseCHFnew) / 1 );
-							   			courseCHFnew = (Float.toString(courseCHFtrue));}
-		 		   		if(i == 25)	{courseJPYnew = dateCurrencyStr;
-		 					   			float courseJPYtrue = ( Float.parseFloat(courseJPYnew) / 100 );
-		 					   			courseJPYnew = (Float.toString(courseJPYtrue));
-		 					   			}
-		 		   		if(i == 2)	{courseRUBnew = dateCurrencyStr;
-							   			float courseRUBtrue  = ( Float.parseFloat(courseRUBnew) / 1 );
-							   			courseRUBnew = (Float.toString(courseRUBtrue));
-		 		   						}
-			 		   	if(i == 4)	{courseUAnew = dateCurrencyStr;
-							   			float courseUAtrue  = ( Float.parseFloat(courseUAnew) / 1 );
-							   			courseUAnew = (Float.toString(courseUAtrue));
-										}
-				 		if(i == 11)	{courseBYRnew = dateCurrencyStr;
-							   			float courseBYRtrue = ( Float.parseFloat(courseBYRnew) / 100 );
-							   			courseBYRnew = (Float.toString(courseBYRtrue));
-							   			}
-				 		if(i == 31)	{courseLVLnew = dateCurrencyStr;
-							   			float courseLVLtrue = ( Float.parseFloat(courseLVLnew) / 1 );
-							   			courseLVLnew = (Float.toString(courseLVLtrue));
-							   			}
-				 		if(i == 30)	{courseLTLnew = dateCurrencyStr;
-							   			float courseLTLtrue = ( Float.parseFloat(courseLTLnew) / 1 );
-							   			courseLTLnew = (Float.toString(courseLTLtrue));
-							   			}
-				 		if(i == 36)	{coursePLNnew = dateCurrencyStr;
-							   			float coursePLNtrue = ( Float.parseFloat(coursePLNnew) / 1 );
-							   			coursePLNnew = (Float.toString(coursePLNtrue));
-										}
-		
-				 		if (coursePLNnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = coursePLNnew;
-				             handlerPLN.sendMessage(msg);
-					   		}
-				 		if (courseLTLnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseLTLnew;
-				             handlerLTL.sendMessage(msg);
-					   		}
-				 		if (courseLVLnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseLVLnew;
-				             handlerLVL.sendMessage(msg);
-					   		}
-		  		   		if (courseUSDnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseUSDnew;
-				             handlerUSD.sendMessage(msg);
-		  		   			}
-			  		   	if (courseEURnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseEURnew;
-				             handlerEUR.sendMessage(msg);
+			  		NodeList charlist = doc.getElementsByTagName("CharCode");
+			  		NodeList nomlist = doc.getElementsByTagName("Nominal");
+			  		NodeList list = doc.getElementsByTagName("Value");
+			  		   int len = list.getLength();
+			  		
+			  		   String[] sas = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL" };
+			  		   String[] coursenew = new String[12];
+			  		   for(int i = 0; i<12; i++){coursenew[i] = "0";}
+			  		   
+			  		   for(int i = 0; i<len; i++)
+			  		   {
+			  			   /* ID */
+			  			   	Node ch= charlist.item(i);
+			  			    ch.getNodeValue();
+			  		   		ch.getFirstChild().getNodeValue();
+			  		   		String chStr  = ch.getFirstChild().getNodeValue();
+			  		   		int[] chpos = new int[12];
+			  		   		for(int j = 0; j<12; j++){
+			  		   			if (chStr.equals(sas[j])) {
+			  		   			chpos[j] = i;
+			  		   			}
 			  		   		}
-		  		   		if (courseCHFnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseCHFnew;
-				             handlerCHF.sendMessage(msg);
-					   		}
-				  		if (courseGBPnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseGBPnew;
-				             handlerGBP.sendMessage(msg);
-					   		}
-				  		if (courseJPYnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseJPYnew;
-				             handlerJPY.sendMessage(msg);
-					   		}
-				  		if (courseUAnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseUAnew;
-				             handlerUA.sendMessage(msg);
-					   		}
-				  		if (courseMDLnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseMDLnew;
-				             handlerMDL.sendMessage(msg);
-					   		}
-				  		if (courseBYRnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseBYRnew;
-				             handlerBYR.sendMessage(msg);
-					   		}
-				  		if (courseRUBnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseRUBnew;
-				             handlerRUB.sendMessage(msg);
-					   		}
-		  		   }
-		  		 handlerGOODThread.sendEmptyMessage(0);
-		  			} catch (Exception ioe) {
+			  		   		
+			  		   		/* rate */
+				  		   	Node r= nomlist.item(i);
+			  			    r.getNodeValue();
+			  		   		r.getFirstChild().getNodeValue();
+			  		   		String nStr  = r.getFirstChild().getNodeValue();
+			  		   		int[] nd = new int[12];
+			  		   		for(int j = 0; j<12; j++){
+			  		   			if (chStr.equals(sas[j])) {
+			  		   			nd[j] = Integer.parseInt(nStr);
+			  		   			}
+			  		   		}
+			  			   
+			  			   /* data */
+			  			    Node n= list.item(i);
+			  		   		n.getNodeValue();
+			  		   		n.getFirstChild().getNodeValue();
+			  		   		String dateCurrencyStr  = n.getFirstChild().getNodeValue();
+		  		   		
+			  		   		coursenew[7] = "1.00";
+			  		   		
+			  		   		float coursetrue;
+			  		   		
+				  		   	for(int j = 0; j<12; j++){
+				  		   	if(i == chpos[j])	{coursenew[j] = dateCurrencyStr.replace(",", ".");
+					   			coursetrue = ( Float.parseFloat(coursenew[j]) / nd[j] );
+					   			coursenew[j] = (Float.toString(coursetrue));
+					   			}
+			  		   		}
+				  		   	
+				  		  if (i == len-1){
+				  			  for(int j = 0; j<12; j++){
+					  		   	 course[j].setText(coursenew[j]);
+						   			}
+				  		  }
+			  		   }
+			  		 
+			  		 handlerGOODThread.sendEmptyMessage(0);
+			  		 
+			  			} catch (Exception ioe) {
 		  		    	 //donothing
 		  		    	}
 		  	} else { }
@@ -894,132 +626,68 @@ private void killLongForce() {
 		  		    	 }
 		  	if (sec == true){
 		  		try {
-		  		 NodeList list = doc.getElementsByTagName("Rate");
-		  		   int count = list.getLength();
-		  		   for(int i = 0; i<count; i++)
-		  		   {
-		  		   		Node n= list.item(i);
-		  		   		n.getNodeValue();
-		  		   		n.getFirstChild();
-		  		   		n.getFirstChild().getNodeValue();
-		  		   		String dateCurrencyStr  = n.getFirstChild().getNodeValue();
-		  		   		String courseUSDnew = "0";
-		  		   		String courseEURnew = "0";
-		  		   		String courseCHFnew = "0";
-		  		   		String courseGBPnew = "0";
-		  		   		String courseJPYnew = "0";
-		  		   		String courseRUBnew = "0";
-		  		   		String courseUAnew = "0";
-		  		   		String courseMDLnew = "0";
-		  		   		String courseBYRnew = "1.00";
-		  		   		String coursePLNnew = "0";
-		  		   		String courseLTLnew = "0";
-		  		   		String courseLVLnew = "0";
-		  		   		
-		  		   		if(i == 4)	{courseUSDnew = dateCurrencyStr;
-							   			float courseUSDtrue = ( Float.parseFloat(courseUSDnew) / 1 );
-							   			courseUSDnew = (Float.toString(courseUSDtrue));}
-			  		   	if(i == 5)	{courseEURnew = dateCurrencyStr;
-							   			float courseEURtrue = ( Float.parseFloat(courseEURnew) / 1 );
-							   			courseEURnew = (Float.toString(courseEURtrue));}
-		 		   		if(i == 23)	{courseGBPnew = dateCurrencyStr;
-							   			float courseGBPtrue = ( Float.parseFloat(courseGBPnew) / 1 );
-							   			courseGBPnew = (Float.toString(courseGBPtrue));}
-		 		   		if(i == 26)	{courseCHFnew = dateCurrencyStr;
-							   			float courseCHFtrue = ( Float.parseFloat(courseCHFnew) / 1 );
-							   			courseCHFnew = (Float.toString(courseCHFtrue));}
-		 		   		if(i == 8)	{courseJPYnew = dateCurrencyStr;
-		 					   			float courseJPYtrue = ( Float.parseFloat(courseJPYnew) / 10 );
-		 					   			courseJPYnew = (Float.toString(courseJPYtrue));
-		 					   			}
-		 		   		if(i == 2)	{courseUAnew = dateCurrencyStr;
-							   			float courseUAtrue  = ( Float.parseFloat(courseUAnew) / 1 );
-							   			courseUAnew = (Float.toString(courseUAtrue));
-				   						}
-		 		   		if(i == 18)	{courseRUBnew = dateCurrencyStr;
-							   			float courseRUBtrue  = ( Float.parseFloat(courseRUBnew) / 1 );
-							   			courseRUBnew = (Float.toString(courseRUBtrue));
-		 		   						}
-			 		   	if(i == 16)	{courseMDLnew = dateCurrencyStr;
-							   			float courseMDLtrue = ( Float.parseFloat(courseMDLnew) / 1 );
-							   			courseMDLnew = (Float.toString(courseMDLtrue));
-							   			}
-			 		   	if(i == 14)	{courseLVLnew = dateCurrencyStr;
-							   			float courseLVLtrue = ( Float.parseFloat(courseLVLnew) / 1 );
-							   			courseLVLnew = (Float.toString(courseLVLtrue));
-							   			}
-						if(i == 15)	{courseLTLnew = dateCurrencyStr;
-							   			float courseLTLtrue = ( Float.parseFloat(courseLTLnew) / 1 );
-							   			courseLTLnew = (Float.toString(courseLTLtrue));
-							   			}
-						if(i == 7)	{coursePLNnew = dateCurrencyStr;
-							   			float coursePLNtrue = ( Float.parseFloat(coursePLNnew) / 1 );
-							   			coursePLNnew = (Float.toString(coursePLNtrue));
-										}
-				
-						if (coursePLNnew != "0"){
-				 		   	 Message msg = new Message();
-				            msg.obj = coursePLNnew;
-				            handlerPLN.sendMessage(msg);
-					   		}
-						if (courseLTLnew != "0"){
-				 		   	 Message msg = new Message();
-				            msg.obj = courseLTLnew;
-				            handlerLTL.sendMessage(msg);
-					   		}
-						if (courseLVLnew != "0"){
-				 		   	 Message msg = new Message();
-				            msg.obj = courseLVLnew;
-				            handlerLVL.sendMessage(msg);
-					   		}
-		  		   		if (courseUSDnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseUSDnew;
-				             handlerUSD.sendMessage(msg);
-		  		   			}
-			  		   	if (courseEURnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseEURnew;
-				             handlerEUR.sendMessage(msg);
+			  		NodeList charlist = doc.getElementsByTagName("CharCode");
+			  		NodeList nomlist = doc.getElementsByTagName("Scale");
+			  		NodeList list = doc.getElementsByTagName("Rate");
+			  		   int len = list.getLength();
+			  		
+			  		   String[] sas = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL" };
+			  		   String[] coursenew = new String[12];
+			  		   for(int i = 0; i<12; i++){coursenew[i] = "0";}
+			  		   
+			  		   for(int i = 0; i<len; i++)
+			  		   {
+			  			   /* ID */
+			  			   	Node ch= charlist.item(i);
+			  			    ch.getNodeValue();
+			  		   		ch.getFirstChild().getNodeValue();
+			  		   		String chStr  = ch.getFirstChild().getNodeValue();
+			  		   		int[] chpos = new int[12];
+			  		   		for(int j = 0; j<12; j++){
+			  		   			if (chStr.equals(sas[j])) {
+			  		   			chpos[j] = i;
+			  		   			}
 			  		   		}
-		  		   		if (courseCHFnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseCHFnew;
-				             handlerCHF.sendMessage(msg);
-					   		}
-				  		if (courseGBPnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseGBPnew;
-				             handlerGBP.sendMessage(msg);
-					   		}
-				  		if (courseJPYnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseJPYnew;
-				             handlerJPY.sendMessage(msg);
-					   		}
-				  		if (courseUAnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseUAnew;
-				             handlerUA.sendMessage(msg);
-					   		}
-				  		if (courseMDLnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseMDLnew;
-				             handlerMDL.sendMessage(msg);
-					   		}
-				  		if (courseBYRnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseBYRnew;
-				             handlerBYR.sendMessage(msg);
-					   		}
-				  		if (courseRUBnew != "0"){
-				  		   	 Message msg = new Message();
-				             msg.obj = courseRUBnew;
-				             handlerRUB.sendMessage(msg);
-					   		}
-		  		   }
-		  		 handlerGOODThread.sendEmptyMessage(0);
-		  			} catch (Exception ioe) {
+			  		   		
+			  		   		/* rate */
+				  		   	Node r= nomlist.item(i);
+			  			    r.getNodeValue();
+			  		   		r.getFirstChild().getNodeValue();
+			  		   		String nStr  = r.getFirstChild().getNodeValue();
+			  		   		int[] nd = new int[12];
+			  		   		for(int j = 0; j<12; j++){
+			  		   			if (chStr.equals(sas[j])) {
+			  		   			nd[j] = Integer.parseInt(nStr);
+			  		   			}
+			  		   		}
+			  			   
+			  			   /* data */
+			  			    Node n= list.item(i);
+			  		   		n.getNodeValue();
+			  		   		n.getFirstChild().getNodeValue();
+			  		   		String dateCurrencyStr  = n.getFirstChild().getNodeValue();
+		  		   		
+			  		   		coursenew[8] = "1.00";
+			  		   		
+			  		   		float coursetrue;
+			  		   		
+				  		   	for(int j = 0; j<12; j++){
+				  		   	if(i == chpos[j])	{coursenew[j] = dateCurrencyStr.replace(",", ".");
+					   			coursetrue = ( Float.parseFloat(coursenew[j]) / nd[j] );
+					   			coursenew[j] = (Float.toString(coursetrue));
+					   			}
+			  		   		}
+				  		   	
+				  		  if (i == len-1){
+				  			  for(int j = 0; j<12; j++){
+					  		   	 course[j].setText(coursenew[j]);
+						   			}
+				  		  }
+			  		   }
+			  		 
+			  		 handlerGOODThread.sendEmptyMessage(0);
+			  		 
+			  			} catch (Exception ioe) {
 		  		    	 //donothing
 		  		    	}
 		  	} else { }
@@ -1109,7 +777,7 @@ private void getPrefs() {
         	    	mactive[i] = resID;
         	 }
 
-            ListCurPreference = prefs.getString("listCurByDefault", "0"); //nr1 
+            ListCurPreference = prefs.getString("listCurByDefault", "0");
             ListBankPreference = prefs.getString("listSourcesDefault", "0");
             listUpdate = prefs.getString("listUpdate", "0");
 }

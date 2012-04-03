@@ -33,6 +33,6 @@
     <string name="curlist">Currency list</string>
     <string name="curlistdis">Available for conversation currency</string>
     <string name="sources">Sources</string>
-    <string name="aboutvers">nanoConverter 0.7.6</string>
+    <string name="aboutvers">nanoConverter 0.7.7</string>
     <string name="abouttext">Open source money converter for Android. Z-lab - 2012.</string>
 </resources>
