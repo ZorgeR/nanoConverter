@@ -5,7 +5,7 @@
     <string name="CHF_discription">Швейцарские франки</string>
     <string name="GBP_discription">Фунты стерлингов</string>
     <string name="JPY_discription">Японские йены</string>
-    <string name="UA_discription">Гривны</string>
+    <string name="UAH_discription">Гривны</string>
     <string name="RUB_discription">Рубли</string>
     <string name="MDL_discription">Молдавские леи</string>
     <string name="BYR_discription">Белорусские рубли</string>
@@ -18,7 +18,7 @@
     <string name="CHFfrom">CHF</string>
     <string name="GBPfrom">GBP</string>
     <string name="JPYfrom">JPY</string>
-    <string name="UAfrom">UAH</string>
+    <string name="UAHfrom">UAH</string>
     <string name="RUBfrom">RUB</string>
     <string name="MDLfrom">MDL</string>
     <string name="BYRfrom">BYR</string>

@@ -33,6 +33,9 @@
     <string name="curlist">Currency list</string>
     <string name="curlistdis">Available for conversation currency</string>
     <string name="sources">Sources</string>
-    <string name="aboutvers">nanoConverter 0.7.7</string>
-    <string name="abouttext">Open source money converter for Android. Z-lab - 2012.</string>
+    <string name="aboutvers">nanoConverter 0.7.8</string>
+    <string name="abouttext">Open source money converter for Android. Awesome background pattern from	http://www.noqta.it, http://www.dinpattern.com, http://www.squidfingers.com. Z-lab - 2012.</string>
+    <string name="other">Other</string>
+    <string name="bkg">Background</string>
+    <string name="bkgdis">Choose app. background</string>
 </resources>

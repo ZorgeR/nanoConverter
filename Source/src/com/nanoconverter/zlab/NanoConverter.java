@@ -17,6 +17,7 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,7 +47,7 @@ public class NanoConverter extends TabActivity {
 	
 	int count = 12;
 	public final int countglobal = count;
-	public String[] sa = { "USD", "EUR", "CHF", "GBP", "JPY", "UA", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL" };
+	public String[] sa = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL" };
 	public EditText[] course = new EditText[count];
 	public EditText[] courserate = new EditText[count];
 	public RadioButton[] from = new RadioButton[count];
@@ -780,6 +781,27 @@ private void getPrefs() {
             ListCurPreference = prefs.getString("listCurByDefault", "0");
             ListBankPreference = prefs.getString("listSourcesDefault", "0");
             listUpdate = prefs.getString("listUpdate", "0");
+            
+            String bkgr = prefs.getString("bkgcheckbox", "0");
+            View maintabhost = findViewById(android.R.id.tabhost);
+            
+            if (bkgr.equals("0")){
+            	maintabhost.setBackgroundDrawable(getResources().getDrawable(R.drawable.bkg));} else
+            if (bkgr.equals("1")){
+            	maintabhost.setBackgroundColor(Color.BLACK);} else
+            if (bkgr.equals("2")){
+            	maintabhost.setBackgroundColor(Color.DKGRAY);} else
+            if (bkgr.equals("3")){
+            	maintabhost.setBackgroundDrawable(getWallpaper());} else
+            if (bkgr.equals("4")){
+            	maintabhost.setBackgroundDrawable(getResources().getDrawable(R.drawable.drr));} else
+            if (bkgr.equals("5")){
+            	maintabhost.setBackgroundDrawable(getResources().getDrawable(R.drawable.dgr));} else
+            if (bkgr.equals("6")){
+            	maintabhost.setBackgroundDrawable(getResources().getDrawable(R.drawable.ggr));} else
+            if (bkgr.equals("7")){
+            	maintabhost.setBackgroundDrawable(getResources().getDrawable(R.drawable.gdr));}
+            
 }
     
   public void UpdateRates() {

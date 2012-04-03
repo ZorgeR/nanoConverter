@@ -9,13 +9,14 @@ package com.nanoconverter.zlab;
 
 public final class R {
     public static final class array {
-        public static final int arr1=0x7f050000;
-        public static final int listArray=0x7f050001;
-        public static final int listValues=0x7f050002;
-        public static final int listsourceArray=0x7f050003;
-        public static final int listsourceValues=0x7f050004;
-        public static final int listupdateArray=0x7f050005;
-        public static final int listupdateValues=0x7f050006;
+        public static final int listArray=0x7f050000;
+        public static final int listBKG=0x7f050006;
+        public static final int listBKGValues=0x7f050007;
+        public static final int listValues=0x7f050001;
+        public static final int listsourceArray=0x7f050002;
+        public static final int listsourceValues=0x7f050003;
+        public static final int listupdateArray=0x7f050004;
+        public static final int listupdateValues=0x7f050005;
     }
     public static final class attr {
     }
@@ -23,36 +24,39 @@ public final class R {
         public static final int color=0x7f070000;
     }
     public static final class drawable {
-        public static final int about=0x7f020000;
-        public static final int bkg=0x7f020001;
-        public static final int by=0x7f020002;
-        public static final int ch=0x7f020003;
-        public static final int close=0x7f020004;
-        public static final int dwnld=0x7f020005;
-        public static final int edittext=0x7f020006;
-        public static final int err=0x7f020007;
-        public static final int europeanunion=0x7f020008;
-        public static final int gb=0x7f020009;
-        public static final int good=0x7f02000a;
-        public static final int ic_launcher=0x7f02000b;
-        public static final int ic_tab_con_bg=0x7f02000c;
-        public static final int ic_tab_con_col=0x7f02000d;
-        public static final int ic_tab_convert=0x7f02000e;
-        public static final int ic_tab_cor_bg=0x7f02000f;
-        public static final int ic_tab_cor_col=0x7f020010;
-        public static final int ic_tab_courses=0x7f020011;
-        public static final int ic_tab_set_bg=0x7f020012;
-        public static final int ic_tab_set_col=0x7f020013;
-        public static final int ic_tab_settings=0x7f020014;
-        public static final int jp=0x7f020015;
-        public static final int lt=0x7f020016;
-        public static final int lv=0x7f020017;
-        public static final int md=0x7f020018;
-        public static final int pl=0x7f020019;
-        public static final int ru=0x7f02001a;
-        public static final int sett=0x7f02001b;
-        public static final int ua=0x7f02001c;
-        public static final int us=0x7f02001d;
+        public static final int bkg=0x7f020000;
+        public static final int by=0x7f020001;
+        public static final int ch=0x7f020002;
+        public static final int close=0x7f020003;
+        public static final int dg=0x7f020004;
+        public static final int dgr=0x7f020005;
+        public static final int dr=0x7f020006;
+        public static final int drr=0x7f020007;
+        public static final int dwnld=0x7f020008;
+        public static final int err=0x7f020009;
+        public static final int europeanunion=0x7f02000a;
+        public static final int gb=0x7f02000b;
+        public static final int gd=0x7f02000c;
+        public static final int gdr=0x7f02000d;
+        public static final int gg=0x7f02000e;
+        public static final int ggr=0x7f02000f;
+        public static final int good=0x7f020010;
+        public static final int ic_launcher=0x7f020011;
+        public static final int ic_tab_con_bg=0x7f020012;
+        public static final int ic_tab_con_col=0x7f020013;
+        public static final int ic_tab_convert=0x7f020014;
+        public static final int ic_tab_cor_bg=0x7f020015;
+        public static final int ic_tab_cor_col=0x7f020016;
+        public static final int ic_tab_courses=0x7f020017;
+        public static final int jp=0x7f020018;
+        public static final int lt=0x7f020019;
+        public static final int lv=0x7f02001a;
+        public static final int md=0x7f02001b;
+        public static final int pl=0x7f02001c;
+        public static final int ru=0x7f02001d;
+        public static final int sett=0x7f02001e;
+        public static final int ua=0x7f02001f;
+        public static final int us=0x7f020020;
     }
     public static final class id {
         public static final int BYRcl=0x7f0a005b;
@@ -79,8 +83,8 @@ public final class R {
         public static final int CoursePLNrate=0x7f0a0065;
         public static final int CourseRUB=0x7f0a0052;
         public static final int CourseRUBrate=0x7f0a0053;
-        public static final int CourseUA=0x7f0a004c;
-        public static final int CourseUArate=0x7f0a004d;
+        public static final int CourseUAH=0x7f0a004c;
+        public static final int CourseUAHrate=0x7f0a004d;
         public static final int CourseUSD=0x7f0a002e;
         public static final int CourseUSDrate=0x7f0a002f;
         public static final int EURcl=0x7f0a0031;
@@ -99,8 +103,8 @@ public final class R {
         public static final int PLNcls=0x7f0a0066;
         public static final int RUBcl=0x7f0a004f;
         public static final int RUBcls=0x7f0a0054;
-        public static final int UAcl=0x7f0a0049;
-        public static final int UAcls=0x7f0a004e;
+        public static final int UAHcl=0x7f0a0049;
+        public static final int UAHcls=0x7f0a004e;
         public static final int USDcl=0x7f0a002b;
         public static final int USDcls=0x7f0a0030;
         public static final int button2=0x7f0a0028;
@@ -120,7 +124,7 @@ public final class R {
         public static final int fromMDL=0x7f0a0014;
         public static final int fromPLN=0x7f0a0016;
         public static final int fromRUB=0x7f0a0013;
-        public static final int fromUA=0x7f0a0012;
+        public static final int fromUAH=0x7f0a0012;
         public static final int fromUSD=0x7f0a000d;
         public static final int quit=0x7f0a0074;
         public static final int radioGroup1=0x7f0a000c;
@@ -141,7 +145,7 @@ public final class R {
         public static final int texMDLfrom=0x7f0a0056;
         public static final int texPLNfrom=0x7f0a0062;
         public static final int texRUBfrom=0x7f0a0050;
-        public static final int texUAfrom=0x7f0a004a;
+        public static final int texUAHfrom=0x7f0a004a;
         public static final int texUSDfrom=0x7f0a002c;
         public static final int textBYR_discription=0x7f0a005d;
         public static final int textCHF_discription=0x7f0a0039;
@@ -153,7 +157,7 @@ public final class R {
         public static final int textMDL_discription=0x7f0a0057;
         public static final int textPLN_discription=0x7f0a0063;
         public static final int textRUB_discription=0x7f0a0051;
-        public static final int textUA_discription=0x7f0a004b;
+        public static final int textUAH_discription=0x7f0a004b;
         public static final int textUSD_discription=0x7f0a002d;
         public static final int textView2=0x7f0a0009;
         public static final int textView223=0x7f0a0004;
@@ -170,7 +174,7 @@ public final class R {
         public static final int toMDL=0x7f0a0021;
         public static final int toPLN=0x7f0a0023;
         public static final int toRUB=0x7f0a0020;
-        public static final int toUA=0x7f0a001f;
+        public static final int toUAH=0x7f0a001f;
         public static final int toUSD=0x7f0a001a;
     }
     public static final class layout {
@@ -214,9 +218,9 @@ public final class R {
         public static final int RUB_discription=0x7f060006;
         public static final int RUBfrom=0x7f060012;
         public static final int TO=0x7f060027;
-        public static final int UA=0x7f06001d;
-        public static final int UA_discription=0x7f060005;
-        public static final int UAfrom=0x7f060011;
+        public static final int UAH=0x7f06001d;
+        public static final int UAH_discription=0x7f060005;
+        public static final int UAHfrom=0x7f060011;
         public static final int USD=0x7f060018;
         public static final int USD_discription=0x7f060000;
         public static final int USDfrom=0x7f06000c;
@@ -227,6 +231,8 @@ public final class R {
         public static final int abouttext=0x7f060044;
         public static final int aboutvers=0x7f060043;
         public static final int app_name=0x7f060025;
+        public static final int bkg=0x7f060046;
+        public static final int bkgdis=0x7f060047;
         public static final int checkinternet=0x7f060032;
         public static final int conversetab=0x7f06002f;
         public static final int course=0x7f06003a;
@@ -239,6 +245,7 @@ public final class R {
         public static final int exit=0x7f06002e;
         public static final int forceUpdate=0x7f06002c;
         public static final int hello=0x7f060024;
+        public static final int other=0x7f060045;
         public static final int ratessource=0x7f060036;
         public static final int ratessourcedis=0x7f060037;
         public static final int result=0x7f06002d;

@@ -57,4 +57,26 @@
    <item>2</item>
 </string-array>
 
+<string-array name="listBKG">
+        <item >nanoC</item>
+        <item >Черный</item>
+        <item >Серый (плоский)</item>
+        <item >Системный</item>
+        <item >Cube</item>
+        <item >Gray Dot</item>
+        <item >Violet Fabric</item>
+        <item >Black Dot</item>
+</string-array>
+ 
+<string-array name="listBKGValues">
+   <item>0</item>
+   <item>1</item>
+   <item>2</item>
+   <item>3</item>
+   <item>4</item>
+   <item>5</item>
+   <item>6</item>
+   <item>7</item>
+</string-array>
+
 </resources>

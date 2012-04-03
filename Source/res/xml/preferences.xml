@@ -55,10 +55,10 @@
                         android:summary="@string/JPY_discription"
                         android:key="checkboxJPY" />
                 <CheckBoxPreference
-                        android:title="@string/UAfrom"
+                        android:title="@string/UAHfrom"
                         android:defaultValue="true"
-                        android:summary="@string/UA_discription"
-                        android:key="checkboxUA" />
+                        android:summary="@string/UAH_discription"
+                        android:key="checkboxUAH" />
                 <CheckBoxPreference
                         android:title="@string/RUBfrom"
                         android:defaultValue="true"
@@ -91,7 +91,11 @@
                         android:key="checkboxLVL" />
         </PreferenceScreen>
             </PreferenceCategory>
+        <PreferenceCategory android:title="@string/other">
+            <ListPreference android:key="bkgcheckbox" android:defaultValue="0" android:entries="@array/listBKG" android:entryValues="@array/listBKGValues" android:title="@string/bkg" android:summary="@string/bkgdis"/>
+        </PreferenceCategory>
         <PreferenceCategory android:title="@string/about">
             <PreferenceScreen android:summary="@string/abouttext" android:title="@string/aboutvers"></PreferenceScreen>
         </PreferenceCategory>
+        
 </PreferenceScreen>

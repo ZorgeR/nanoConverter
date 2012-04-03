@@ -3,11 +3,12 @@
     android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/bkg">
+    android:background="@drawable/bkg"
+    >
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
 
         <TabWidget
             android:id="@android:id/tabs"
@@ -18,11 +19,11 @@
             android:id="@android:id/tabcontent"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
-            
+
 <LinearLayout android:id="@+id/tab1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
     <LinearLayout
                 android:id="@+id/tab4"
                 android:layout_width="fill_parent"
@@ -36,7 +37,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="horizontal" >
-                <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                <TableLayout
 				    android:layout_width="fill_parent"
 				    android:layout_height="fill_parent" 
 				   android:weightSum="1.0"
@@ -72,8 +73,8 @@
                 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" 
-   android:weightSum="1.0"
-   android:paddingTop="1dp"
+    android:weightSum="1.0"
+    android:paddingTop="1dp"
        >
                 <TableRow>
                     <EditText
@@ -188,10 +189,10 @@
                             android:drawableLeft="@drawable/jp"  />
 
                         <RadioButton
-                            android:id="@+id/fromUA"
+                            android:id="@+id/fromUAH"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/UAfrom"
+                            android:text="@string/UAHfrom"
                             android:drawableLeft="@drawable/ua"  />
 
                         <RadioButton
@@ -281,10 +282,10 @@
                             android:drawableLeft="@drawable/jp"  />
 
                         <RadioButton
-                            android:id="@+id/toUA"
+                            android:id="@+id/toUAH"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/UAfrom" 
+                            android:text="@string/UAHfrom" 
                             android:drawableLeft="@drawable/ua"  />
 
                         <RadioButton
@@ -639,21 +640,21 @@
 			        android:layout_height="wrap_content" 
 			        android:layout_width="fill_parent" 
 			        android:padding="4dp"
-			        android:id="@+id/UAcl">
+			        android:id="@+id/UAHcl">
 				        <LinearLayout 
 				            android:orientation="vertical" 
 				            android:layout_height="wrap_content" 
 				            android:layout_width="wrap_content" android:padding="2dp">
 				            <TextView 
-				                android:text="@string/UAfrom" 
-				                android:id="@+id/texUAfrom" 
+				                android:text="@string/UAHfrom" 
+				                android:id="@+id/texUAHfrom" 
 				                android:layout_width="wrap_content" 
 				                android:layout_height="wrap_content" 
 				                android:textSize="18sp">
 				            </TextView>
 				            <TextView 
-				                android:text="@string/UA_discription" 
-				                android:id="@+id/textUA_discription" 
+				                android:text="@string/UAH_discription" 
+				                android:id="@+id/textUAH_discription" 
 				                android:layout_width="wrap_content" 
 				                android:layout_height="wrap_content" 
 				                android:textSize="12sp">
@@ -665,19 +666,19 @@
 				            android:layout_height="wrap_content" 
 				            android:padding="2dp">
 				            		<EditText
-							        android:id="@+id/CourseUA"
+							        android:id="@+id/CourseUAH"
 							        android:layout_width="150sp"
 				                	android:layout_height="wrap_content" 
 							        android:inputType="numberDecimal"
-							        android:text="@string/UA"
+							        android:text="@string/UAH"
 							        android:visibility="invisible">
 							        </EditText>
 							        <EditText
-							        android:id="@+id/CourseUArate"
+							        android:id="@+id/CourseUAHrate"
 							        android:layout_width="150sp"
 				                	android:layout_height="wrap_content" 
 							        android:inputType="numberDecimal"
-							        android:text="@string/UA">
+							        android:text="@string/UAH">
 							        </EditText>
 				        </LinearLayout>
 			        </LinearLayout>
@@ -685,7 +686,7 @@
     android:layout_width="fill_parent"
     android:layout_height="1dip"
     android:background="#444444"
-    android:id="@+id/UAcls"
+    android:id="@+id/UAHcls"
 />
 					<LinearLayout 
 			        android:orientation="horizontal"        
