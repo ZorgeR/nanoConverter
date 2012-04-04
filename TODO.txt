@@ -1,0 +1,3 @@
+: to:do :
+- fix background shrinking, when keyboard opened
+- change JPG background, to PNG or Indexed color.
