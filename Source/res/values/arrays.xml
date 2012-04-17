@@ -58,7 +58,7 @@
 </string-array>
 
 <string-array name="listBKG">
-        <item >nanoC</item>
+        <item >ICS</item>
         <item >Black</item>
         <item >Gray (flat)</item>
         <item >System</item>
@@ -66,6 +66,7 @@
         <item >Gray Dot</item>
         <item >Violet Fabric</item>
         <item >Black Dot</item>
+        <item >ICS 2</item>
 </string-array>
  
 <string-array name="listBKGValues">
@@ -77,6 +78,7 @@
    <item>5</item>
    <item>6</item>
    <item>7</item>
+   <item>8</item>
 </string-array>
 
 </resources>

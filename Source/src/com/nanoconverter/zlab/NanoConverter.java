@@ -1,5 +1,6 @@
 package com.nanoconverter.zlab;
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,7 +47,7 @@ public class NanoConverter extends TabActivity {
 	private EditText text,amountmoney;
 	
 	int count = 12;
-	public final int countglobal = count;
+	
 	public String[] sa = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL" };
 	public EditText[] course = new EditText[count];
 	public EditText[] courserate = new EditText[count];
@@ -403,12 +404,12 @@ private void killLongForce() {
   		   		
 	  		   		coursenew[6] = "1.00";
 	  		   		
-	  		   		float coursetrue;
+	  		   		double coursetrue;
 	  		   		
 		  		   	for(int j = 0; j<12; j++){
 		  		   	if(i == chpos[j])	{coursenew[j] = dateCurrencyStr.replace(",", ".");
-			   			coursetrue = ( Float.parseFloat(coursenew[j]) / nd[j] );
-			   			coursenew[j] = (Float.toString(coursetrue));
+			   			coursetrue = ( Double.parseDouble(coursenew[j]) / nd[j] );
+			   			coursenew[j] = (Double.toString(coursetrue));
 			   			}
 	  		   		}
 		  		   	
@@ -490,12 +491,12 @@ private void killLongForce() {
 		  		   		
 			  		   		coursenew[5] = "1.00";
 			  		   		
-			  		   		float coursetrue;
+			  		   		double coursetrue;
 			  		   		
 				  		   	for(int j = 0; j<12; j++){
 				  		   	if(i == chpos[j])	{coursenew[j] = dateCurrencyStr.replace(",", ".");
-					   			coursetrue = ( Float.parseFloat(coursenew[j]) / nd[j] );
-					   			coursenew[j] = (Float.toString(coursetrue));
+					   			coursetrue = ( Double.parseDouble(coursenew[j]) / nd[j] );
+					   			coursenew[j] = (Double.toString(coursetrue));
 					   			}
 			  		   		}
 				  		   	
@@ -583,12 +584,12 @@ private void killLongForce() {
 		  		   		
 			  		   		coursenew[7] = "1.00";
 			  		   		
-			  		   		float coursetrue;
+			  		   		double coursetrue;
 			  		   		
 				  		   	for(int j = 0; j<12; j++){
 				  		   	if(i == chpos[j])	{coursenew[j] = dateCurrencyStr.replace(",", ".");
-					   			coursetrue = ( Float.parseFloat(coursenew[j]) / nd[j] );
-					   			coursenew[j] = (Float.toString(coursetrue));
+					   			coursetrue = ( Double.parseDouble(coursenew[j]) / nd[j] );
+					   			coursenew[j] = (Double.toString(coursetrue));
 					   			}
 			  		   		}
 				  		   	
@@ -670,12 +671,12 @@ private void killLongForce() {
 		  		   		
 			  		   		coursenew[8] = "1.00";
 			  		   		
-			  		   		float coursetrue;
+			  		   		double coursetrue;
 			  		   		
 				  		   	for(int j = 0; j<12; j++){
 				  		   	if(i == chpos[j])	{coursenew[j] = dateCurrencyStr.replace(",", ".");
-					   			coursetrue = ( Float.parseFloat(coursenew[j]) / nd[j] );
-					   			coursenew[j] = (Float.toString(coursetrue));
+					   			coursetrue = ( Double.parseDouble(coursenew[j]) / nd[j] );
+					   			coursenew[j] = (Double.toString(coursetrue));
 					   			}
 			  		   		}
 				  		   	
@@ -725,7 +726,9 @@ private void killLongForce() {
         			 curenttocourserate = course[i].getText().toString();}
         	 }
         		   	
-        		 amountmoney.setText(String.valueOf( Float.parseFloat(text.getText().toString()) * Float.parseFloat(curentfromcourserate) / Float.parseFloat(curenttocourserate) ));
+	  		   		BigDecimal x = new BigDecimal(Double.parseDouble(text.getText().toString()) * Double.parseDouble(curentfromcourserate) / Double.parseDouble(curenttocourserate));
+	  		   		x = x.setScale(2, BigDecimal.ROUND_HALF_UP); // “очность округлени€ расчетов при курсах от банка
+	  		   		amountmoney.setText(x.toString());
          } else {
         	 
         	 	for (int i=0;i<count;i++ ){
@@ -736,8 +739,9 @@ private void killLongForce() {
         		 if (to[i].isChecked()){
         			 curenttocourserate = courserate[i].getText().toString();}
         	 }
-          	   	
-        	 amountmoney.setText(String.valueOf( Float.parseFloat(text.getText().toString()) * Float.parseFloat(curentfromcourserate) / Float.parseFloat(curenttocourserate) ));
+	        	 	BigDecimal x = new BigDecimal(Double.parseDouble(text.getText().toString()) * Double.parseDouble(curentfromcourserate) / Double.parseDouble(curenttocourserate));
+	  		   		x = x.setScale(2, BigDecimal.ROUND_HALF_UP); // “очность округлени€ расчетов при курсах от пользовател€
+	  		   		amountmoney.setText(x.toString());
          }
      }
  
@@ -784,24 +788,38 @@ private void getPrefs() {
             
             String bkgr = prefs.getString("bkgcheckbox", "0");
             View maintabhost = findViewById(android.R.id.tabhost);
+            View scrl1 = findViewById(R.id.scroll1);
+            View scrl2 = findViewById(R.id.scroll2);
             
             if (bkgr.equals("0")){
-            	maintabhost.setBackgroundDrawable(getResources().getDrawable(R.drawable.bkg));} else
+            	maintabhost.setBackgroundColor(Color.BLACK);
+                scrl1.setBackgroundDrawable(getResources().getDrawable(R.drawable.bkgb));scrl2.setBackgroundDrawable(getResources().getDrawable(R.drawable.bkgb));
+                } else
             if (bkgr.equals("1")){
-            	maintabhost.setBackgroundColor(Color.BLACK);} else
+            	maintabhost.setBackgroundColor(Color.BLACK);
+            	scrl1.setBackgroundDrawable(null);scrl2.setBackgroundDrawable(null);} else
             if (bkgr.equals("2")){
-            	maintabhost.setBackgroundColor(Color.DKGRAY);} else
+            	maintabhost.setBackgroundColor(Color.DKGRAY);
+            	scrl1.setBackgroundDrawable(null);scrl2.setBackgroundDrawable(null);} else
             if (bkgr.equals("3")){
-            	maintabhost.setBackgroundDrawable(getWallpaper());} else
+            	maintabhost.setBackgroundDrawable(getWallpaper());
+            	scrl1.setBackgroundDrawable(null);scrl2.setBackgroundDrawable(null);} else
             if (bkgr.equals("4")){
-            	maintabhost.setBackgroundDrawable(getResources().getDrawable(R.drawable.drr));} else
+            	maintabhost.setBackgroundDrawable(getResources().getDrawable(R.drawable.drr));
+                scrl1.setBackgroundDrawable(null);scrl2.setBackgroundDrawable(null);} else
             if (bkgr.equals("5")){
-            	maintabhost.setBackgroundDrawable(getResources().getDrawable(R.drawable.dgr));} else
+            	maintabhost.setBackgroundDrawable(getResources().getDrawable(R.drawable.dgr));
+                scrl1.setBackgroundDrawable(null);scrl2.setBackgroundDrawable(null);} else
             if (bkgr.equals("6")){
-            	maintabhost.setBackgroundDrawable(getResources().getDrawable(R.drawable.ggr));} else
+            	maintabhost.setBackgroundDrawable(getResources().getDrawable(R.drawable.ggr));
+                scrl1.setBackgroundDrawable(null);scrl2.setBackgroundDrawable(null);} else
             if (bkgr.equals("7")){
-            	maintabhost.setBackgroundDrawable(getResources().getDrawable(R.drawable.gdr));}
-            
+            	maintabhost.setBackgroundDrawable(getResources().getDrawable(R.drawable.gdr));
+            	scrl1.setBackgroundDrawable(null);scrl2.setBackgroundDrawable(null);} else
+            if (bkgr.equals("8")){
+            	maintabhost.setBackgroundDrawable(getResources().getDrawable(R.drawable.bkgmain));
+            	scrl1.setBackgroundDrawable(null);scrl2.setBackgroundDrawable(null);
+                }
 }
     
   public void UpdateRates() {
@@ -813,7 +831,9 @@ private void getPrefs() {
 			  if (checkCurd == i){coursebydefaultis = course[i].getText().toString();}
 			  }
 		  for (int i=0;i<count;i++ ){
-			  courserate[i].setText(String.valueOf(Float.parseFloat(course[i].getText().toString()) / Float.parseFloat(coursebydefaultis)));
+			  BigDecimal y = new BigDecimal(Double.parseDouble(course[i].getText().toString()) / Double.parseDouble(coursebydefaultis));
+	  		  y = y.setScale(4, BigDecimal.ROUND_HALF_UP);  // “очность округлени€ вкладки курсы
+			  courserate[i].setText(y.toString());
 			  }
 	  }
   }
