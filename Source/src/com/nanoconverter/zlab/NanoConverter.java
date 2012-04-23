@@ -53,7 +53,6 @@ public class NanoConverter extends TabActivity {
 	public EditText[] courserate = new EditText[count];
 	public RadioButton[] from = new RadioButton[count];
 	public RadioButton[] to = new RadioButton[count];
-	public String moneyupdatestr;
 	public String[] moneycourse = new String[count];
 	public LinearLayout[] moneycl = new LinearLayout[count];
 	public View[] moneycls = new View[count];
@@ -104,6 +103,13 @@ public class NanoConverter extends TabActivity {
             imageWorld.setImageResource(R.drawable.good);
             ToastView.addView(imageWorld, 0);
             toast3.show();
+            
+            settings_money = getSharedPreferences("lastupdatedate", 0);
+            moneyeditor = settings_money.edit();
+            SimpleDateFormat dateis = new SimpleDateFormat("dd.MM.yyyy");
+       	   	String curentDate = dateis.format(new Date());
+       	   	moneyeditor.putString("lastupdatedate", curentDate.toString());
+        	moneyeditor.commit();
         }
     };
                             
@@ -151,29 +157,30 @@ public class NanoConverter extends TabActivity {
      /* Строим ТАБЫ */
      
      getPrefs();
-
-     settings_money = getSharedPreferences(moneyupdatestr, 0);
-     SharedPreferences settingsm = getSharedPreferences(moneyupdatestr, 0);
-     String[] separated = settingsm.getString(moneyupdatestr, "7777").split(",");
+     int checkBank = Integer.parseInt(ListBankPreference);
+     int checkUPDT = Integer.parseInt(listUpdate);
+     
+     settings_money = getSharedPreferences("moneyupdatestr", 0);
+     String[] separated = settings_money.getString("moneyupdatestr", "7777").split(",");
      if (separated[0].equals("7777") ){} else {
      for (int i=0;i<count;i++ ){
     	 course[i].setText(separated[i]);
      }}
-     
+
+     settings_money = getSharedPreferences("lastupdatedate", 0);
+     String datestored = settings_money.getString("lastupdatedate", "7777");
+     SimpleDateFormat dateis = new SimpleDateFormat("dd.MM.yyyy");
+	 String curentDate = dateis.format(new Date());
+
      UpdateRates();
      myClickHandler();
      
-     int checkBank = Integer.parseInt(ListBankPreference);
-     int checkUPDT = Integer.parseInt(listUpdate);
-
 	/* autoupdate */
 	      if (checkBank != 1){
-	    	  if (checkUPDT != 0){
-			      if (checkUPDT == 2){
-			    	  NanoConverter.mContext.processThreadforce();
-			      } else {
-			    	  NanoConverter.mContext.processThread();}
-			    	  }
+	    	  	 if (checkUPDT != 0) {
+	    		 if (checkUPDT == 1) {NanoConverter.mContext.processThread();}
+	    	else if (checkUPDT == 2) {NanoConverter.mContext.processThreadforce();}
+	    	else if (checkUPDT == 3) {if (!curentDate.toString().equals(datestored)){NanoConverter.mContext.processThread();}}}
 	      } else {
 	    	  for (int i=0;i<count;i++ ){
 	    		  courserate[i].setText(course[i].getText().toString());
@@ -260,7 +267,7 @@ public class NanoConverter extends TabActivity {
  protected void onStop(){
     super.onStop();
     
-    settings_money = getSharedPreferences(moneyupdatestr, 0);
+    settings_money = getSharedPreferences("moneyupdatestr", 0);
     moneyeditor = settings_money.edit();
     
     int checkBank = Integer.parseInt(ListBankPreference);
@@ -275,8 +282,7 @@ public class NanoConverter extends TabActivity {
     for (int i = 0; i < count; i++) {
         sb.append(course[i].getText().toString()).append(",");
         }
-    
-		moneyeditor.putString(moneyupdatestr, sb.toString());
+		moneyeditor.putString("moneyupdatestr", sb.toString());
 		moneyeditor.commit();
  }
 

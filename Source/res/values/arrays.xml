@@ -49,12 +49,14 @@
         <item >Manual</item>
         <item >In background</item>
         <item >Pre-update</item>
+        <item >Once Per day</item>
 </string-array>
  
 <string-array name="listupdateValues">
    <item>0</item>
    <item>1</item>
    <item>2</item>
+   <item>3</item>
 </string-array>
 
 <string-array name="listBKG">
