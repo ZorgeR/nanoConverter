@@ -1,4 +1,4 @@
 : to:do :
-- fix background shrinking, when keyboard opened
-- change JPG background, to PNG or Indexed color.
-- change float to double
+[done] fix background shrinking, when keyboard opened
+[done] change JPG background, to PNG or Indexed color.
+[done] change float to double
