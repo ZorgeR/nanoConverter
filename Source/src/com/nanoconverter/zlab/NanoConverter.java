@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -46,9 +47,10 @@ public class NanoConverter extends TabActivity {
 	
 	private EditText text,amountmoney;
 	
-	int count = 12;
+	int count = 13;
+	public String S="0";
 	
-	public String[] sa = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL" };
+	public String[] sa = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL", "AZN" };
 	public EditText[] course = new EditText[count];
 	public EditText[] courserate = new EditText[count];
 	public RadioButton[] from = new RadioButton[count];
@@ -58,6 +60,7 @@ public class NanoConverter extends TabActivity {
 	public View[] moneycls = new View[count];
 	public String coursebydefaultis = "1";
 	public boolean[] mactive = new boolean[count];
+	public static boolean reverserates = false;
 	
 	public SharedPreferences settings_money;
 	public SharedPreferences.Editor moneyeditor;
@@ -95,8 +98,9 @@ public class NanoConverter extends TabActivity {
     Handler handlerGOODThread = new Handler() {@Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-			UpdateRates();
-
+            
+            UpdateRates();
+            
             Toast toast3 = Toast.makeText(getApplicationContext(), getString(R.string.updatecomplete), Toast.LENGTH_SHORT);
             LinearLayout ToastView = (LinearLayout) toast3.getView();
             ImageView imageWorld = new ImageView(getApplicationContext());
@@ -230,13 +234,11 @@ public class NanoConverter extends TabActivity {
 	      if (checkBank == 1){TurnOFFrates(); } else
 	      if (checkBank == 2){ BANK_ID = "NBU";  TurnONrates();} else
 	      if (checkBank == 3){ BANK_ID = "NBRB"; TurnONrates();} else
-	      if (checkBank == 4){ BANK_ID = "BNM";  TurnONrates();}
+	      if (checkBank == 4){ BANK_ID = "BNM";  TurnONrates();} else
+	      if (checkBank == 5){ BANK_ID = "AZ";  TurnONrates();} else
+	      if (checkBank == 6){ BANK_ID = "ECB";  TurnONrates();}
+	      if (checkBank != 1){UpdateRates();}
 
-	      if (checkBank == 1){
-	      } else {
-	     	  	 UpdateRates();
-	     	  	 }
-	      
 	      super.onResume();
  }
  /* MENU */
@@ -341,6 +343,22 @@ public void bankIDcheck() {
   	         }
   	     }.start();
   	}
+   	if (BANK_ID == "AZ"){
+   		new Thread() {
+  	         public void run() {
+  	        	 runLongProcessAZ();
+  	        	 handlerCloseThread.sendEmptyMessage(0);
+  	         }
+  	     }.start();
+  	}
+   	if (BANK_ID == "ECB"){
+   		new Thread() {
+  	         public void run() {
+  	        	 runLongProcessECB();
+  	        	 handlerCloseThread.sendEmptyMessage(0);
+  	         }
+  	     }.start();
+  	}
 }
 
 private void killLongForce() {
@@ -372,9 +390,9 @@ private void killLongForce() {
 	  		NodeList list = doc.getElementsByTagName("Value");
 	  		   int len = list.getLength();
 	  		
-	  		   String[] sas = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL" };
-	  		   String[] coursenew = new String[12];
-	  		   for(int i = 0; i<12; i++){coursenew[i] = "0";}
+	  		   String[] sas = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL", "AZN" };
+	  		   String[] coursenew = new String[13];
+	  		   for(int i = 0; i<13; i++){coursenew[i] = "0";}
 	  		   
 	  		   for(int i = 0; i<len; i++)
 	  		   {
@@ -383,8 +401,9 @@ private void killLongForce() {
 	  			    ch.getNodeValue();
 	  		   		ch.getFirstChild().getNodeValue();
 	  		   		String chStr  = ch.getFirstChild().getNodeValue();
-	  		   		int[] chpos = new int[12];
-	  		   		for(int j = 0; j<12; j++){
+	  		   		int[] chpos = new int[13];
+	  		   		for(int j = 0; j<13; j++){chpos[j] = 7777;}
+	  		   		for(int j = 0; j<13; j++){
 	  		   			if (chStr.equals(sas[j])) {
 	  		   			chpos[j] = i;
 	  		   			}
@@ -395,8 +414,9 @@ private void killLongForce() {
 	  			    r.getNodeValue();
 	  		   		r.getFirstChild().getNodeValue();
 	  		   		String nStr  = r.getFirstChild().getNodeValue();
-	  		   		int[] nd = new int[12];
-	  		   		for(int j = 0; j<12; j++){
+	  		   		int[] nd = new int[13];
+	  		   		for(int j = 0; j<13; j++){nd[j] = 1;}
+	  		   		for(int j = 0; j<13; j++){
 	  		   			if (chStr.equals(sas[j])) {
 	  		   			nd[j] = Integer.parseInt(nStr);
 	  		   			}
@@ -412,7 +432,7 @@ private void killLongForce() {
 	  		   		
 	  		   		double coursetrue;
 	  		   		
-		  		   	for(int j = 0; j<12; j++){
+		  		   	for(int j = 0; j<13; j++){
 		  		   	if(i == chpos[j])	{coursenew[j] = dateCurrencyStr.replace(",", ".");
 			   			coursetrue = ( Double.parseDouble(coursenew[j]) / nd[j] );
 			   			coursenew[j] = (Double.toString(coursetrue));
@@ -420,7 +440,7 @@ private void killLongForce() {
 	  		   		}
 		  		   	
 		  		  if (i == len-1){
-		  			  for(int j = 0; j<12; j++){
+		  			  for(int j = 0; j<13; j++){
 			  		   	 course[j].setText(coursenew[j]);
 				   			}
 		  		  }
@@ -459,9 +479,9 @@ private void killLongForce() {
 			  		NodeList list = doc.getElementsByTagName("Value");
 			  		   int len = list.getLength();
 			  		
-			  		   String[] sas = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL" };
-			  		   String[] coursenew = new String[12];
-			  		   for(int i = 0; i<12; i++){coursenew[i] = "0";}
+			  		   String[] sas = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL", "AZM" };
+			  		   String[] coursenew = new String[13];
+			  		   for(int i = 0; i<13; i++){coursenew[i] = "0";}
 			  		   
 			  		   for(int i = 0; i<len; i++)
 			  		   {
@@ -470,8 +490,9 @@ private void killLongForce() {
 			  			    ch.getNodeValue();
 			  		   		ch.getFirstChild().getNodeValue();
 			  		   		String chStr  = ch.getFirstChild().getNodeValue();
-			  		   		int[] chpos = new int[12];
-			  		   		for(int j = 0; j<12; j++){
+			  		   		int[] chpos = new int[13];
+			  		   		for(int j = 0; j<13; j++){chpos[j] = 7777;}
+			  		   		for(int j = 0; j<13; j++){
 			  		   			if (chStr.equals(sas[j])) {
 			  		   			chpos[j] = i;
 			  		   			}
@@ -482,8 +503,9 @@ private void killLongForce() {
 			  			    r.getNodeValue();
 			  		   		r.getFirstChild().getNodeValue();
 			  		   		String nStr  = r.getFirstChild().getNodeValue();
-			  		   		int[] nd = new int[12];
-			  		   		for(int j = 0; j<12; j++){
+			  		   		int[] nd = new int[13];
+			  		   		for(int j = 0; j<13; j++){nd[j] = 1;}
+			  		   		for(int j = 0; j<13; j++){
 			  		   			if (chStr.equals(sas[j])) {
 			  		   			nd[j] = Integer.parseInt(nStr);
 			  		   			}
@@ -499,7 +521,7 @@ private void killLongForce() {
 			  		   		
 			  		   		double coursetrue;
 			  		   		
-				  		   	for(int j = 0; j<12; j++){
+				  		   	for(int j = 0; j<13; j++){
 				  		   	if(i == chpos[j])	{coursenew[j] = dateCurrencyStr.replace(",", ".");
 					   			coursetrue = ( Double.parseDouble(coursenew[j]) / nd[j] );
 					   			coursenew[j] = (Double.toString(coursetrue));
@@ -507,7 +529,7 @@ private void killLongForce() {
 			  		   		}
 				  		   	
 				  		  if (i == len-1){
-				  			  for(int j = 0; j<12; j++){
+				  			  for(int j = 0; j<13; j++){
 					  		   	 course[j].setText(coursenew[j]);
 						   			}
 				  		  }
@@ -552,9 +574,9 @@ private void killLongForce() {
 			  		NodeList list = doc.getElementsByTagName("Value");
 			  		   int len = list.getLength();
 			  		
-			  		   String[] sas = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL" };
-			  		   String[] coursenew = new String[12];
-			  		   for(int i = 0; i<12; i++){coursenew[i] = "0";}
+			  		   String[] sas = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL", "AZN" };
+			  		   String[] coursenew = new String[13];
+			  		   for(int i = 0; i<13; i++){coursenew[i] = "0";}
 			  		   
 			  		   for(int i = 0; i<len; i++)
 			  		   {
@@ -563,8 +585,9 @@ private void killLongForce() {
 			  			    ch.getNodeValue();
 			  		   		ch.getFirstChild().getNodeValue();
 			  		   		String chStr  = ch.getFirstChild().getNodeValue();
-			  		   		int[] chpos = new int[12];
-			  		   		for(int j = 0; j<12; j++){
+			  		   		int[] chpos = new int[13];
+			  		   		for(int j = 0; j<13; j++){chpos[j] = 7777;}
+			  		   		for(int j = 0; j<13; j++){
 			  		   			if (chStr.equals(sas[j])) {
 			  		   			chpos[j] = i;
 			  		   			}
@@ -575,8 +598,9 @@ private void killLongForce() {
 			  			    r.getNodeValue();
 			  		   		r.getFirstChild().getNodeValue();
 			  		   		String nStr  = r.getFirstChild().getNodeValue();
-			  		   		int[] nd = new int[12];
-			  		   		for(int j = 0; j<12; j++){
+			  		   		int[] nd = new int[13];
+			  		   		for(int j = 0; j<13; j++){nd[j] = 1;}
+			  		   		for(int j = 0; j<13; j++){
 			  		   			if (chStr.equals(sas[j])) {
 			  		   			nd[j] = Integer.parseInt(nStr);
 			  		   			}
@@ -592,7 +616,7 @@ private void killLongForce() {
 			  		   		
 			  		   		double coursetrue;
 			  		   		
-				  		   	for(int j = 0; j<12; j++){
+				  		   	for(int j = 0; j<13; j++){
 				  		   	if(i == chpos[j])	{coursenew[j] = dateCurrencyStr.replace(",", ".");
 					   			coursetrue = ( Double.parseDouble(coursenew[j]) / nd[j] );
 					   			coursenew[j] = (Double.toString(coursetrue));
@@ -600,7 +624,7 @@ private void killLongForce() {
 			  		   		}
 				  		   	
 				  		  if (i == len-1){
-				  			  for(int j = 0; j<12; j++){
+				  			  for(int j = 0; j<13; j++){
 					  		   	 course[j].setText(coursenew[j]);
 						   			}
 				  		  }
@@ -639,9 +663,9 @@ private void killLongForce() {
 			  		NodeList list = doc.getElementsByTagName("Rate");
 			  		   int len = list.getLength();
 			  		
-			  		   String[] sas = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL" };
-			  		   String[] coursenew = new String[12];
-			  		   for(int i = 0; i<12; i++){coursenew[i] = "0";}
+			  		   String[] sas = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL", "AZN" };
+			  		   String[] coursenew = new String[13];
+			  		   for(int i = 0; i<13; i++){coursenew[i] = "0";}
 			  		   
 			  		   for(int i = 0; i<len; i++)
 			  		   {
@@ -650,8 +674,9 @@ private void killLongForce() {
 			  			    ch.getNodeValue();
 			  		   		ch.getFirstChild().getNodeValue();
 			  		   		String chStr  = ch.getFirstChild().getNodeValue();
-			  		   		int[] chpos = new int[12];
-			  		   		for(int j = 0; j<12; j++){
+			  		   		int[] chpos = new int[13];
+			  		   		for(int j = 0; j<13; j++){chpos[j] = 7777;}
+			  		   		for(int j = 0; j<13; j++){
 			  		   			if (chStr.equals(sas[j])) {
 			  		   			chpos[j] = i;
 			  		   			}
@@ -662,8 +687,9 @@ private void killLongForce() {
 			  			    r.getNodeValue();
 			  		   		r.getFirstChild().getNodeValue();
 			  		   		String nStr  = r.getFirstChild().getNodeValue();
-			  		   		int[] nd = new int[12];
-			  		   		for(int j = 0; j<12; j++){
+			  		   		int[] nd = new int[13];
+			  		   		for(int j = 0; j<13; j++){nd[j] = 1;}
+			  		   		for(int j = 0; j<13; j++){
 			  		   			if (chStr.equals(sas[j])) {
 			  		   			nd[j] = Integer.parseInt(nStr);
 			  		   			}
@@ -679,7 +705,7 @@ private void killLongForce() {
 			  		   		
 			  		   		double coursetrue;
 			  		   		
-				  		   	for(int j = 0; j<12; j++){
+				  		   	for(int j = 0; j<13; j++){
 				  		   	if(i == chpos[j])	{coursenew[j] = dateCurrencyStr.replace(",", ".");
 					   			coursetrue = ( Double.parseDouble(coursenew[j]) / nd[j] );
 					   			coursenew[j] = (Double.toString(coursetrue));
@@ -687,7 +713,7 @@ private void killLongForce() {
 			  		   		}
 				  		   	
 				  		  if (i == len-1){
-				  			  for(int j = 0; j<12; j++){
+				  			  for(int j = 0; j<13; j++){
 					  		   	 course[j].setText(coursenew[j]);
 						   			}
 				  		  }
@@ -700,6 +726,175 @@ private void killLongForce() {
 		  		    	}
 		  	} else { }
 		  	// Thread.sleep(1*1000);
+	     } catch (Exception ioe) {
+	    	 
+	     }
+	 }
+ 
+ private void runLongProcessAZ() {
+
+	  try {
+		  	 boolean sec = true;
+		  		Document doc = null;
+		  		
+		  	    try {
+		  	    		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		  	     	   	DocumentBuilder db = dbf.newDocumentBuilder();
+		  	     	   	
+		  	     	   	SimpleDateFormat dateis = new SimpleDateFormat("dd.MM.yyyy"); // "yyyyMMdd_HHmmss"
+		  	     	   	String curentDate = dateis.format(new Date());
+		  	     	   	String uri = "http://www.cbar.az/currencies/"+curentDate+".xml";
+
+		  	     	   	URL url = new URL(uri);
+		  	     	   	
+		  	     	   	doc = db.parse(new InputSource(url.openStream()));
+		  		     } catch (Exception ioe) {
+		  		    	 sec = false;
+		  		    	handlerERRThread.sendEmptyMessage(0);
+		  		    	 }
+		  	if (sec == true){
+		  		try {
+			  		NodeList charlist = doc.getElementsByTagName("Valute");
+			  		NodeList nomlist = doc.getElementsByTagName("Nominal");
+			  		NodeList list = doc.getElementsByTagName("Value");
+			  		   int len = list.getLength();
+
+			  		   String[] sas = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUR", "MDL", "BYR", "PLN", "LTL", "LVL", "AZN" };
+			  		   String[] coursenew = new String[13];
+			  		   for(int i = 0; i<13; i++){coursenew[i] = "0";}
+
+			  		   for(int i = 0; i<len; i++)
+			  		   {
+			  			   /* ID */
+			  			   	Node ch= charlist.item(i);
+			  			    ch.getNodeValue();
+			  			    ch.getFirstChild().getNodeValue();
+			  			    String chStr = ch.getAttributes().getNamedItem("Code").getNodeValue();
+			  		   		int[] chpos = new int[13];
+			  		   		for(int j = 0; j<13; j++){chpos[j] = 7777;}
+			  		   		for(int j = 0; j<13; j++){
+			  		   			if (chStr.equals(sas[j])) {
+			  		   			chpos[j] = i;
+			  		   			}
+			  		   		}
+			  		   		
+			  		   		/* rate */
+				  		   	Node r= nomlist.item(i);
+			  			    r.getNodeValue();
+			  		   		r.getFirstChild().getNodeValue();
+			  		   		String nStr  = r.getFirstChild().getNodeValue();
+			  		   		int[] nd = new int[13];
+			  		   		for(int j = 0; j<13; j++){nd[j] = 1;}
+			  		   		for(int j = 0; j<13; j++){
+			  		   			if (chStr.equals(sas[j])) {
+			  		   			nd[j] = Integer.parseInt(nStr);
+			  		   			}
+			  		   		}
+			  			   
+			  			   /* data */
+			  			    Node n= list.item(i);
+			  		   		n.getNodeValue();
+			  		   		n.getFirstChild().getNodeValue();
+			  		   		String dateCurrencyStr  = n.getFirstChild().getNodeValue();
+		  		   		
+			  		   		coursenew[12] = "1.00";
+			  		   		
+			  		   		double coursetrue;
+			  		   		
+				  		   	for(int j = 0; j<13; j++){
+				  		   	if(i == chpos[j])	{coursenew[j] = dateCurrencyStr.replace(",", ".");
+					   			coursetrue = ( Double.parseDouble(coursenew[j]) / nd[j] );
+					   			coursenew[j] = (Double.toString(coursetrue));
+					   			}
+			  		   		}
+				  		   	
+				  		  if (i == len-1){
+				  			  for(int j = 0; j<13; j++){
+					  		   	 course[j].setText(coursenew[j]);
+						   			}
+				  		  }
+			  		   }
+			  		 
+			  		 handlerGOODThread.sendEmptyMessage(0);
+			  		 
+			  			} catch (Exception ioe) {
+		  		    	 //donothing
+		  		    	}
+		  	} else {}
+	     } catch (Exception ioe) {
+	    	 
+	     }
+	 }
+ 
+ private void runLongProcessECB() {
+	  try {
+		  	 boolean sec = true;
+		  		Document doc = null;
+		  		
+		  	    try {
+		  	    		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		  	     	   	DocumentBuilder db = dbf.newDocumentBuilder();
+		  	     	   	String uri = "http://www.ecb.int/stats/eurofxref/eurofxref-daily.xml";
+
+		  	     	   	URL url = new URL(uri);
+		  	     	   	
+		  	     	   	doc = db.parse(new InputSource(url.openStream()));
+		  		     } catch (Exception ioe) {
+		  		    	 sec = false;
+		  		    	handlerERRThread.sendEmptyMessage(0);
+		  		    	 }
+		  	if (sec == true){
+		  		try {
+			  		NodeList list = doc.getElementsByTagName("Cube");
+			  		int len = list.getLength()-2;
+			  		
+			  		   String[] sas = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL", "AZN" };
+			  		   String[] coursenew = new String[13];
+			  		   for(int i = 0; i<13; i++){coursenew[i] = "0";}
+
+			  		   for(int i = 0; i<len; i++)
+			  		   {
+			  			   /* ID */
+			  			    String chStr = list.item(i+2).getAttributes().getNamedItem("currency").getNodeValue();
+			  		   		int[] chpos = new int[13];
+			  		   		for(int j = 0; j<13; j++){chpos[j] = 7777;}
+			  		   		for(int j = 0; j<13; j++){
+			  		   			if (chStr.equals(sas[j])) {
+			  		   			chpos[j] = i;
+			  		   			}
+			  		   		}
+			  		   		
+			  		   		/* rate */
+			  		   		int[] nd = new int[13];
+			  		   		for(int j = 0; j<13; j++){nd[j] = 1;}
+			  			   
+			  			   /* data */
+			  			    String dateCurrencyStr = list.item(i+2).getAttributes().getNamedItem("rate").getNodeValue();
+
+			  		   		coursenew[1] = "1.00";
+
+			  		   		double coursetrue;
+			  		   		
+				  		   	for(int j = 0; j<13; j++){
+				  		   	if(i == chpos[j])	{coursenew[j] = dateCurrencyStr.replace(",", ".");
+					   			coursetrue = ( 1/Double.parseDouble(coursenew[j]) );
+					   			coursenew[j] = (Double.toString(coursetrue));
+					   			}
+			  		   		}
+				  		   	
+				  		  if (i == len-1){
+				  			  for(int j = 0; j<13; j++){
+					  		   	 course[j].setText(coursenew[j]);
+						   			}
+				  		  }
+			  		   }
+			  		 
+			  		 handlerGOODThread.sendEmptyMessage(0);
+			  		 
+			  			} catch (Exception ioe) {
+		  		    	 //donothing
+		  		    	}
+		  	} else {}
 	     } catch (Exception ioe) {
 	    	 
 	     }
@@ -760,21 +955,16 @@ private void killLongForce() {
  }
  
   public void TurnONrates() {
-	     	
 	  for (int i=0;i<count;i++ ){
 		  courserate[i].setKeyListener(null);
 		  }
 	    buttonrefresh.setEnabled(true);
-	    
-	    UpdateRates();
-  }
+}
   
   public void TurnOFFrates() {
-	  
 	  for (int i=0;i<count;i++ ){
 		  courserate[i].setKeyListener(course[0].getKeyListener());
 		  }
-	    
 	    buttonrefresh.setEnabled(false);
   }
   
@@ -791,6 +981,7 @@ private void getPrefs() {
             ListCurPreference = prefs.getString("listCurByDefault", "0");
             ListBankPreference = prefs.getString("listSourcesDefault", "0");
             listUpdate = prefs.getString("listUpdate", "0");
+            reverserates = prefs.getBoolean("revratesswitch", false);
             
             String bkgr = prefs.getString("bkgcheckbox", "0");
             View maintabhost = findViewById(android.R.id.tabhost);
@@ -831,16 +1022,40 @@ private void getPrefs() {
   public void UpdateRates() {
 	  int checkBank = Integer.parseInt(ListBankPreference);
 	  int checkCurd = Integer.parseInt(ListCurPreference);
+	  BigDecimal y= new BigDecimal(0);
+
 	  if (checkBank == 1) {} else {
+		  zerocheck();
 
 		  for (int i=0;i<count;i++ ){
-			  if (checkCurd == i){coursebydefaultis = course[i].getText().toString();}
+			  if (checkCurd == i && !course[i].getText().toString().equals("0")){coursebydefaultis = course[i].getText().toString();}
+			  if (checkCurd == i && course[i].getText().toString().equals("0")){{Toast toast2 = Toast.makeText(getApplicationContext(), getString(R.string.zerocheck), Toast.LENGTH_LONG);toast2.show();coursebydefaultis = course[0].getText().toString();}}
 			  }
+
 		  for (int i=0;i<count;i++ ){
-			  BigDecimal y = new BigDecimal(Double.parseDouble(course[i].getText().toString()) / Double.parseDouble(coursebydefaultis));
+			  
+			  if (reverserates){
+				  if (Float.parseFloat(course[i].getText().toString())!=0){
+					y = new BigDecimal(Double.parseDouble(coursebydefaultis)/Double.parseDouble(course[i].getText().toString()));} else {y = new BigDecimal(0);}
+			  } else {
+					y = new BigDecimal(Double.parseDouble(course[i].getText().toString())/Double.parseDouble(coursebydefaultis));}
+
 	  		  y = y.setScale(4, BigDecimal.ROUND_HALF_UP);  // Точность округления вкладки курсы
 			  courserate[i].setText(y.toString());
 			  }
 	  }
+  }
+  public void zerocheck() {
+	  for (int j=0;j<count;j++){
+          if (course[j].getText().toString().equals("0")){
+          	from[j].setEnabled(false);
+          	to[j].setEnabled(false);
+          	courserate[j].setEnabled(false);
+  		 } else {
+  			from[j].setEnabled(true);
+           	to[j].setEnabled(true);
+           	courserate[j].setEnabled(true);
+  		 }
+          }
   }
 }

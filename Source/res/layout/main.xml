@@ -236,6 +236,13 @@
                             android:layout_height="wrap_content"
                             android:text="@string/LVLfrom"
                             android:drawableLeft="@drawable/lv"  />
+                        
+                        <RadioButton
+                            android:id="@+id/fromAZN"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/AZNfrom"
+                            android:drawableLeft="@drawable/az"  />
                     </RadioGroup>
 
 
@@ -329,6 +336,13 @@
                             android:layout_height="wrap_content"
                             android:text="@string/LVLfrom"
                             android:drawableLeft="@drawable/lv"  />
+                        
+                        <RadioButton
+                            android:id="@+id/toAZN"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/AZNfrom"
+                            android:drawableLeft="@drawable/az"  />
                         
                     </RadioGroup>
                 </LinearLayout>
@@ -1006,7 +1020,59 @@
     android:background="#444444"
     android:id="@+id/LVLcls"
 />
-			        
+<LinearLayout 
+			        android:orientation="horizontal"        
+			        android:layout_height="wrap_content" 
+			        android:layout_width="fill_parent" 
+			        android:padding="4dp"
+			        android:id="@+id/AZNcl">
+				        <LinearLayout 
+				            android:orientation="vertical" 
+				            android:layout_height="wrap_content" 
+				            android:layout_width="wrap_content" android:padding="2dp">
+				            <TextView 
+				                android:text="@string/AZNfrom" 
+				                android:id="@+id/texAZNfrom" 
+				                android:layout_width="wrap_content" 
+				                android:layout_height="wrap_content" 
+				                android:textSize="18sp">
+				            </TextView>
+				            <TextView 
+				                android:text="@string/AZN_discription" 
+				                android:id="@+id/textAZN_discription" 
+				                android:layout_width="wrap_content" 
+				                android:layout_height="wrap_content" 
+				                android:textSize="12sp">
+				            </TextView>
+				        </LinearLayout>
+				        <LinearLayout 
+				            android:gravity="right" 
+				            android:layout_width="fill_parent" 
+				            android:layout_height="wrap_content" 
+				            android:padding="2dp">
+				            		<EditText
+							        android:id="@+id/CourseAZN"
+							        android:layout_width="150sp"
+				                	android:layout_height="wrap_content" 
+							        android:inputType="numberDecimal"
+							        android:text="@string/AZN"
+							        android:visibility="invisible">
+							        </EditText>
+							        <EditText
+							        android:id="@+id/CourseAZNrate"
+							        android:layout_width="150sp"
+				                	android:layout_height="wrap_content" 
+							        android:inputType="numberDecimal"
+							        android:text="@string/AZN">
+							        </EditText>
+				        </LinearLayout>
+			        </LinearLayout>
+			              <View
+    android:layout_width="fill_parent"
+    android:layout_height="1dip"
+    android:background="#444444"
+    android:id="@+id/AZNcls"
+/>
     </LinearLayout>
 </ScrollView>        
 	

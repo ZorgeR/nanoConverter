@@ -12,18 +12,6 @@
     <string name="PLN_discription">Польские злоты</string>
     <string name="LTL_discription">Литовские литы</string>
     <string name="LVL_discription">Латвийские латы</string>
-    
-    <string name="USDfrom">USD</string>
-    <string name="EURfrom">EUR</string>
-    <string name="CHFfrom">CHF</string>
-    <string name="GBPfrom">GBP</string>
-    <string name="JPYfrom">JPY</string>
-    <string name="UAHfrom">UAH</string>
-    <string name="RUBfrom">RUB</string>
-    <string name="MDLfrom">MDL</string>
-    <string name="BYRfrom">BYR</string>
-    <string name="PLNfrom">PLN</string>
-    <string name="LTLfrom">LTL</string>
-    <string name="LVLfrom">LVL</string>
+    <string name="AZN_discription">Азербайджанские манаты</string>
     
 </resources>

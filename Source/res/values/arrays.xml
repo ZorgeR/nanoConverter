@@ -13,6 +13,7 @@
    <item>PLN</item>
    <item>LTL</item>
    <item>LVL</item>
+   <item>AZN</item>
 </string-array>
  
 <string-array name="listValues">
@@ -28,13 +29,17 @@
    <item>9</item>
    <item>10</item>
    <item>11</item>
+   <item>12</item>
 </string-array>
+
 <string-array name="listsourceArray">
         <item >Central Bank of Russia</item>
         <item >User data</item>
         <item >National Bank of Ukraine</item>
         <item >National Bank of Belarus</item>
         <item >National Bank of Moldova</item>
+        <item >Central Bank of Azerbaijan</item>
+        <item >European Central Bank</item>
 </string-array>
  
 <string-array name="listsourceValues">
@@ -43,6 +48,8 @@
    <item>2</item>
    <item>3</item>
    <item>4</item>
+   <item>5</item>
+   <item>6</item>
 </string-array>
 
 <string-array name="listupdateArray">

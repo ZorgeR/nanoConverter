@@ -16,6 +16,12 @@
                         android:defaultValue="0"
                         android:entries="@array/listsourceArray"
                         android:entryValues="@array/listsourceValues" />
+                <CheckBoxPreference 
+                    	android:title="@string/revrates"
+                        android:summary="@string/revratesdis"
+                        android:key="revratesswitch"
+                        android:defaultValue="0"
+                    />
         </PreferenceCategory>
         <PreferenceCategory
            	android:title="@string/setcur">
@@ -89,6 +95,11 @@
                         android:defaultValue="true"
                         android:summary="@string/LVL_discription"
                         android:key="checkboxLVL" />
+                <CheckBoxPreference
+                        android:title="@string/AZNfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/AZN_discription"
+                        android:key="checkboxAZN" />
         </PreferenceScreen>
             </PreferenceCategory>
         <PreferenceCategory android:title="@string/other">

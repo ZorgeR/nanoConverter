@@ -36,4 +36,8 @@
     <string name="other">Прочее</string>
     <string name="bkg">Фон приложения</string>
     <string name="bkgdis">Выбрать фоновое оформление</string>
+    <string name="zerocheck">Нет данных о валюте по-умолчанию, использую USD. Обновите курсы или смените источник обновления.</string>
+    <string name="revrates">Обратный стиль</string>
+    <string name="revratess">Инверсно</string>
+    <string name="revratesdis">Обратные курсы на вкладке курсов</string>
 </resources>

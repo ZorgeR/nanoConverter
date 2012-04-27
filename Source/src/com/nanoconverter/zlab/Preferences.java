@@ -10,6 +10,7 @@ public class Preferences extends PreferenceActivity {
         	
                 super.onCreate(savedInstanceState);
                 addPreferencesFromResource(R.xml.preferences);
+
                 // Get the custom preference
                 /*
                 final ListPreference prBankLst = (ListPreference) getPreferenceManager().findPreference("listSourcesDefault");
