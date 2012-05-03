@@ -100,6 +100,121 @@
                         android:defaultValue="true"
                         android:summary="@string/AZN_discription"
                         android:key="checkboxAZN" />
+                <CheckBoxPreference
+                        android:title="@string/AUDfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/AUD_discription"
+                        android:key="checkboxAUD" />
+                <CheckBoxPreference
+                        android:title="@string/AMDfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/AMD_discription"
+                        android:key="checkboxAMD" />
+                <CheckBoxPreference
+                        android:title="@string/BGNfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/BGN_discription"
+                        android:key="checkboxBGN" />
+                <CheckBoxPreference
+                        android:title="@string/BRLfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/BRL_discription"
+                        android:key="checkboxBRL" />
+                <CheckBoxPreference
+                        android:title="@string/HUFfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/HUF_discription"
+                        android:key="checkboxHUF" />
+                <CheckBoxPreference
+                        android:title="@string/DKKfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/DKK_discription"
+                        android:key="checkboxDKK" />
+                <CheckBoxPreference
+                        android:title="@string/INRfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/INR_discription"
+                        android:key="checkboxINR" />
+                <CheckBoxPreference
+                        android:title="@string/KZTfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/KZT_discription"
+                        android:key="checkboxKZT" />
+                <CheckBoxPreference
+                        android:title="@string/CADfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/CAD_discription"
+                        android:key="checkboxCAD" />
+                <CheckBoxPreference
+                        android:title="@string/KGSfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/KGS_discription"
+                        android:key="checkboxKGS" />
+                <CheckBoxPreference
+                        android:title="@string/CNYfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/CNY_discription"
+                        android:key="checkboxCNY" />
+                <CheckBoxPreference
+                        android:title="@string/NOKfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/NOK_discription"
+                        android:key="checkboxNOK" />
+                <CheckBoxPreference
+                        android:title="@string/RONfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/RON_discription"
+                        android:key="checkboxRON" />
+                <CheckBoxPreference
+                        android:title="@string/XDRfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/XDR_discription"
+                        android:key="checkboxXDR" />
+                <CheckBoxPreference
+                        android:title="@string/SGDfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/SGD_discription"
+                        android:key="checkboxSGD" />
+                <CheckBoxPreference
+                        android:title="@string/TJSfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/TJS_discription"
+                        android:key="checkboxTJS" />
+                <CheckBoxPreference
+                        android:title="@string/TRYfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/TRY_discription"
+                        android:key="checkboxTRY" />
+                <CheckBoxPreference
+                        android:title="@string/TMTfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/TMT_discription"
+                        android:key="checkboxTMT" />
+                <CheckBoxPreference
+                        android:title="@string/UZSfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/UZS_discription"
+                        android:key="checkboxUZS" />
+                <CheckBoxPreference
+                        android:title="@string/CZKfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/CZK_discription"
+                        android:key="checkboxCZK" />
+                <CheckBoxPreference
+                        android:title="@string/SEKfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/SEK_discription"
+                        android:key="checkboxSEK" />
+                <CheckBoxPreference
+                        android:title="@string/ZARfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/ZAR_discription"
+                        android:key="checkboxZAR" />
+                <CheckBoxPreference
+                        android:title="@string/KRWfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/KRW_discription"
+                        android:key="checkboxKRW" />
         </PreferenceScreen>
             </PreferenceCategory>
         <PreferenceCategory android:title="@string/other">

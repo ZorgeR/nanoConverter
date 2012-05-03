@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-     <string name="hello">Enter amount:</string>
+    <string name="hello">Enter amount:</string>
     <string name="app_name">nanoConverter</string>
     <color name="color">#770000</color>
     <string name="FROM">From currency:</string>
@@ -33,8 +32,8 @@
     <string name="curlist">Currency list</string>
     <string name="curlistdis">Available for conversation currency</string>
     <string name="sources">Sources</string>
-    <string name="aboutvers">nanoConverter 0.7.89</string>
-    <string name="abouttext">Open source money converter for Android. Awesome background pattern from	http://www.noqta.it, http://www.dinpattern.com, http://www.squidfingers.com. Z-lab - 2012.</string>
+    <string name="aboutvers">nanoConverter 0.7.90</string>
+    <string name="abouttext">Open source money converter for Android. Flag icon from famfamfam - http://www.famfamfam.com/. Some awesome background pattern from http://www.noqta.it, http://www.dinpattern.com, http://www.squidfingers.com.</string>
     <string name="other">Other</string>
     <string name="bkg">Background</string>
     <string name="bkgdis">Choose app. background</string>
