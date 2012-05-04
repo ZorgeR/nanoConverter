@@ -42,13 +42,13 @@ Features:
 * Your own currencies
 * Automatic updating of courses at your desire
 * It is possible to choose from the central bank which country to receive training (Do you want more of? Write about it in the comments)
+* Inverse rates style
 
-Pre-currency (currencies need more? Leave suggestions in the comments):
+36 currency (need more? Leave suggestions in the comments):
 ---
-USD / EUR / GBP / CHF / JPY / UAH / RUB / MDL / BYR / PLN / LTL / LVL
+USD / EUR / CHF / GBP / JPY / UAH / RUB / MDL / BYR / PLN / LTL / LVL / AZN / AUD / AMD / BGN / BRL / HUF / DKK / INR / KZT / CAD / KGS / CNY / NOK / RON / XDR / SGD / TJS / TRY / TMT / UZS / CZK / SEK / ZAR / KRW
 ---
-U.S. Dollar / Euro / Pound / Swiss Franc / Japanese Yen / Ukrainian Hryvnia / Russian Ruble / Moldovan Leu / Dollar Belarusian / Polish Zloty / Lithuanian Litas / Latvian Lats
----
+
 
 By default, automatic updates off course, not to spend your internet traffic.
 
