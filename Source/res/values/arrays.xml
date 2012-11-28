@@ -100,6 +100,27 @@
    <item>7</item>
 </string-array>
 
+<string-array name="listsourceConfig">
+        <item >Central Bank of Russia</item>
+        <item >National Bank of Ukraine</item>
+        <item >National Bank of Belarus</item>
+        <item >National Bank of Moldova</item>
+        <item >Central Bank of Azerbaijan</item>
+        <item >European Central Bank</item>
+        <item >Forex</item>
+</string-array>
+
+<string-array name="listBankID">
+        <item >CBR</item>
+        <item >USER_DATA</item>
+        <item >NBU</item>
+        <item >NBRB</item>
+        <item >BNM</item>
+        <item >AZ</item>
+        <item >ECB</item>
+        <item >FOREX</item>
+</string-array>
+
 <string-array name="listupdateArray">
         <item >Manual</item>
         <item >In background</item>
@@ -125,6 +146,11 @@
         <item >Black Dot</item>
         <item >ICS 2</item>
 		<item >Flowers</item>
+</string-array>
+
+<string-array name="listwidgettheme">
+        <item >Black</item>
+        <item >White</item>
 </string-array>
  
 <string-array name="listBKGValues">

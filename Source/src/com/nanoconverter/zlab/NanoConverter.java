@@ -7,7 +7,6 @@ import java.util.Date;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -16,11 +15,15 @@ import android.os.Bundle;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.TabActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,8 +35,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TabHost;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 import android.widget.TabHost.TabSpec;
+import android.widget.ToggleButton;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -43,35 +49,42 @@ public class NanoConverter extends TabActivity {
 	public static NanoConverter mContext = null;
 	public static final int LENGTH_LONG = 10;
 	
-	public static String BANK_ID = "CBR";
-	
-	private EditText text,amountmoney;
+	public EditText text,amountmoney;
 	
 	int count = 37;
 	
-	public String[] sa = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL", "AZN", "AUD", "AMD", "BGN", "BRL", "HUF", "DKK", "INR", "KZT", "CAD", "KGS", "CNY", "NOK", "RON", "XDR", "SGD", "TJS", "TRY", "TMT", "UZS", "CZK", "SEK", "ZAR", "KRW", "FOO" };
-	public EditText[] course = new EditText[count];
-	public EditText[] courserate = new EditText[count];
-	public RadioButton[] from = new RadioButton[count];
-	public RadioButton[] to = new RadioButton[count];
-	public String[] moneycourse = new String[count];
-	public LinearLayout[] moneycl = new LinearLayout[count];
-	public View[] moneycls = new View[count];
-	public String coursebydefaultis = "1";
-	public boolean[] mactive = new boolean[count];
-	public static boolean reverserates = false;
-	
-	public SharedPreferences settings_money;
-	public SharedPreferences.Editor moneyeditor;
-	
-	private Button buttonrefresh;
-	
-	public double curentfromcourserate = 1.00;
-	public double curenttocourserate = 1.00;
+	String[] sa = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL", "AZN", "AUD", "AMD", "BGN", "BRL", "HUF", "DKK", "INR", "KZT", "CAD", "KGS", "CNY", "NOK", "RON", "XDR", "SGD", "TJS", "TRY", "TMT", "UZS", "CZK", "SEK", "ZAR", "KRW", "FOO" };
+	EditText[] course = new EditText[count];
+	EditText[] courserate = new EditText[count];
+	RadioButton[] from = new RadioButton[count];
+	RadioButton[] to = new RadioButton[count];
+	String[] moneycourse = new String[count];
+	LinearLayout[] moneycl = new LinearLayout[count];
+	View[] moneycls = new View[count];
+	String coursebydefaultis = "1";
+	boolean[] mactive = new boolean[count];
+	boolean reverserates = false;
+	public String handlBankID;
 
-	public static String ListCurPreference,ListBankPreference,listUpdate,leftsideselected,rightsideselected;
-	 	
-    private ProgressDialog progressDialog;
+	public SharedPreferences nanostore_shared;
+	SharedPreferences.Editor nanostore_shared_editor;
+	
+	Button buttonbank;
+	Button buttonloadfrom;
+	Button buttonrefresh;
+	ToggleButton buttoninverse;
+
+    int checkBank;
+    int checkUPDT;
+    int checkCurd;
+    String BANK_ID;
+
+	double curentfromcourserate = 1.00;
+	double curenttocourserate = 1.00;
+
+	String ListCurPreference,ListBankPreference,listUpdate,leftsideselected,rightsideselected;
+
+    ProgressDialog progressDialog;
 
     Handler handlerCloseThreadforce = new Handler() {@Override
         public void handleMessage(Message msg) {
@@ -116,11 +129,15 @@ public class NanoConverter extends TabActivity {
             toast.show();
         }
     };
+    Handler handlerGOODtoast = new Handler() {@Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+        }
+    };
     Handler handlerGOODThread = new Handler() {@Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            
-            UpdateRates();
             
             Toast toast3 = Toast.makeText(getApplicationContext(), getString(R.string.updatecomplete), Toast.LENGTH_SHORT);
             LinearLayout ToastView = (LinearLayout) toast3.getView();
@@ -129,44 +146,52 @@ public class NanoConverter extends TabActivity {
             ToastView.addView(imageWorld, 0);
             toast3.show();
             
-            settings_money = getSharedPreferences("lastupdatedate", 0);
-            moneyeditor = settings_money.edit();
+            UpdateRates();
+            
             SimpleDateFormat dateis = new SimpleDateFormat("dd.MM.yyyy");
        	   	String curentDate = dateis.format(new Date());
-       	   	moneyeditor.putString("lastupdatedate", curentDate.toString());
-        	moneyeditor.commit();
+       	   	nanostore_shared_editor.putString("LastUpdateDate"+handlBankID, curentDate.toString());
+       	   	nanostore_shared_editor.commit();
+
+       	   	nanostore_shared_editor.putString("LastUpdateMs"+handlBankID, String.valueOf(System.currentTimeMillis()));
+    	   	nanostore_shared_editor.commit();
+
+       	   	//
+       	    if (checkBank == 1) {
+       	    	for (int i=0;i<count;i++ ){
+       	    		course[i].setText(courserate[i].getText().toString());
+       	        	}
+       	    }
+       	    course[36].setText(courserate[36].getText().toString());
+
+       	    StringBuilder sb = new StringBuilder();
+       	    for (int i = 0; i < count; i++) {
+       	        sb.append(course[i].getText().toString()).append(",");
+       	        }
+
+       	    	nanostore_shared_editor.putString("rates_from_"+handlBankID, sb.toString());
+       	    	nanostore_shared_editor.commit();
+
+       			for (int i=0;i<count;i++ ){
+       	       		if (from[i].isChecked()){
+       	       			nanostore_shared_editor.putString("fromStore", String.valueOf(i));
+       	       			nanostore_shared_editor.commit();}
+       	       		 if (to[i].isChecked()){
+       	       			nanostore_shared_editor.putString("toStore", String.valueOf(i));
+       	       			nanostore_shared_editor.commit();}}
+       	   	//
         }
     };
-                            
+
  @Override
- 
+
   public void onCreate(Bundle savedInstanceState) {
 
 	 mContext = this;
      super.onCreate(savedInstanceState);
      setContentView(R.layout.main);
-     buttonrefresh = (Button) findViewById(R.id.button2);
-     text = (EditText) findViewById(R.id.editText1);
-     getID();
-     getRadio();
-     setkey();
-     amountmoney = (EditText) findViewById(R.id.editText246);
-     amountmoney.setKeyListener(null);
+     
 
-     text.setOnKeyListener(new View.OnKeyListener() {
-		public boolean onKey(View v, int keyCode, KeyEvent event) {
-			if(event.getAction() == KeyEvent.ACTION_UP  && 
-	    		    (keyCode != KeyEvent.KEYCODE_MENU) &&
-	    		    (keyCode != KeyEvent.KEYCODE_BACK))
-	    			{
-						myClickHandler();
-	    				return true;
-	    			}
-	    		return false;
-		}
-     }
-     );
-    
      /* Строим ТАБЫ */
      Resources res = getResources();
      TabHost tabHost = getTabHost();
@@ -181,74 +206,74 @@ public class NanoConverter extends TabActivity {
      tabHost.addTab(OnlineCourse.setContent(R.id.tab2));
      /* Строим ТАБЫ */
      
-     getPrefs();
-     int checkBank = Integer.parseInt(ListBankPreference);
-     int checkUPDT = Integer.parseInt(listUpdate);
+     buttonrefresh = (Button) findViewById(R.id.UpdateButton);
+ 	 buttonbank = (Button) findViewById(R.id.BankChangeButton);
+ 	 buttonloadfrom = (Button) findViewById(R.id.CopyFromBankButton);
+ 	 buttoninverse = (ToggleButton) findViewById(R.id.InverseStateButton);
+     text = (EditText) findViewById(R.id.ValueFrom);
+     amountmoney = (EditText) findViewById(R.id.ValueResult);
+     amountmoney.setKeyListener(null);
+     
+     nanostore_shared = getSharedPreferences("nanostore_shared", 0);
+     nanostore_shared_editor = nanostore_shared.edit();
+     
+     getID();
 
-     settings_money = getSharedPreferences("moneyupdatestr", 0);
-     String[] separated = settings_money.getString("moneyupdatestr", "7777").split(",");
+     text.addTextChangedListener(new TextWatcher(){
+		public void afterTextChanged(Editable arg0) {
+			UpdateResultsHandler();
+		}
+		public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+		public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+    	 
+     }
+     );
+
+     getPrefs();
      
-     if (separated[0].equals("7777") ){} else {
-     for (int i=0;i<count;i++ ){try {course[i].setText(separated[i]);} catch (Exception ioe) {}
-     }}
-     courserate[36].setText(course[36].getText().toString());     
-     
-     settings_money = getSharedPreferences("lastupdatedate", 0);
-     String datestored = settings_money.getString("lastupdatedate", "7777");
+     String datestored = nanostore_shared.getString("LastUpdateDate"+BANK_ID, "7777");
      SimpleDateFormat dateis = new SimpleDateFormat("dd.MM.yyyy");
 	 String curentDate = dateis.format(new Date());
-
-     UpdateRates();
-     myClickHandler();
-     
+	
 	/* autoupdate */
-	      if (checkBank != 1){
-	    	  	 if (checkUPDT != 0) {
+	      if (checkBank != 1 && checkUPDT != 0){
 	    		 if (checkUPDT == 1) {NanoConverter.mContext.processThread();}
 	    	else if (checkUPDT == 2) {NanoConverter.mContext.processThreadforce();}
 	    	else if (checkUPDT == 3) {if (!curentDate.toString().equals(datestored)){NanoConverter.mContext.processThread();}}}
-	      } else {
-	    	  for (int i=0;i<count;i++ ){
-	    		  courserate[i].setText(course[i].getText().toString());
-	  	    	}
-	      }
 	/* autoupdate */
  }
 
- public void getID() {for (int i=0;i<count;i++ ){
+ void getID() {for (int i=0;i<count;i++ ){
 	int resID = getResources().getIdentifier("Course" + sa[i],"id", getPackageName());
 	course[i] = (EditText)findViewById(resID);
 		resID = getResources().getIdentifier("Course" + sa[i] + "rate","id", getPackageName());
 	courserate[i] = (EditText)findViewById(resID);}
  }
  
- public void getRadio() {for (int i=0;i<count;i++ ){
+ void getRadio() {for (int i=0;i<count;i++ ){
 	int resID = getResources().getIdentifier("from" + sa[i],"id", getPackageName());
  	from[i] = (RadioButton)findViewById(resID);
  		resID = getResources().getIdentifier("to" + sa[i],"id", getPackageName());
  	to[i] = (RadioButton)findViewById(resID);}
  
+ String fromStore = nanostore_shared.getString("fromStore", "0");
+ String toStore = nanostore_shared.getString("toStore", "0");
 
- settings_money = getSharedPreferences("fromStore", 0);
- String fromStore = settings_money.getString("fromStore", "0");
- 
  for (int i=0;i<count;i++ ){
 		if (fromStore.equals(String.valueOf(i))){
 			from[i].setChecked(true);}}
  
- settings_money = getSharedPreferences("toStore", 0);
- String toStore = settings_money.getString("toStore", "0");
   for (int i=0;i<count;i++ ){
 		if (toStore.equals(String.valueOf(i))){
 			to[i].setChecked(true);}}
  }
  
- public void setkey() {for (int i=0;i<count;i++ ){
-	 from[i].setOnClickListener(new OnClickListener() {public void onClick(View v) {myClickHandler();}});
-	 to[i].setOnClickListener(new OnClickListener() {public void onClick(View v) {myClickHandler();}});}	 
+ void setkey() {for (int i=0;i<count;i++ ){
+	 from[i].setOnClickListener(new OnClickListener() {public void onClick(View v) {UpdateResultsHandler();}});
+	 to[i].setOnClickListener(new OnClickListener() {public void onClick(View v) {UpdateResultsHandler();}});}	 
  }
  
- public void getresID2() {for (int i=0;i<count;i++ ){
+ void getresID2() {for (int i=0;i<count;i++ ){
 	int resID = getResources().getIdentifier(sa[i]+"cl","id", getPackageName());
 	moneycl[i] = (LinearLayout)findViewById(resID);
 		resID = getResources().getIdentifier(sa[i]+"cls","id", getPackageName());
@@ -257,25 +282,32 @@ public class NanoConverter extends TabActivity {
  
  protected void onResume() {
 	 getRadio();
+	 setkey();
 	 getresID2();
 	 getPrefs();
-	 
-	 int checkBank = Integer.parseInt(ListBankPreference);
+	 if (reverserates){
+		 buttoninverse.setChecked(true);
+		 } else {
+			 buttoninverse.setChecked(false);
+		 }
 	 
 	 for (int i=0;i<count;i++ ){
 		 if (mactive[i] == false){from[i].setVisibility(View.GONE);to[i].setVisibility(View.GONE);moneycls[i].setVisibility(View.GONE);moneycl[i].setVisibility(View.GONE);}
 		 if (mactive[i] == true){from[i].setVisibility(View.VISIBLE);to[i].setVisibility(View.VISIBLE);moneycl[i].setVisibility(View.VISIBLE);moneycls[i].setVisibility(View.VISIBLE);}
 	 }
 
-	      if (checkBank == 0){ BANK_ID = "CBR"; TurnONrates();} else
-	      if (checkBank == 1){TurnOFFrates(); } else
-	      if (checkBank == 2){ BANK_ID = "NBU";  TurnONrates();} else
-	      if (checkBank == 3){ BANK_ID = "NBRB"; TurnONrates();} else
-	      if (checkBank == 4){ BANK_ID = "BNM";  TurnONrates();} else
-	      if (checkBank == 5){ BANK_ID = "AZ";  TurnONrates();} else
-	      if (checkBank == 6){ BANK_ID = "ECB";  TurnONrates();} else
-	      if (checkBank == 7){ BANK_ID = "FOREX";  TurnONrates();}
-	      if (checkBank != 1){UpdateRates();}
+	      if (checkBank == 1){TurnOFFrates();buttonloadfrom.setVisibility(View.VISIBLE);} else {TurnONrates();buttonloadfrom.setVisibility(View.GONE);}
+
+	      String[] separated = nanostore_shared.getString("rates_from_"+BANK_ID, "7777").split(",");
+
+	      if (separated[0].equals("7777") && checkBank != 1 ){
+	    	  /* if never updated, update */
+	    	  NanoConverter.mContext.processThread();
+	      } else {
+	      for (int i=0;i<count;i++ ){try {course[i].setText(separated[i]);} catch (Exception ioe) {}
+	      }}
+	      courserate[36].setText(course[36].getText().toString());
+	      UpdateRates();
 
 	      super.onResume();
  }
@@ -307,11 +339,6 @@ public class NanoConverter extends TabActivity {
  protected void onStop(){
     super.onStop();
     
-    settings_money = getSharedPreferences("moneyupdatestr", 0);
-    moneyeditor = settings_money.edit();
-    
-    int checkBank = Integer.parseInt(ListBankPreference);
-	
     if (checkBank == 1) {
     	for (int i=0;i<count;i++ ){
     		course[i].setText(courserate[i].getText().toString());
@@ -323,23 +350,19 @@ public class NanoConverter extends TabActivity {
     for (int i = 0; i < count; i++) {
         sb.append(course[i].getText().toString()).append(",");
         }
-		moneyeditor.putString("moneyupdatestr", sb.toString());
-		moneyeditor.commit();
+   		nanostore_shared_editor.putString("rates_from_"+BANK_ID, sb.toString());
+    	nanostore_shared_editor.commit();
 
 		for (int i=0;i<count;i++ ){
        		if (from[i].isChecked()){
-       			settings_money = getSharedPreferences("fromStore", 0);
-       		    moneyeditor = settings_money.edit();
-       			moneyeditor.putString("fromStore", String.valueOf(i));
-       			moneyeditor.commit();}
+       			nanostore_shared_editor.putString("fromStore", String.valueOf(i));
+       			nanostore_shared_editor.commit();}
        		 if (to[i].isChecked()){
-       			settings_money = getSharedPreferences("toStore", 0);
-       		    moneyeditor = settings_money.edit();
-       		    moneyeditor.putString("toStore", String.valueOf(i));
-       			moneyeditor.commit();}}
+       			nanostore_shared_editor.putString("toStore", String.valueOf(i));
+       			nanostore_shared_editor.commit();}}
  }
 
-private void processThread() {
+void processThread() {
     
 	Toast toast2 = Toast.makeText(getApplicationContext(), getString(R.string.updateinprogress), Toast.LENGTH_SHORT);
     LinearLayout ToastView = (LinearLayout) toast2.getView();
@@ -347,12 +370,12 @@ private void processThread() {
     imageWorld.setImageResource(R.drawable.dwnld);
     ToastView.addView(imageWorld, 0);
     toast2.show();
-    
+
     bankIDcheck();
  }
 
-private void processThreadforce() {
-	progressDialog = ProgressDialog.show(NanoConverter.mContext, getString(R.string.wait), getString(R.string.updateinprogress));
+void processThreadforce() {
+	progressDialog = ProgressDialog.show(com.nanoconverter.zlab.NanoConverter.mContext, getString(R.string.wait), getString(R.string.updateinprogress));
 
 	new Thread() {
 		public void run() {
@@ -362,11 +385,12 @@ private void processThreadforce() {
 	bankIDcheck();
  }
 
-public void bankIDcheck() {
+void bankIDcheck() {
 	if (BANK_ID == "CBR"){
         new Thread() {
             public void run() {
            	 runLongProcessCBR();
+           	 handlerGOODtoast.sendEmptyMessage(0);
            	 handlerCloseThread.sendEmptyMessage(0);
             }
         }.start();}
@@ -374,6 +398,7 @@ public void bankIDcheck() {
    		new Thread() {
    	         public void run() {
    	        	 runLongProcessNBU();
+   	        	 handlerGOODtoast.sendEmptyMessage(0);
    	        	 handlerCloseThread.sendEmptyMessage(0);
    	         }
    	     }.start();
@@ -382,6 +407,7 @@ public void bankIDcheck() {
    		new Thread() {
   	         public void run() {
   	        	 runLongProcessNBRB();
+  	        	 handlerGOODtoast.sendEmptyMessage(0);
   	        	 handlerCloseThread.sendEmptyMessage(0);
   	         }
   	     }.start();
@@ -390,6 +416,7 @@ public void bankIDcheck() {
    		new Thread() {
   	         public void run() {
   	        	 runLongProcessBNM();
+  	        	 handlerGOODtoast.sendEmptyMessage(0);
   	        	 handlerCloseThread.sendEmptyMessage(0);
   	         }
   	     }.start();
@@ -398,6 +425,7 @@ public void bankIDcheck() {
    		new Thread() {
   	         public void run() {
   	        	 runLongProcessAZ();
+  	        	 handlerGOODtoast.sendEmptyMessage(0);
   	        	 handlerCloseThread.sendEmptyMessage(0);
   	         }
   	     }.start();
@@ -406,6 +434,7 @@ public void bankIDcheck() {
    		new Thread() {
   	         public void run() {
   	        	 runLongProcessECB();
+  	        	 handlerGOODtoast.sendEmptyMessage(0);
   	        	 handlerCloseThread.sendEmptyMessage(0);
   	         }
   	     }.start();
@@ -414,20 +443,21 @@ public void bankIDcheck() {
    		new Thread() {
    			public void run() {
    				runLongProcessFOREX();
+ 	        	handlerGOODtoast.sendEmptyMessage(0);
    				handlerCloseThread.sendEmptyMessage(0);
    			}
  	     }.start();
    	}
 }
 
-private void killLongForce() {
+void killLongForce() {
 	try {
 	Thread.sleep(10*1000);
 	handlerCloseThreadforce.sendEmptyMessage(0);
 	} catch (Exception ioe) {
 	    	}
 }
- private void runLongProcessCBR() {
+ public void runLongProcessCBR() {
 	
   try {
 	  	 boolean sec = true;
@@ -505,6 +535,7 @@ private void killLongForce() {
 		  		  }
 	  		   }
 	  		 
+	  		 handlBankID="CBR";
 	  		 handlerGOODThread.sendEmptyMessage(0);
 	  		 
 	  			} catch (Exception ioe) {
@@ -516,7 +547,7 @@ private void killLongForce() {
      }
  }
  
- private void runLongProcessNBU() {
+ public void runLongProcessNBU() {
 
 	  try {
 		  	 boolean sec = true;
@@ -593,7 +624,8 @@ private void killLongForce() {
 						   			}
 				  		  }
 			  		   }
-			  		 
+
+				  	 handlBankID="NBU";
 			  		 handlerGOODThread.sendEmptyMessage(0);
 			  		 
 			  			} catch (Exception ioe) {
@@ -605,7 +637,7 @@ private void killLongForce() {
 	     }
 	 }
  
- private void runLongProcessBNM() {
+ public void runLongProcessBNM() {
 
 	  try {
 		  	 boolean sec = true;
@@ -688,7 +720,8 @@ private void killLongForce() {
 						   			}
 				  		  }
 			  		   }
-			  		 
+
+				  	 handlBankID="BNM";
 			  		 handlerGOODThread.sendEmptyMessage(0);
 			  		 
 			  			} catch (Exception ioe) {
@@ -700,7 +733,7 @@ private void killLongForce() {
 	     }
 	 }
  
- private void runLongProcessNBRB() {
+ public void runLongProcessNBRB() {
 
 	  try {
 		  	 boolean sec = true;
@@ -777,7 +810,8 @@ private void killLongForce() {
 						   			}
 				  		  }
 			  		   }
-			  		 
+
+					 handlBankID="NBRB";
 			  		 handlerGOODThread.sendEmptyMessage(0);
 			  		 
 			  			} catch (Exception ioe) {
@@ -790,7 +824,7 @@ private void killLongForce() {
 	     }
 	 }
  
- private void runLongProcessAZ() {
+ public void runLongProcessAZ() {
 
 	  try {
 		  	 boolean sec = true;
@@ -873,7 +907,8 @@ private void killLongForce() {
 						   			}
 				  		  }
 			  		   }
-			  		 
+
+					 handlBankID="AZ";
 			  		 handlerGOODThread.sendEmptyMessage(0);
 			  		 
 			  			} catch (Exception ioe) {
@@ -885,7 +920,7 @@ private void killLongForce() {
 	     }
 	 }
  
- private void runLongProcessECB() {
+ public void runLongProcessECB() {
 	  try {
 		  	 boolean sec = true;
 		  		Document doc = null;
@@ -947,7 +982,8 @@ private void killLongForce() {
 						   			}
 				  		  }
 			  		   }
-			  		 
+
+					 handlBankID="ECB";
 			  		 handlerGOODThread.sendEmptyMessage(0);
 			  		 
 			  			} catch (Exception ioe) {
@@ -959,7 +995,7 @@ private void killLongForce() {
 	     }
 	 }
  
- private void runLongProcessFOREX() {
+ public void runLongProcessFOREX() {
 
 	  try {
 		  	 boolean sec = true;
@@ -1021,6 +1057,7 @@ private void killLongForce() {
 				  		  }
 			  		   }
 
+					 handlBankID="FOREX";
 			  		 handlerGOODThread.sendEmptyMessage(0);
 			  		 
 			  			} catch (Exception ioe) {
@@ -1034,8 +1071,7 @@ private void killLongForce() {
  
  
  /// Обработчик пересчета
- public void myClickHandler() {
-	  int checkBank = Integer.parseInt(ListBankPreference);
+ void UpdateResultsHandler() {
 	  course[36].setText(courserate[36].getText().toString());
 
 	    for (int i=0;i<count;i++ ){
@@ -1096,15 +1132,138 @@ private void killLongForce() {
          }
      }
  
+ public void BankChangeClickHandler(View view){
+	 
+	 AlertDialog.Builder BankSelect = new AlertDialog.Builder(this);
+	 BankSelect.setTitle(getResources().getString(R.string.bank_is_this));
+	 
+	 LayoutInflater inflater = getLayoutInflater();
+	 View radioLayout = inflater.inflate(R.layout.popup_bank, null);
+	 BankSelect.setView(radioLayout);
+
+	 final RadioButton[] radiobank = new RadioButton[8];
+	 final String[] banktext = getResources().getStringArray(R.array.listsourceArray);
+
+	 for (int i=0;i<8;i++ ){
+			int resID = radioLayout.getResources().getIdentifier("radio" + i,"id", getPackageName());
+			radiobank[i] = (RadioButton)radioLayout.findViewById(resID);
+			radiobank[i].setText(banktext[i]);
+			if (checkBank==i){radiobank[i].setChecked(true);};
+	 }
+	 
+	    if (checkBank == 1) {
+	    	StringBuilder sb = new StringBuilder();
+		    for (int i = 0; i < count; i++) {
+		        sb.append(courserate[i].getText().toString()).append(",");
+		        }
+		   		nanostore_shared_editor.putString("rates_from_"+BANK_ID, sb.toString());
+		    	nanostore_shared_editor.commit();
+	    }
+
+	 BankSelect.setPositiveButton("Ok",
+	   new DialogInterface.OnClickListener() {
+	    public void onClick(DialogInterface dialog, int which) {
+	   	 for (int i=0;i<8;i++ ){if (radiobank[i].isChecked()){which=i;};}
+	     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+	     prefs.edit().putString("listSourcesDefault", String.valueOf(which)).commit();
+	     
+	     //// update view
+	     getRadio();
+		 setkey();
+		 getresID2();
+		 getPrefs();
+
+		      if (checkBank == 1){TurnOFFrates();buttonloadfrom.setVisibility(View.VISIBLE);} else {TurnONrates();buttonloadfrom.setVisibility(View.GONE);}
+
+		      String[] separated = nanostore_shared.getString("rates_from_"+BANK_ID, "7777").split(",");
+
+		      if (separated[0].equals("7777") && checkBank != 1 ){
+		    	  /* if never updated, update */
+		    	  NanoConverter.mContext.processThread();
+		      } else {
+		      for (int i=0;i<count;i++ ){try {course[i].setText(separated[i]);} catch (Exception ioe) {}
+		      }}
+		      courserate[36].setText(course[36].getText().toString());
+		      UpdateRates();
+	     ////
+	    }
+	   });
+	 AlertDialog BankSelectDialog = BankSelect.create();
+	 BankSelectDialog.show();
+ }
+ 
+ public void CopyFromBankClickHandler(View view){
+
+	 AlertDialog.Builder BankSelect = new AlertDialog.Builder(this);
+	 BankSelect.setTitle(getResources().getString(R.string.presets));
+	 BankSelect.setMessage(getResources().getString(R.string.presets_disc)+":");
+	 
+	 LayoutInflater inflater = getLayoutInflater();
+	 View radioLayout = inflater.inflate(R.layout.popup_bank, null);
+	 BankSelect.setView(radioLayout);
+
+	 final RadioButton[] radiobank = new RadioButton[8];
+	 final String[] bankid = getResources().getStringArray(R.array.listBankID);
+	 final String[] banktext = getResources().getStringArray(R.array.listsourceArray);
+
+	 for (int i=0;i<8;i++ ){
+			int resID = radioLayout.getResources().getIdentifier("radio" + i,"id", getPackageName());
+			radiobank[i] = (RadioButton)radioLayout.findViewById(resID);
+			radiobank[i].setText(banktext[i]);
+			if (checkBank==i){radiobank[i].setChecked(true);};
+	 }
+
+	 BankSelect.setPositiveButton("Ok",
+	   new DialogInterface.OnClickListener() {
+	    public void onClick(DialogInterface dialog, int which) {
+	   	 for (int i=0;i<8;i++ ){if (radiobank[i].isChecked()){which=i;};}	    	
+	   	 checkBank=which;
+	   	 BANK_ID=bankid[which];
+
+	     //// update view
+	     getRadio();
+		 setkey();
+		 getresID2();
+
+		      String[] separated = nanostore_shared.getString("rates_from_"+BANK_ID, "7777").split(",");
+
+		      if (separated[0].equals("7777") && checkBank != 1 ){
+		    	  /* if never updated, update */
+		    	  NanoConverter.mContext.processThread();
+		      } else {
+		      for (int i=0;i<count;i++ ){try {course[i].setText(separated[i]);} catch (Exception ioe) {}
+		      }}
+		      courserate[36].setText(course[36].getText().toString());
+		      UpdateRates();
+	     ////
+		      BANK_ID="USER_DATA";
+		      checkBank=1;
+	    }
+	   });
+	 AlertDialog BankSelectDialog = BankSelect.create();
+	 BankSelectDialog.show();
+ }
+ public void InverseStateClickHandler(View view){
+     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+     if (reverserates){
+    	 prefs.edit().putBoolean("revratesswitch", false).commit();
+    	 reverserates = false;
+     } else {
+    	 prefs.edit().putBoolean("revratesswitch", true).commit();
+    	 reverserates = true;
+     }
+	 UpdateRates();
+ }
+ 
  /* Обработчик обновления */
- public void myClickHandler2(View view) {
+ public void UpdateButtonClickHandler(View view) {
      switch (view.getId()) {
-     case R.id.button2:
+     case R.id.UpdateButton:
  		NanoConverter.mContext.processThread();
      }
  }
  
-  public void TurnONrates() {
+  void TurnONrates() {
 	  for (int i=0;i<count;i++ ){
 		  courserate[i].setKeyListener(null);
 		  }
@@ -1112,14 +1271,14 @@ private void killLongForce() {
 	    courserate[36].setKeyListener(course[0].getKeyListener());
 }
   
-  public void TurnOFFrates() {
+  void TurnOFFrates() {
 	  for (int i=0;i<count;i++ ){
 		  courserate[i].setKeyListener(course[0].getKeyListener());
 		  }
 	    buttonrefresh.setEnabled(false);
   }
   
-private void getPrefs() {
+void getPrefs() {
 
              SharedPreferences prefs = PreferenceManager
                              .getDefaultSharedPreferences(getBaseContext());
@@ -1133,7 +1292,20 @@ private void getPrefs() {
             ListBankPreference = prefs.getString("listSourcesDefault", "0");
             listUpdate = prefs.getString("listUpdate", "0");
             reverserates = prefs.getBoolean("revratesswitch", false);
+            
+            checkUPDT = Integer.parseInt(listUpdate);
+            checkBank = Integer.parseInt(ListBankPreference);
+      	    checkCurd = Integer.parseInt(ListCurPreference);
 
+            	if (checkBank == 0){ BANK_ID = "CBR";} else
+            	if (checkBank == 1){ BANK_ID = "USER_DATA";} else
+                if (checkBank == 2){ BANK_ID = "NBU";} else
+                if (checkBank == 3){ BANK_ID = "NBRB";} else
+                if (checkBank == 4){ BANK_ID = "BNM";} else
+                if (checkBank == 5){ BANK_ID = "AZ";} else
+                if (checkBank == 6){ BANK_ID = "ECB";} else
+                if (checkBank == 7){ BANK_ID = "FOREX";}
+            
             String bkgr = prefs.getString("bkgcheckbox", "0");
             View maintabhost = findViewById(android.R.id.tabhost);
             View scrl1 = findViewById(R.id.scroll1);
@@ -1172,16 +1344,12 @@ private void getPrefs() {
                 }
 }
     
-  public void UpdateRates() {
-	  int checkBank = Integer.parseInt(ListBankPreference);
-	  int checkCurd = Integer.parseInt(ListCurPreference);
+  void UpdateRates() {
 	  BigDecimal y= new BigDecimal(0);
-
-	  if (checkBank == 1) {
-		  for (int j=0;j<count;j++){from[j].setEnabled(true);to[j].setEnabled(true);courserate[j].setEnabled(true);}
-	  } else {
-		  zerocheck();
-
+	  zerocheck();
+	  
+	  if (checkBank == 1) {for (int j=0;j<count;j++){from[j].setEnabled(true);to[j].setEnabled(true);courserate[j].setEnabled(true);}}
+		
 		  for (int i=0;i<count;i++ ){
 			  if (checkCurd == i && Double.parseDouble(course[i].getText().toString()) != 0){coursebydefaultis = course[i].getText().toString();}
 			  if (checkCurd == i && Double.parseDouble(course[i].getText().toString()) == 0){{Toast toast2 = Toast.makeText(getApplicationContext(), getString(R.string.zerocheck), Toast.LENGTH_LONG);toast2.show();coursebydefaultis = course[0].getText().toString();}}
@@ -1198,9 +1366,9 @@ private void getPrefs() {
 	  		  y = y.setScale(4, BigDecimal.ROUND_HALF_UP);  // Точность округления вкладки курсы
 			  courserate[i].setText(y.toString());
 			  }}
-	  }
+	  
   }
-  public void zerocheck() {
+  void zerocheck() {
 	  for (int j=0;j<count;j++){
 		  try {
           if (Double.parseDouble(course[j].getText().toString()) == 0){

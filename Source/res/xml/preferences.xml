@@ -226,10 +226,10 @@
             <ListPreference android:key="bkgcheckbox" android:defaultValue="0" android:entries="@array/listBKG" android:entryValues="@array/listBKGValues" android:title="@string/bkg" android:summary="@string/bkgdis"/>
         </PreferenceCategory>
         <PreferenceCategory android:title="@string/about">
-            <PreferenceScreen android:summary="@string/abouttext" android:title="@string/aboutvers"></PreferenceScreen>
+            <PreferenceScreen android:summary="@string/abouttap" android:title="@string/aboutvers"></PreferenceScreen>
         </PreferenceCategory>
         <PreferenceCategory android:title="@string/about">
-            <PreferenceScreen android:title="Source code:" android:summary="http://zorger.github.com/nanoConverter/" android:key="sourceurl"></PreferenceScreen><PreferenceScreen android:summary="@string/abouttext" android:title="@string/aboutvers"></PreferenceScreen>
+            <PreferenceScreen android:title="Source code:" android:summary="http://zorger.github.com/nanoConverter/" android:key="sourceurl"></PreferenceScreen><PreferenceScreen android:summary="@string/abouttext" android:title="@string/aboutvers" android:key="about"></PreferenceScreen>
             
         </PreferenceCategory>
         

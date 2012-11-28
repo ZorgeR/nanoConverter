@@ -32,8 +32,9 @@
     <string name="curlist">Currency list</string>
     <string name="curlistdis">Available for conversation currency</string>
     <string name="sources">Sources</string>
-    <string name="aboutvers">nanoConverter 0.8.1</string>
-    <string name="abouttext">Спасибо за флаги:\n- famfamfam.com\nСпасибо за паттерны:\n- noqta.it, dinpattern.com, squidfingers.com, pattrnapp.com\nСпасибо за how to:\n- stackoverflow.com, habrahabr.ru\nОсобая благодарность:\n- jadis100, Ant-ON, ramallah, spardaev.</string>
+    <string name="aboutvers">nanoConverter 0.8.98</string>
+    <string name="abouttap">Click for detail!</string>
+    <string name="abouttext">Flags icon:\n- http://famfamfam.com\n\nPatterns:\n- http://noqta.it\n- http://dinpattern.com\n- http://squidfingers.com\n- http://pattrnapp.com\n\nIcons:\n- http://adamwhitcroft.com/batch\n\nHow to:\n- http://stackoverflow.com\n- http://habrahabr.ru\n\nThx:\n- jadis100, Ant-ON, ramallah, spardaev.\n\nWTFPL:\nDo What The Fuck You Want To Public License.</string>
     <string name="other">Other</string>
     <string name="bkg">Background</string>
     <string name="bkgdis">Choose app. background</string>
@@ -43,4 +44,19 @@
     <string name="revratesdis">Use reversed rates on rates tab</string>
     <string name="devzero">Division by zero!</string>
     <string name="devnull">Null rate detected!</string>
+    <string name="bank">Bank</string>
+    <string name="inverse">Inverse</string>
+    <string name="loadfrombank">Preset</string>
+    <string name="from_this">from:</string>
+    <string name="to_this">to:</string>
+    <string name="bank_is_this">Source</string>
+    <string name="circle_or_not">Circle</string>
+    <string name="rounded_corner_not">Rounded Corners</string>
+    <string name="show_bank">Show Source</string>
+    <string name="show_update">Show Update</string>
+    <string name="show_cur">Show Currency</string>
+    <string name="show_onlyFrom">First only</string>
+    <string name="show_onlyTo">Second only</string>
+    <string name="presets">Rates</string>
+    <string name="presets_disc">Grab rates from</string>
 </resources>

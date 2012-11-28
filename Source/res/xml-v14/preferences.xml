@@ -226,7 +226,7 @@
         </PreferenceCategory>
         <PreferenceCategory android:title="@string/about">
             
-            <PreferenceScreen android:title="Source code:" android:summary="http://zorger.github.com/nanoConverter/" android:key="sourceurl"></PreferenceScreen><PreferenceScreen android:summary="@string/abouttext" android:title="@string/aboutvers"></PreferenceScreen>
+            <PreferenceScreen android:title="Source code:" android:summary="http://zorger.github.com/nanoConverter/" android:key="sourceurl"></PreferenceScreen><PreferenceScreen android:summary="@string/abouttap" android:title="@string/aboutvers" android:key="about"></PreferenceScreen>
         </PreferenceCategory>
         
 </PreferenceScreen>
