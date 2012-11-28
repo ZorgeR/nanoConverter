@@ -47,9 +47,9 @@ public class NanoConverter extends TabActivity {
 	
 	private EditText text,amountmoney;
 	
-	int count = 36;
+	int count = 37;
 	
-	public String[] sa = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL", "AZN", "AUD", "AMD", "BGN", "BRL", "HUF", "DKK", "INR", "KZT", "CAD", "KGS", "CNY", "NOK", "RON", "XDR", "SGD", "TJS", "TRY", "TMT", "UZS", "CZK", "SEK", "ZAR", "KRW" };
+	public String[] sa = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL", "AZN", "AUD", "AMD", "BGN", "BRL", "HUF", "DKK", "INR", "KZT", "CAD", "KGS", "CNY", "NOK", "RON", "XDR", "SGD", "TJS", "TRY", "TMT", "UZS", "CZK", "SEK", "ZAR", "KRW", "FOO" };
 	public EditText[] course = new EditText[count];
 	public EditText[] courserate = new EditText[count];
 	public RadioButton[] from = new RadioButton[count];
@@ -66,10 +66,10 @@ public class NanoConverter extends TabActivity {
 	
 	private Button buttonrefresh;
 	
-	public String curentfromcourserate = "1.00";
-	public String curenttocourserate = "1.00";
+	public double curentfromcourserate = 1.00;
+	public double curenttocourserate = 1.00;
 
-	public static String ListCurPreference,ListBankPreference,listUpdate;
+	public static String ListCurPreference,ListBankPreference,listUpdate,leftsideselected,rightsideselected;
 	 	
     private ProgressDialog progressDialog;
 
@@ -87,6 +87,28 @@ public class NanoConverter extends TabActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.checkinternet), Toast.LENGTH_SHORT);
+            LinearLayout ToastView = (LinearLayout) toast.getView();
+            ImageView imageWorld = new ImageView(getApplicationContext());
+            imageWorld.setImageResource(R.drawable.err);
+            ToastView.addView(imageWorld, 0);
+            toast.show();
+        }
+    };
+    Handler handlerERRdevzero = new Handler() {@Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.devzero), Toast.LENGTH_SHORT);
+            LinearLayout ToastView = (LinearLayout) toast.getView();
+            ImageView imageWorld = new ImageView(getApplicationContext());
+            imageWorld.setImageResource(R.drawable.err);
+            ToastView.addView(imageWorld, 0);
+            toast.show();
+        }
+    };
+    Handler handlerERRdevnull = new Handler() {@Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.devnull), Toast.LENGTH_SHORT);
             LinearLayout ToastView = (LinearLayout) toast.getView();
             ImageView imageWorld = new ImageView(getApplicationContext());
             imageWorld.setImageResource(R.drawable.err);
@@ -169,7 +191,8 @@ public class NanoConverter extends TabActivity {
      if (separated[0].equals("7777") ){} else {
      for (int i=0;i<count;i++ ){try {course[i].setText(separated[i]);} catch (Exception ioe) {}
      }}
-
+     courserate[36].setText(course[36].getText().toString());     
+     
      settings_money = getSharedPreferences("lastupdatedate", 0);
      String datestored = settings_money.getString("lastupdatedate", "7777");
      SimpleDateFormat dateis = new SimpleDateFormat("dd.MM.yyyy");
@@ -204,6 +227,20 @@ public class NanoConverter extends TabActivity {
  	from[i] = (RadioButton)findViewById(resID);
  		resID = getResources().getIdentifier("to" + sa[i],"id", getPackageName());
  	to[i] = (RadioButton)findViewById(resID);}
+ 
+
+ settings_money = getSharedPreferences("fromStore", 0);
+ String fromStore = settings_money.getString("fromStore", "0");
+ 
+ for (int i=0;i<count;i++ ){
+		if (fromStore.equals(String.valueOf(i))){
+			from[i].setChecked(true);}}
+ 
+ settings_money = getSharedPreferences("toStore", 0);
+ String toStore = settings_money.getString("toStore", "0");
+  for (int i=0;i<count;i++ ){
+		if (toStore.equals(String.valueOf(i))){
+			to[i].setChecked(true);}}
  }
  
  public void setkey() {for (int i=0;i<count;i++ ){
@@ -229,13 +266,15 @@ public class NanoConverter extends TabActivity {
 		 if (mactive[i] == false){from[i].setVisibility(View.GONE);to[i].setVisibility(View.GONE);moneycls[i].setVisibility(View.GONE);moneycl[i].setVisibility(View.GONE);}
 		 if (mactive[i] == true){from[i].setVisibility(View.VISIBLE);to[i].setVisibility(View.VISIBLE);moneycl[i].setVisibility(View.VISIBLE);moneycls[i].setVisibility(View.VISIBLE);}
 	 }
+
 	      if (checkBank == 0){ BANK_ID = "CBR"; TurnONrates();} else
 	      if (checkBank == 1){TurnOFFrates(); } else
 	      if (checkBank == 2){ BANK_ID = "NBU";  TurnONrates();} else
 	      if (checkBank == 3){ BANK_ID = "NBRB"; TurnONrates();} else
 	      if (checkBank == 4){ BANK_ID = "BNM";  TurnONrates();} else
 	      if (checkBank == 5){ BANK_ID = "AZ";  TurnONrates();} else
-	      if (checkBank == 6){ BANK_ID = "ECB";  TurnONrates();}
+	      if (checkBank == 6){ BANK_ID = "ECB";  TurnONrates();} else
+	      if (checkBank == 7){ BANK_ID = "FOREX";  TurnONrates();}
 	      if (checkBank != 1){UpdateRates();}
 
 	      super.onResume();
@@ -278,6 +317,7 @@ public class NanoConverter extends TabActivity {
     		course[i].setText(courserate[i].getText().toString());
         	}
     }
+    course[36].setText(courserate[36].getText().toString());
     
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < count; i++) {
@@ -285,6 +325,18 @@ public class NanoConverter extends TabActivity {
         }
 		moneyeditor.putString("moneyupdatestr", sb.toString());
 		moneyeditor.commit();
+
+		for (int i=0;i<count;i++ ){
+       		if (from[i].isChecked()){
+       			settings_money = getSharedPreferences("fromStore", 0);
+       		    moneyeditor = settings_money.edit();
+       			moneyeditor.putString("fromStore", String.valueOf(i));
+       			moneyeditor.commit();}
+       		 if (to[i].isChecked()){
+       			settings_money = getSharedPreferences("toStore", 0);
+       		    moneyeditor = settings_money.edit();
+       		    moneyeditor.putString("toStore", String.valueOf(i));
+       			moneyeditor.commit();}}
  }
 
 private void processThread() {
@@ -358,6 +410,14 @@ public void bankIDcheck() {
   	         }
   	     }.start();
   	}
+   	if (BANK_ID == "FOREX") {
+   		new Thread() {
+   			public void run() {
+   				runLongProcessFOREX();
+   				handlerCloseThread.sendEmptyMessage(0);
+   			}
+ 	     }.start();
+   	}
 }
 
 private void killLongForce() {
@@ -899,9 +959,84 @@ private void killLongForce() {
 	     }
 	 }
  
+ private void runLongProcessFOREX() {
+
+	  try {
+		  	 boolean sec = true;
+		  		Document doc = null;
+		  		
+		  	    try {
+		  	    		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		  	     	   	DocumentBuilder db = dbf.newDocumentBuilder();	
+		  	     	   	URL url = new URL("http://rss.timegenie.com/forex.xml");
+		  	     	   	doc = db.parse(new InputSource(url.openStream()));
+		  		     } catch (Exception ioe) {
+		  		    	 sec = false;
+		  		    	handlerERRThread.sendEmptyMessage(0);
+		  		    	 }
+		  	if (sec == true){
+		  		try {
+			  		NodeList charlist = doc.getElementsByTagName("code");
+			  		NodeList list = doc.getElementsByTagName("rate");
+			  		   int len = list.getLength();
+			  		
+			  		   String[] sas = { "USD", "EUR", "CHF", "GBP", "JPY", "UAH", "RUB", "MDL", "BYR", "PLN", "LTL", "LVL", "AZM", "AUD", "AMD", "BGN", "BRL", "HUF", "DKK", "INR", "KZT", "CAD", "KGS", "CNY", "NOK", "RON", "XDR", "SGD", "TJS", "TRY", "TMT", "UZS", "CZK", "SEK", "ZAR", "KRW" };
+			  		   String[] coursenew = new String[36];
+			  		   for(int i = 0; i<36; i++){coursenew[i] = "0";}
+			  		   
+			  		   for(int i = 0; i<len; i++)
+			  		   {
+			  			   /* ID */
+			  			   	Node ch= charlist.item(i);
+			  			    ch.getNodeValue();
+			  		   		ch.getFirstChild().getNodeValue();
+			  		   		String chStr  = ch.getFirstChild().getNodeValue();
+			  		   		int[] chpos = new int[36];
+			  		   		for(int j = 0; j<36; j++){chpos[j] = 7777;}
+			  		   		for(int j = 0; j<36; j++){
+			  		   			if (chStr.equals(sas[j])) {
+			  		   			chpos[j] = i;
+			  		   			}
+			  		   		}
+			  		   		
+			  			   /* data */
+			  			    Node n= list.item(i);
+			  		   		n.getNodeValue();
+			  		   		n.getFirstChild().getNodeValue();
+			  		   		String dateCurrencyStr  = n.getFirstChild().getNodeValue();
+
+			  		   		double coursetrue;
+
+				  		   	for(int j = 0; j<36; j++){
+				  		   	if(i == chpos[j])	{coursenew[j] = dateCurrencyStr.replace(",", ".");
+					   			coursetrue = ( 1/Double.parseDouble(coursenew[j]) );
+					   			coursenew[j] = (Double.toString(coursetrue));
+					   			}
+			  		   		}
+				  		   	
+				  		  if (i == len-1){
+				  			  for(int j = 0; j<36; j++){
+					  		   	 course[j].setText(coursenew[j]);
+						   			}
+				  		  }
+			  		   }
+
+			  		 handlerGOODThread.sendEmptyMessage(0);
+			  		 
+			  			} catch (Exception ioe) {
+		  		    	 //donothing
+		  		    	}
+		  	} else { }
+	     } catch (Exception ioe) {
+	    	 
+	     }
+	 }
+ 
+ 
  /// ќбработчик пересчета
  public void myClickHandler() {
 	  int checkBank = Integer.parseInt(ListBankPreference);
+	  course[36].setText(courserate[36].getText().toString());
 
 	    for (int i=0;i<count;i++ ){
 	    	int resID = getResources().getIdentifier("from" + sa[i],"id", getPackageName());
@@ -915,33 +1050,49 @@ private void killLongForce() {
 	    
          if (text.getText().length() == 0) {amountmoney.setText("0.00");return;} else
          if (text.getText().toString().equals("-")) {amountmoney.setText("0.00");return;} else
+        	 
          if (checkBank != 1) {
-        	 
         	 for (int i=0;i<count;i++ ){
-        		 
-        		 if (from[i].isChecked()){
-        			 curentfromcourserate = course[i].getText().toString();
-        			 }
-        		 if (to[i].isChecked()){
-        			 curenttocourserate = course[i].getText().toString();}
+        	 try {
+        		if (from[i].isChecked()){	if ((i == 36) && (reverserates)){	curentfromcourserate = (1/Double.parseDouble(course[i].getText().toString()));
+        			 				 } else if (to[36].isChecked()) {			curentfromcourserate = Double.parseDouble(courserate[i].getText().toString());
+        			 				 } else {									curentfromcourserate = Double.parseDouble(course[i].getText().toString());}
+        		}
+        		 if (to[i].isChecked()){	if ((i == 36) && (reverserates)){	curenttocourserate = (1/Double.parseDouble(course[i].getText().toString()));
+        			 				 } else if (from[36].isChecked()) {			curenttocourserate = Double.parseDouble(courserate[i].getText().toString());
+		        			 		 } else {									curenttocourserate = Double.parseDouble(course[i].getText().toString());}
+        		 }
+          	 } catch (Exception ioe) {handlerERRdevnull.sendEmptyMessage(0);}
         	 }
-        		   	
-	  		   		BigDecimal x = new BigDecimal(Double.parseDouble(text.getText().toString()) * Double.parseDouble(curentfromcourserate) / Double.parseDouble(curenttocourserate));
-	  		   		x = x.setScale(2, BigDecimal.ROUND_HALF_UP); // “очность округлени€ расчетов при курсах от банка
-	  		   		amountmoney.setText(x.toString());
-         } else {
         	 
-        	 	for (int i=0;i<count;i++ ){
-        		 
-        		 if (from[i].isChecked()){
-        			 curentfromcourserate = courserate[i].getText().toString();
-        			 }
-        		 if (to[i].isChecked()){
-        			 curenttocourserate = courserate[i].getText().toString();}
-        	 }
-	        	 	BigDecimal x = new BigDecimal(Double.parseDouble(text.getText().toString()) * Double.parseDouble(curentfromcourserate) / Double.parseDouble(curenttocourserate));
-	  		   		x = x.setScale(2, BigDecimal.ROUND_HALF_UP); // “очность округлени€ расчетов при курсах от пользовател€
-	  		   		amountmoney.setText(x.toString());
+        	 try {		BigDecimal x = new BigDecimal(Double.parseDouble(text.getText().toString()) * curentfromcourserate / curenttocourserate);
+        	  		   	x = x.setScale(2, BigDecimal.ROUND_HALF_UP); // “очность округлени€ расчетов при курсах от банка
+        	  		   	amountmoney.setText(x.toString());
+        	 } catch (Exception ioe) {handlerERRdevzero.sendEmptyMessage(0);}
+        	 
+         } else {
+				for (int i = 0; i < count; i++) {
+	        	try {
+					if (from[i].isChecked()) {
+						curentfromcourserate = Double.parseDouble(courserate[i].getText().toString());
+					}
+					if (to[i].isChecked()) {
+						curenttocourserate = Double.parseDouble(courserate[i].getText().toString());
+					}
+	          	} catch (Exception ioe) {handlerERRdevnull.sendEmptyMessage(0);}
+				}
+				
+	        	 if (reverserates){
+		        		 try {	BigDecimal x = new BigDecimal(Double.parseDouble(text.getText().toString()) * curenttocourserate / curentfromcourserate);
+				  		   		x = x.setScale(2, BigDecimal.ROUND_HALF_UP); // “очность округлени€ расчетов при курсах от пользовател€
+				  		   		amountmoney.setText(x.toString());
+		        		 } catch (Exception ioe) {handlerERRdevzero.sendEmptyMessage(0);}
+				  } else {
+					  try {	BigDecimal x = new BigDecimal(Double.parseDouble(text.getText().toString()) * curentfromcourserate / curenttocourserate);
+			  		   		x = x.setScale(2, BigDecimal.ROUND_HALF_UP); // “очность округлени€ расчетов при курсах от пользовател€
+			  		   		amountmoney.setText(x.toString());
+		        	 	} catch (Exception ioe) {handlerERRdevzero.sendEmptyMessage(0);}
+				  }
          }
      }
  
@@ -958,6 +1109,7 @@ private void killLongForce() {
 		  courserate[i].setKeyListener(null);
 		  }
 	    buttonrefresh.setEnabled(true);
+	    courserate[36].setKeyListener(course[0].getKeyListener());
 }
   
   public void TurnOFFrates() {
@@ -981,7 +1133,7 @@ private void getPrefs() {
             ListBankPreference = prefs.getString("listSourcesDefault", "0");
             listUpdate = prefs.getString("listUpdate", "0");
             reverserates = prefs.getBoolean("revratesswitch", false);
-            
+
             String bkgr = prefs.getString("bkgcheckbox", "0");
             View maintabhost = findViewById(android.R.id.tabhost);
             View scrl1 = findViewById(R.id.scroll1);
@@ -989,8 +1141,7 @@ private void getPrefs() {
             
             if (bkgr.equals("0")){
             	maintabhost.setBackgroundColor(Color.BLACK);
-                scrl1.setBackgroundDrawable(getResources().getDrawable(R.drawable.bkgb));scrl2.setBackgroundDrawable(getResources().getDrawable(R.drawable.bkgb));
-                } else
+                scrl1.setBackgroundDrawable(getResources().getDrawable(R.drawable.bkgb));scrl2.setBackgroundDrawable(getResources().getDrawable(R.drawable.bkgb));} else
             if (bkgr.equals("1")){
             	maintabhost.setBackgroundColor(Color.BLACK);
             	scrl1.setBackgroundDrawable(null);scrl2.setBackgroundDrawable(null);} else
@@ -1014,7 +1165,10 @@ private void getPrefs() {
             	scrl1.setBackgroundDrawable(null);scrl2.setBackgroundDrawable(null);} else
             if (bkgr.equals("8")){
             	maintabhost.setBackgroundDrawable(getResources().getDrawable(R.drawable.bkgmain));
-            	scrl1.setBackgroundDrawable(null);scrl2.setBackgroundDrawable(null);
+            	scrl1.setBackgroundDrawable(null);scrl2.setBackgroundDrawable(null);} else
+            if (bkgr.equals("9")){
+                maintabhost.setBackgroundDrawable(getResources().getDrawable(R.drawable.flower));
+                scrl1.setBackgroundDrawable(null);scrl2.setBackgroundDrawable(null);
                 }
 }
     
@@ -1023,38 +1177,40 @@ private void getPrefs() {
 	  int checkCurd = Integer.parseInt(ListCurPreference);
 	  BigDecimal y= new BigDecimal(0);
 
-	  if (checkBank == 1) {} else {
+	  if (checkBank == 1) {
+		  for (int j=0;j<count;j++){from[j].setEnabled(true);to[j].setEnabled(true);courserate[j].setEnabled(true);}
+	  } else {
 		  zerocheck();
 
 		  for (int i=0;i<count;i++ ){
-			  if (checkCurd == i && !course[i].getText().toString().equals("0")){coursebydefaultis = course[i].getText().toString();}
-			  if (checkCurd == i && course[i].getText().toString().equals("0")){{Toast toast2 = Toast.makeText(getApplicationContext(), getString(R.string.zerocheck), Toast.LENGTH_LONG);toast2.show();coursebydefaultis = course[0].getText().toString();}}
+			  if (checkCurd == i && Double.parseDouble(course[i].getText().toString()) != 0){coursebydefaultis = course[i].getText().toString();}
+			  if (checkCurd == i && Double.parseDouble(course[i].getText().toString()) == 0){{Toast toast2 = Toast.makeText(getApplicationContext(), getString(R.string.zerocheck), Toast.LENGTH_LONG);toast2.show();coursebydefaultis = course[0].getText().toString();}}
 			  }
 
 		  for (int i=0;i<count;i++ ){
-			  
+			  if (i != 36){
 			  if (reverserates){
-				  if (Float.parseFloat(course[i].getText().toString())!=0){
+				  	if (Float.parseFloat(course[i].getText().toString())!=0){
 					y = new BigDecimal(Double.parseDouble(coursebydefaultis)/Double.parseDouble(course[i].getText().toString()));} else {y = new BigDecimal(0);}
 			  } else {
 					y = new BigDecimal(Double.parseDouble(course[i].getText().toString())/Double.parseDouble(coursebydefaultis));}
 
 	  		  y = y.setScale(4, BigDecimal.ROUND_HALF_UP);  // “очность округлени€ вкладки курсы
 			  courserate[i].setText(y.toString());
-			  }
+			  }}
 	  }
   }
   public void zerocheck() {
 	  for (int j=0;j<count;j++){
-          if (course[j].getText().toString().equals("0")){
+		  try {
+          if (Double.parseDouble(course[j].getText().toString()) == 0){
           	from[j].setEnabled(false);
           	to[j].setEnabled(false);
           	courserate[j].setEnabled(false);
+          	from[36].setEnabled(true);to[36].setEnabled(true);courserate[36].setEnabled(true);
   		 } else {
-  			from[j].setEnabled(true);
-           	to[j].setEnabled(true);
-           	courserate[j].setEnabled(true);
-  		 }
+  			from[j].setEnabled(true);to[j].setEnabled(true);courserate[j].setEnabled(true);
+  		 }} catch (Exception ioe) {handlerERRdevnull.sendEmptyMessage(0);}
           }
   }
 }

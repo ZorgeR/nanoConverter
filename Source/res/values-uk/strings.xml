@@ -40,4 +40,6 @@
     <string name="revrates">Обратный стиль</string>
     <string name="revratess">Инверсно</string>
     <string name="revratesdis">Обратные курсы на вкладке курсов</string>
+    <string name="devzero">Деление на ноль!</string>
+    <string name="devnull">Пустое поле курсов!</string>
 </resources>

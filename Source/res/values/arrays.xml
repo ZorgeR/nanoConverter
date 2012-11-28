@@ -86,6 +86,7 @@
         <item >National Bank of Moldova</item>
         <item >Central Bank of Azerbaijan</item>
         <item >European Central Bank</item>
+        <item >Forex</item>
 </string-array>
  
 <string-array name="listsourceValues">
@@ -96,6 +97,7 @@
    <item>4</item>
    <item>5</item>
    <item>6</item>
+   <item>7</item>
 </string-array>
 
 <string-array name="listupdateArray">
@@ -122,6 +124,7 @@
         <item >Violet Fabric</item>
         <item >Black Dot</item>
         <item >ICS 2</item>
+		<item >Flowers</item>
 </string-array>
  
 <string-array name="listBKGValues">
@@ -134,6 +137,7 @@
    <item>6</item>
    <item>7</item>
    <item>8</item>
+   <item>9</item>
 </string-array>
 
 </resources>

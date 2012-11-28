@@ -9,6 +9,7 @@
         <item >НацБанк Молдовы</item>
         <item >Центробанк Азербайджана</item>
         <item >Европейский ЦБ</item>
+        <item >Форекс</item>
 </string-array>
  
 <string-array name="listupdateArray">
@@ -28,6 +29,7 @@
         <item >Violet Fabric</item>
         <item >Black Dot</item>
         <item >ICS 2</item>
+		<item >Flowers</item>
 </string-array>
  
 </resources>

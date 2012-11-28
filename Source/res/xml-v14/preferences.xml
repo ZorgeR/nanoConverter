@@ -38,7 +38,7 @@
                         android:title="@string/USDfrom"
                         android:defaultValue="true"
                         android:summary="@string/USD_discription"
-                        android:key="checkboxUSD" android:enabled="false" android:selectable="false"/>
+                        android:key="checkboxUSD"/>
                 <CheckBoxPreference
                         android:title="@string/EURfrom"
                         android:defaultValue="true"
@@ -214,13 +214,19 @@
                         android:defaultValue="true"
                         android:summary="@string/KRW_discription"
                         android:key="checkboxKRW" />
+				<CheckBoxPreference
+                        android:title="@string/FOOfrom"
+                        android:defaultValue="true"
+                        android:summary="@string/FOO_discription"
+                        android:key="checkboxFOO" />
         </PreferenceScreen>
             </PreferenceCategory>
         <PreferenceCategory android:title="@string/other">
             <ListPreference android:key="bkgcheckbox" android:defaultValue="0" android:entries="@array/listBKG" android:entryValues="@array/listBKGValues" android:title="@string/bkg" android:summary="@string/bkgdis"/>
         </PreferenceCategory>
         <PreferenceCategory android:title="@string/about">
-            <PreferenceScreen android:summary="@string/abouttext" android:title="@string/aboutvers"></PreferenceScreen>
+            
+            <PreferenceScreen android:title="Source code:" android:summary="http://zorger.github.com/nanoConverter/" android:key="sourceurl"></PreferenceScreen><PreferenceScreen android:summary="@string/abouttext" android:title="@string/aboutvers"></PreferenceScreen>
         </PreferenceCategory>
         
 </PreferenceScreen>

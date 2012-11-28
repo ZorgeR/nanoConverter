@@ -36,4 +36,5 @@
     <string name="SEK_discription">Swedish Krona</string>
     <string name="ZAR_discription">South African rand</string>
     <string name="KRW_discription">Won South Korea</string>
+    <string name="FOO_discription">Free course</string>
 </resources>

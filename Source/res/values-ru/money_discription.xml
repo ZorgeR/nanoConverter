@@ -36,4 +36,5 @@
     <string name="SEK_discription">Шведские кроны</string>
     <string name="ZAR_discription">Южноафриканские рэнды</string>
     <string name="KRW_discription">Вон Республики Корея</string>
+    <string name="FOO_discription">Свободный курс</string>
 </resources>

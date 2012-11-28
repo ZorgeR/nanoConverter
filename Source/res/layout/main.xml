@@ -424,6 +424,13 @@
                                 android:drawableLeft="@drawable/kr"
                                 android:drawablePadding="5dp"
                                 android:text="@string/KRWfrom" />
+                            <RadioButton
+                                android:id="@+id/fromFOO"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/fam"
+                                android:drawablePadding="5dp"
+                                android:text="@string/FOOfrom" />
                         </RadioGroup>
 
                         <RadioGroup
@@ -720,6 +727,13 @@
                                 android:drawableLeft="@drawable/kr"
                                 android:drawablePadding="5dp"
                                 android:text="@string/KRWfrom" />
+                            <RadioButton
+                                android:id="@+id/toFOO"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/fam"
+                                android:drawablePadding="5dp"
+                                android:text="@string/FOOfrom" />
                         </RadioGroup>
                     </LinearLayout>
 
@@ -2934,9 +2948,68 @@
                                 </EditText>
                             </LinearLayout>
                         </LinearLayout>
-
                         <View
                             android:id="@+id/KRWcls"
+                            android:layout_width="fill_parent"
+                            android:layout_height="1dip"
+                            android:background="#444444" />
+                        <LinearLayout
+                            android:id="@+id/FOOcl"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="4dp" >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="2dp" >
+
+                                <TextView
+                                    android:id="@+id/texFOOfrom"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/FOOfrom"
+                                    android:textSize="18sp" >
+                                </TextView>
+
+                                <TextView
+                                    android:id="@+id/textFOO_discription"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/FOO_discription"
+                                    android:textSize="12sp" >
+                                </TextView>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:padding="2dp" >
+
+                                <EditText
+                                    android:id="@+id/CourseFOO"
+                                    android:layout_width="150sp"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="numberDecimal"
+                                    android:text="@string/FOO"
+                                    android:visibility="invisible" >
+                                </EditText>
+
+                                <EditText
+                                    android:id="@+id/CourseFOOrate"
+                                    android:layout_width="150sp"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="numberDecimal"
+                                    android:text="@string/FOO" >
+                                </EditText>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:id="@+id/FOOcls"
                             android:layout_width="fill_parent"
                             android:layout_height="1dip"
                             android:background="#444444" />

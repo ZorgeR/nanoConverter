@@ -32,8 +32,8 @@
     <string name="curlist">Currency list</string>
     <string name="curlistdis">Available for conversation currency</string>
     <string name="sources">Sources</string>
-    <string name="aboutvers">nanoConverter 0.7.90</string>
-    <string name="abouttext">Open source money converter for Android. Flag icon from famfamfam - http://www.famfamfam.com/. Some awesome background pattern from http://www.noqta.it, http://www.dinpattern.com, http://www.squidfingers.com.</string>
+    <string name="aboutvers">nanoConverter 0.8.1</string>
+    <string name="abouttext">Спасибо за флаги:\n- famfamfam.com\nСпасибо за паттерны:\n- noqta.it, dinpattern.com, squidfingers.com, pattrnapp.com\nСпасибо за how to:\n- stackoverflow.com, habrahabr.ru\nОсобая благодарность:\n- jadis100, Ant-ON, ramallah, spardaev.</string>
     <string name="other">Other</string>
     <string name="bkg">Background</string>
     <string name="bkgdis">Choose app. background</string>
@@ -41,4 +41,6 @@
     <string name="revrates">Reverse rates</string>
     <string name="revratess">Reverse</string>
     <string name="revratesdis">Use reversed rates on rates tab</string>
+    <string name="devzero">Division by zero!</string>
+    <string name="devnull">Null rate detected!</string>
 </resources>
