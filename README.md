@@ -1,38 +1,5 @@
 #nanoConverter
 
-AAAHAAHHAAHAABMM#@@@@@@@@@#MMHAHHAAHAAHAAAHAAAHAAHAAAHAAH
-HBMBBBBBBBBBMBBMM#@@@M&3Sr;r;;rs59A#@@@##MBBMBHBMBHMMHBMB
-BMMBBBBBBBBBMBHM@@@Ai:...,:;;rrr;;:,..,;SB@@@MBMMBHBMBBMB
-MMBBBBBVBB#@##@@G;. ,r2AM#MBBAAABM##MA2;, .sB@@#BBMBHMBHB
-MHBBBMBH#H s@@5. :SB#M9r,           :i&##Hi, :h@@MBBBBHBB
-MHBBBBM@h  S;.r&#Bi.                   :X##h; ,&@@BHBMHBM
-MBBBBBB@3 S22&Hh:                         r##&; ;@@#BHBMH
-MBBBH#@s,GHAHX            .:,,:.           i@#2. #@MMHHMB
-BBBBM@X.SABBM@A,      ;3#@@@@@@@@@B2.        H@&: A@MMMBB
-BBBB@X sAB;  .;;    s@@@@@@@@@@@@@@@          9@A; H@MHBM
-BBH@H rAMr        ,#@@B#Bs.     :3B            h@A: @@MHH
-BB#@,,&M2        ,@@HAHr                        M#9 ;@MBM
-MB@9 5HH         @@AGA:                         ,@Br #@BH
-HM@;,hMs        5@AhAi                           &#3 i@MB
-B@#.rA#,        #MGGH                            r@A:.@#H
-H@B iH#        .@HhA&                            :@H;,@#B
-B@B SB#        .#AhHG                            :@H;,@#H
-B@# iB@,        #AGHH                            ;@H;,@#M
-M@@.;H@;        BB&H@,                           i#A::@#H
-B#@r.h@&        s#AA#&                           M#3.9@BB
-B#@# s#@:        HMAM@2                         i@Hr.@@MH
-BM@@; G@@         B#M#@M;       .s@G           :@MX.X@MHB
-BMM@@.:B@#     ..  3##@@@@HX22h#@@@@&         ,@#G,;@#BMB
-BHM#@@ ;M@@.   @r&  ,9#@@@@@@@@@@@@MS   ::.. :@#h::@@MBHB
-HMBM#@#.:H@@r  : :     ,rSGAAA9ir,      :@@@@@#h;;@@MHBMB
-MHBMM#@@:.X@@B,                           H@#BAi:@@BHBBHB
-BMBHB##@@2.;A@@H;                       rH#B9Xhr:@#BBBHMB
-BHBBBM#@@@r.;G@@@&r.               ,iM@@#S:r2: r@#BHBMBHM
-BBBBMMB##@@@S::iH@@@@B2ir;;;;;ri3#@@@@Gr,:X@@G r@BBMBBMMB
-HHMBHBMMM##@@@As::r5A@@@@@@@@@@@@#Gi;:;iM@@@@@#H#MBHBMBHB
-BMBBMBHMMBB##@@@@#GSr;;;;;;rr;;;;;rS&@@@@#BM##@#BHHMMHBBB
-BBMMBBMBHBMB#@@@@@@@@@@##MM#MBM#@@@@@@@#BBBBBMMBBMMHBMBBM
-
 nanoConverter - a simple, small, fast and convenient open source currency converter for Android. You will always know the current exchange rates for exchange and can easily transfer them between themselves.
 
 Features:
@@ -47,7 +14,5 @@ Features:
 * Inverse rates style
 * Widgets
 * And more
-
-
 
 ![alt tag](http://habrastorage.org/files/1a8/c20/425/1a8c2042585c484c96a4e220eeef13d4.webp) ![alt tag](http://habrastorage.org/files/138/7b8/e12/1387b8e1240f45cea91985054dd19fb4.webp)
